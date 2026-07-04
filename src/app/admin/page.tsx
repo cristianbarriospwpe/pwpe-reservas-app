@@ -1,9 +1,9 @@
 export default function AdminPage() {
   return (
-    <main className="min-h-screen bg-slate-950 text-white">
-      <section className="mx-auto max-w-6xl px-6 py-20">
+    <main className="px-6 py-10">
+      <section className="mx-auto max-w-6xl">
         <p className="mb-4 text-sm font-semibold uppercase tracking-[0.3em] text-cyan-400">
-          Panel administrativo
+          Resumen general
         </p>
 
         <h1 className="text-4xl font-bold tracking-tight sm:text-6xl">
