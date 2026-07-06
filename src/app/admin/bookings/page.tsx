@@ -22,9 +22,12 @@ export default function AdminBookingsPage() {
             </p>
           </div>
 
-          <button className="rounded-full bg-cyan-400 px-5 py-3 text-sm font-semibold text-slate-950 transition hover:bg-cyan-300">
-            Nova reserva
-          </button>
+          <a
+  href="/admin/bookings/new"
+  className="rounded-full bg-cyan-400 px-5 py-3 text-sm font-semibold text-slate-950 transition hover:bg-cyan-300"
+>
+  Nova reserva
+</a>
         </div>
 
         <div className="mt-10 overflow-hidden rounded-2xl border border-white/10 bg-white/5">
