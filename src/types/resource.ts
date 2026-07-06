@@ -13,3 +13,16 @@ export type Resource = {
   priceUnit: PriceUnit;
   isActive: boolean;
 };
+
+export type ResourceRow = {
+  id: string;
+  business_id: string;
+  name: string;
+  description: string | null;
+  resource_type: ResourceType;
+  capacity: number | null;
+  price: number | string;
+  price_unit: PriceUnit;
+  is_active: boolean | null;
+  created_at: string;
+};

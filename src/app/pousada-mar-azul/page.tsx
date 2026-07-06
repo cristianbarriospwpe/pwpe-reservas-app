@@ -1,9 +1,7 @@
 import { PublicBookingForm } from "@/components/public/PublicBookingForm";
-import { mockResources } from "@/data/mock-resources";
-import { getBusinessBySlug } from "@/services/business";
+import { getBusinessBySlug } from "@/services/businesses";
+import { getActiveResourcesByBusinessId } from "@/services/resources";
 import type { PriceUnit } from "@/types/resource";
-
-const activeResources = mockResources.filter((resource) => resource.isActive);
 
 const priceUnitLabels: Record<PriceUnit, string> = {
   night: "noite",
@@ -32,6 +30,8 @@ export default async function PousadaMarAzulPage() {
       </main>
     );
   }
+
+  const activeResources = await getActiveResourcesByBusinessId(business.id);
 
   return (
     <main className="min-h-screen bg-slate-50 text-slate-900">
@@ -76,35 +76,40 @@ export default async function PousadaMarAzulPage() {
         <h2 className="text-3xl font-bold">Escolha sua acomodação</h2>
 
         <p className="mt-4 max-w-2xl text-slate-600">
-          As acomodações ainda estão vindo dos dados mock. No próximo passo,
-          também vamos carregar os recursos diretamente do Supabase.
+          As acomodações agora são carregadas diretamente do Supabase.
         </p>
 
-        <div className="mt-10 grid gap-6 md:grid-cols-3">
-          {activeResources.map((resource) => (
-            <article
-              key={resource.id}
-              className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm"
-            >
-              {resource.capacity ? (
-                <p className="text-sm font-semibold text-cyan-600">
-                  Até {resource.capacity} pessoas
+        {activeResources.length === 0 ? (
+          <div className="mt-10 rounded-2xl border border-slate-200 bg-white p-6 text-slate-600">
+            Nenhuma acomodação disponível no momento.
+          </div>
+        ) : (
+          <div className="mt-10 grid gap-6 md:grid-cols-3">
+            {activeResources.map((resource) => (
+              <article
+                key={resource.id}
+                className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm"
+              >
+                {resource.capacity ? (
+                  <p className="text-sm font-semibold text-cyan-600">
+                    Até {resource.capacity} pessoas
+                  </p>
+                ) : null}
+
+                <h3 className="mt-3 text-xl font-bold">{resource.name}</h3>
+
+                <p className="mt-3 text-sm leading-6 text-slate-600">
+                  {resource.description}
                 </p>
-              ) : null}
 
-              <h3 className="mt-3 text-xl font-bold">{resource.name}</h3>
-
-              <p className="mt-3 text-sm leading-6 text-slate-600">
-                {resource.description}
-              </p>
-
-              <p className="mt-5 text-lg font-bold">
-                R$ {resource.price.toFixed(2)} /{" "}
-                {priceUnitLabels[resource.priceUnit]}
-              </p>
-            </article>
-          ))}
-        </div>
+                <p className="mt-5 text-lg font-bold">
+                  R$ {resource.price.toFixed(2)} /{" "}
+                  {priceUnitLabels[resource.priceUnit]}
+                </p>
+              </article>
+            ))}
+          </div>
+        )}
       </section>
 
       <section id="reserva" className="bg-white">
