@@ -15,11 +15,11 @@ const adminLinks = [
   },
   {
     href: "/admin/availability",
-    label: "Disponibilidad",
+    label: "Disponibilidade",
   },
   {
     href: "/admin/settings",
-    label: "Configuración",
+    label: "Configurações",
   },
 ];
 
@@ -36,7 +36,9 @@ export default function AdminLayout({
             <p className="text-sm font-semibold uppercase tracking-[0.3em] text-cyan-400">
               PWPE Reservas
             </p>
-            <p className="mt-1 text-sm text-slate-400">Panel administrativo</p>
+            <p className="mt-1 text-sm text-slate-400">
+              Painel administrativo
+            </p>
           </div>
 
           <nav className="flex flex-wrap gap-2">

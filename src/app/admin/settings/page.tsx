@@ -3,14 +3,14 @@ export default function AdminSettingsPage() {
     <main className="px-6 py-10">
       <section className="mx-auto max-w-6xl">
         <p className="mb-3 text-sm font-semibold uppercase tracking-[0.3em] text-cyan-400">
-          Gestión
+          Gestão
         </p>
 
-        <h1 className="text-4xl font-bold">Configuración</h1>
+        <h1 className="text-4xl font-bold">Configurações</h1>
 
         <p className="mt-4 max-w-2xl text-slate-300">
-          Acá se van a configurar los datos del negocio, WhatsApp, colores,
-          idioma, Pix y opciones generales de reservas.
+          Aqui serão configurados os dados do negócio, WhatsApp, cores, idioma,
+          Pix e opções gerais de reservas.
         </p>
       </section>
     </main>

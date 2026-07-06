@@ -7,12 +7,12 @@ export default function Home() {
         </p>
 
         <h1 className="max-w-3xl text-4xl font-bold tracking-tight sm:text-6xl">
-          Sistema de reservas directas para pequeños negocios
+          Sistema de reservas diretas para pequenos negócios
         </h1>
 
         <p className="mt-6 max-w-2xl text-lg leading-8 text-slate-300">
-          Una aplicación configurable para pousadas, alquiler de vehículos,
-          barberías, experiencias turísticas y servicios con agenda.
+          Uma aplicação configurável para pousadas, aluguel de veículos,
+          barbearias, experiências turísticas e serviços com agenda.
         </p>
 
         <div className="mt-10 flex flex-col gap-4 sm:flex-row">
@@ -27,7 +27,7 @@ export default function Home() {
             href="/admin"
             className="rounded-full border border-white/20 px-6 py-3 text-sm font-semibold text-white transition hover:bg-white/10"
           >
-            Ir al panel admin
+            Acessar painel admin
           </a>
         </div>
       </section>
