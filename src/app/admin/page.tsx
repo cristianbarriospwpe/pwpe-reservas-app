@@ -1,7 +1,8 @@
+import { StatCard } from "../../components/admin/StatCard";
 import { bookingStatusLabels } from "../../data/booking-labels";
+import { mockAvailabilityBlocks } from "../../data/mock-availability-blocks";
 import { mockBookings } from "../../data/mock-bookings";
 import { mockResources } from "../../data/mock-resources";
-import { mockAvailabilityBlocks } from "../../data/mock-availability-blocks";
 
 export default function AdminPage() {
   const pendingBookings = mockBookings.filter(
@@ -35,25 +36,10 @@ export default function AdminPage() {
         </p>
 
         <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-          <div className="rounded-2xl border border-white/10 bg-white/5 p-6">
-            <p className="text-sm text-slate-400">Reservas pendentes</p>
-            <p className="mt-3 text-3xl font-bold">{pendingBookings}</p>
-          </div>
-
-          <div className="rounded-2xl border border-white/10 bg-white/5 p-6">
-            <p className="text-sm text-slate-400">Confirmadas</p>
-            <p className="mt-3 text-3xl font-bold">{confirmedBookings}</p>
-          </div>
-
-          <div className="rounded-2xl border border-white/10 bg-white/5 p-6">
-            <p className="text-sm text-slate-400">Recursos ativos</p>
-            <p className="mt-3 text-3xl font-bold">{activeResources}</p>
-          </div>
-
-          <div className="rounded-2xl border border-white/10 bg-white/5 p-6">
-            <p className="text-sm text-slate-400">Bloqueios</p>
-            <p className="mt-3 text-3xl font-bold">{blockedDates}</p>
-          </div>
+          <StatCard label="Reservas pendentes" value={pendingBookings} />
+          <StatCard label="Confirmadas" value={confirmedBookings} />
+          <StatCard label="Recursos ativos" value={activeResources} />
+          <StatCard label="Bloqueios" value={blockedDates} />
         </div>
 
         <div className="mt-10 grid gap-6 lg:grid-cols-2">
