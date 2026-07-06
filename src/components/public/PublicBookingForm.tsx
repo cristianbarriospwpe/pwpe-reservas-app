@@ -20,9 +20,24 @@ export function PublicBookingForm({
   const [endDate, setEndDate] = useState("");
   const [peopleCount, setPeopleCount] = useState("");
   const [resourceId, setResourceId] = useState(resources[0]?.id ?? "");
+  const [errorMessage, setErrorMessage] = useState("");
 
   function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
+
+    if (
+      !customerName ||
+      !customerWhatsapp ||
+      !startDate ||
+      !endDate ||
+      !peopleCount ||
+      !resourceId
+    ) {
+      setErrorMessage("Preencha todos os campos antes de enviar a solicitação.");
+      return;
+    }
+
+    setErrorMessage("");
 
     const selectedResource = resources.find(
       (resource) => resource.id === resourceId,
@@ -35,12 +50,12 @@ Olá! Gostaria de solicitar uma reserva.
 
 Negócio: ${businessName}
 Acomodação: ${selectedResource?.name ?? "Não informada"}
-Entrada: ${startDate || "Não informada"}
-Saída: ${endDate || "Não informada"}
-Pessoas: ${peopleCount || "Não informado"}
+Entrada: ${startDate}
+Saída: ${endDate}
+Pessoas: ${peopleCount}
 
-Nome: ${customerName || "Não informado"}
-WhatsApp: ${customerWhatsapp || "Não informado"}
+Nome: ${customerName}
+WhatsApp: ${customerWhatsapp}
     `.trim();
 
     const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(
@@ -108,6 +123,7 @@ WhatsApp: ${customerWhatsapp || "Não informado"}
           <label className="text-sm font-medium text-slate-700">Pessoas</label>
           <input
             type="number"
+            min="1"
             value={peopleCount}
             onChange={(event) => setPeopleCount(event.target.value)}
             placeholder="Ex: 2"
@@ -132,6 +148,12 @@ WhatsApp: ${customerWhatsapp || "Não informado"}
           </select>
         </div>
       </div>
+
+      {errorMessage ? (
+        <p className="mt-5 rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">
+          {errorMessage}
+        </p>
+      ) : null}
 
       <button
         type="submit"
