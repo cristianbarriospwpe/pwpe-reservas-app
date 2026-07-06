@@ -1,7 +1,4 @@
-import {
-  bookingStatusLabels,
-  bookingStatusStyles,
-} from "../../../data/booking-labels";
+import { BookingStatusBadge } from "../../../components/admin/BookingStatusBadge";
 import { mockBookings } from "../../../data/mock-bookings";
 
 export default function AdminBookingsPage() {
@@ -23,11 +20,11 @@ export default function AdminBookingsPage() {
           </div>
 
           <a
-  href="/admin/bookings/new"
-  className="rounded-full bg-cyan-400 px-5 py-3 text-sm font-semibold text-slate-950 transition hover:bg-cyan-300"
->
-  Nova reserva
-</a>
+            href="/admin/bookings/new"
+            className="rounded-full bg-cyan-400 px-5 py-3 text-sm font-semibold text-slate-950 transition hover:bg-cyan-300"
+          >
+            Nova reserva
+          </a>
         </div>
 
         <div className="mt-10 overflow-hidden rounded-2xl border border-white/10 bg-white/5">
@@ -79,13 +76,7 @@ export default function AdminBookingsPage() {
                     </td>
 
                     <td className="px-5 py-4">
-                      <span
-                        className={`rounded-full border px-3 py-1 text-xs font-semibold ${
-                          bookingStatusStyles[booking.status]
-                        }`}
-                      >
-                        {bookingStatusLabels[booking.status]}
-                      </span>
+                      <BookingStatusBadge status={booking.status} />
                     </td>
                   </tr>
                 ))}

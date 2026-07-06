@@ -1,5 +1,5 @@
+import { BookingStatusBadge } from "../../components/admin/BookingStatusBadge";
 import { StatCard } from "../../components/admin/StatCard";
-import { bookingStatusLabels } from "../../data/booking-labels";
 import { mockAvailabilityBlocks } from "../../data/mock-availability-blocks";
 import { mockBookings } from "../../data/mock-bookings";
 import { mockResources } from "../../data/mock-resources";
@@ -62,9 +62,7 @@ export default function AdminPage() {
                       </p>
                     </div>
 
-                    <span className="rounded-full bg-white/10 px-3 py-1 text-xs text-slate-300">
-                      {bookingStatusLabels[booking.status]}
-                    </span>
+                    <BookingStatusBadge status={booking.status} />
                   </div>
                 </div>
               ))}
