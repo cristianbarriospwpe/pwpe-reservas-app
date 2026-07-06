@@ -33,9 +33,12 @@ export default function AdminResourcesPage() {
             </p>
           </div>
 
-          <button className="rounded-full bg-cyan-400 px-5 py-3 text-sm font-semibold text-slate-950 transition hover:bg-cyan-300">
-            Novo recurso
-          </button>
+          <a
+  href="/admin/resources/new"
+  className="rounded-full bg-cyan-400 px-5 py-3 text-sm font-semibold text-slate-950 transition hover:bg-cyan-300"
+>
+  Novo recurso
+</a>
         </div>
 
         <div className="mt-10 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
