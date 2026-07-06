@@ -18,9 +18,12 @@ export default function AdminAvailabilityPage() {
             </p>
           </div>
 
-          <button className="rounded-full bg-cyan-400 px-5 py-3 text-sm font-semibold text-slate-950 transition hover:bg-cyan-300">
-            Novo bloqueio
-          </button>
+          <a
+  href="/admin/availability/new"
+  className="rounded-full bg-cyan-400 px-5 py-3 text-sm font-semibold text-slate-950 transition hover:bg-cyan-300"
+>
+  Novo bloqueio
+</a>
         </div>
 
         <div className="mt-10 overflow-hidden rounded-2xl border border-white/10 bg-white/5">
