@@ -1,10 +1,11 @@
+import { PublicBookingForm } from "@/components/public/PublicBookingForm";
 import { mockBusiness } from "@/data/mock-business";
 import { mockResources } from "@/data/mock-resources";
 import type { PriceUnit } from "@/types/resource";
 
 const activeResources = mockResources.filter((resource) => resource.isActive);
 
-const priceUnitLabels = {
+const priceUnitLabels: Record<PriceUnit, string> = {
   night: "noite",
   day: "dia",
   service: "serviço",
@@ -96,83 +97,15 @@ export default function PousadaMarAzulPage() {
           <h2 className="text-3xl font-bold">Solicitar reserva</h2>
 
           <p className="mt-4 max-w-2xl text-slate-600">
-            Em breve este formulário vai verificar disponibilidade, salvar a
-            solicitação no sistema e abrir o WhatsApp com a mensagem pronta.
+            Preencha os dados abaixo para abrir uma mensagem pronta no WhatsApp
+            da pousada.
           </p>
 
-          <div className="mt-10 rounded-2xl border border-slate-200 bg-slate-50 p-6">
-            <div className="grid gap-5 md:grid-cols-2">
-              <div>
-                <label className="text-sm font-medium text-slate-700">
-                  Nome completo
-                </label>
-                <input
-                  type="text"
-                  placeholder="Ex: Mariana Souza"
-                  className="mt-2 w-full rounded-xl border border-slate-300 px-4 py-3 outline-none transition focus:border-cyan-500"
-                />
-              </div>
-
-              <div>
-                <label className="text-sm font-medium text-slate-700">
-                  WhatsApp
-                </label>
-                <input
-                  type="text"
-                  placeholder="Ex: (22) 99999-1111"
-                  className="mt-2 w-full rounded-xl border border-slate-300 px-4 py-3 outline-none transition focus:border-cyan-500"
-                />
-              </div>
-
-              <div>
-                <label className="text-sm font-medium text-slate-700">
-                  Data de entrada
-                </label>
-                <input
-                  type="date"
-                  className="mt-2 w-full rounded-xl border border-slate-300 px-4 py-3 outline-none transition focus:border-cyan-500"
-                />
-              </div>
-
-              <div>
-                <label className="text-sm font-medium text-slate-700">
-                  Data de saída
-                </label>
-                <input
-                  type="date"
-                  className="mt-2 w-full rounded-xl border border-slate-300 px-4 py-3 outline-none transition focus:border-cyan-500"
-                />
-              </div>
-
-              <div>
-                <label className="text-sm font-medium text-slate-700">
-                  Pessoas
-                </label>
-                <input
-                  type="number"
-                  placeholder="Ex: 2"
-                  className="mt-2 w-full rounded-xl border border-slate-300 px-4 py-3 outline-none transition focus:border-cyan-500"
-                />
-              </div>
-
-              <div>
-                <label className="text-sm font-medium text-slate-700">
-                  Acomodação
-                </label>
-                <select className="mt-2 w-full rounded-xl border border-slate-300 px-4 py-3 outline-none transition focus:border-cyan-500">
-                  {activeResources.map((resource) => (
-                    <option key={resource.id} value={resource.id}>
-                      {resource.name}
-                    </option>
-                  ))}
-                </select>
-              </div>
-            </div>
-
-            <button className="mt-8 rounded-full bg-cyan-500 px-6 py-3 text-sm font-semibold text-white transition hover:bg-cyan-600">
-              Enviar solicitação
-            </button>
-          </div>
+          <PublicBookingForm
+            businessName={mockBusiness.name}
+            businessWhatsapp={mockBusiness.whatsapp}
+            resources={activeResources}
+          />
         </div>
       </section>
 
