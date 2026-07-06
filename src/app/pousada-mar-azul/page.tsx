@@ -1,5 +1,6 @@
-import { mockBusiness } from "../../data/mock-business";
-import { mockResources } from "../../data/mock-resources";
+import { mockBusiness } from "@/data/mock-business";
+import { mockResources } from "@/data/mock-resources";
+import type { PriceUnit } from "@/types/resource";
 
 const activeResources = mockResources.filter((resource) => resource.isActive);
 

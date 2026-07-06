@@ -1,5 +1,5 @@
-import { BookingStatusBadge } from "../../../components/admin/BookingStatusBadge";
-import { mockBookings } from "../../../data/mock-bookings";
+import { BookingStatusBadge } from "@/components/admin/BookingStatusBadge";
+import { mockBookings } from "@/data/mock-bookings";
 
 export default function AdminBookingsPage() {
   return (

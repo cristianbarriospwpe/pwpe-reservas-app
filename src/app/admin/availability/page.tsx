@@ -1,4 +1,4 @@
-import { mockAvailabilityBlocks } from "../../../data/mock-availability-blocks";
+import { mockAvailabilityBlocks } from "@/data/mock-availability-blocks";
 
 export default function AdminAvailabilityPage() {
   return (
@@ -19,11 +19,11 @@ export default function AdminAvailabilityPage() {
           </div>
 
           <a
-  href="/admin/availability/new"
-  className="rounded-full bg-cyan-400 px-5 py-3 text-sm font-semibold text-slate-950 transition hover:bg-cyan-300"
->
-  Novo bloqueio
-</a>
+            href="/admin/availability/new"
+            className="rounded-full bg-cyan-400 px-5 py-3 text-sm font-semibold text-slate-950 transition hover:bg-cyan-300"
+          >
+            Novo bloqueio
+          </a>
         </div>
 
         <div className="mt-10 overflow-hidden rounded-2xl border border-white/10 bg-white/5">

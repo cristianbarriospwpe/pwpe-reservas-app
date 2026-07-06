@@ -1,6 +1,6 @@
 import { ResourceStatusBadge } from "@/components/admin/ResourceStatusBadge";
-import { mockResources } from "../../../data/mock-resources";
-import type { PriceUnit, ResourceType } from "../../../types/resource";
+import { mockResources } from "@/data/mock-resources";
+import type { PriceUnit, ResourceType } from "@/types/resource";
 
 const resourceTypeLabels: Record<ResourceType, string> = {
   accommodation: "Acomodação",

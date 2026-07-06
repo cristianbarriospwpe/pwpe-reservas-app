@@ -1,4 +1,4 @@
-import { mockBusiness } from "../../../data/mock-business";
+import { mockBusiness } from "@/data/mock-business";
 
 export default function AdminSettingsPage() {
   return (

@@ -1,9 +1,9 @@
-import { BookingStatusBadge } from "../../components/admin/BookingStatusBadge";
+import { BookingStatusBadge } from "@/components/admin/BookingStatusBadge";
 import { ResourceStatusBadge } from "@/components/admin/ResourceStatusBadge";
-import { StatCard } from "../../components/admin/StatCard";
-import { mockAvailabilityBlocks } from "../../data/mock-availability-blocks";
-import { mockBookings } from "../../data/mock-bookings";
-import { mockResources } from "../../data/mock-resources";
+import { StatCard } from "@/components/admin/StatCard";
+import { mockAvailabilityBlocks } from "@/data/mock-availability-blocks";
+import { mockBookings } from "@/data/mock-bookings";
+import { mockResources } from "@/data/mock-resources";
 
 export default function AdminPage() {
   const pendingBookings = mockBookings.filter(
