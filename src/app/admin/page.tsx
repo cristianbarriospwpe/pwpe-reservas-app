@@ -1,6 +1,7 @@
 import { bookingStatusLabels } from "../../data/booking-labels";
 import { mockBookings } from "../../data/mock-bookings";
 import { mockResources } from "../../data/mock-resources";
+import { mockAvailabilityBlocks } from "../../data/mock-availability-blocks";
 
 export default function AdminPage() {
   const pendingBookings = mockBookings.filter(
@@ -15,7 +16,7 @@ export default function AdminPage() {
     (resource) => resource.isActive,
   ).length;
 
-  const blockedDates = 0;
+  const blockedDates = mockAvailabilityBlocks.length;
 
   return (
     <main className="px-6 py-10">
