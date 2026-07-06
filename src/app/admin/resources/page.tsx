@@ -1,3 +1,4 @@
+import { ResourceStatusBadge } from "@/components/admin/ResourceStatusBadge";
 import { mockResources } from "../../../data/mock-resources";
 import type { PriceUnit, ResourceType } from "../../../types/resource";
 
@@ -34,11 +35,11 @@ export default function AdminResourcesPage() {
           </div>
 
           <a
-  href="/admin/resources/new"
-  className="rounded-full bg-cyan-400 px-5 py-3 text-sm font-semibold text-slate-950 transition hover:bg-cyan-300"
->
-  Novo recurso
-</a>
+            href="/admin/resources/new"
+            className="rounded-full bg-cyan-400 px-5 py-3 text-sm font-semibold text-slate-950 transition hover:bg-cyan-300"
+          >
+            Novo recurso
+          </a>
         </div>
 
         <div className="mt-10 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
@@ -56,15 +57,7 @@ export default function AdminResourcesPage() {
                   <h2 className="mt-3 text-xl font-bold">{resource.name}</h2>
                 </div>
 
-                <span
-                  className={`rounded-full border px-3 py-1 text-xs font-semibold ${
-                    resource.isActive
-                      ? "border-emerald-400/20 bg-emerald-400/10 text-emerald-300"
-                      : "border-red-400/20 bg-red-400/10 text-red-300"
-                  }`}
-                >
-                  {resource.isActive ? "Ativo" : "Inativo"}
-                </span>
+                <ResourceStatusBadge isActive={resource.isActive} />
               </div>
 
               <p className="mt-4 text-sm leading-6 text-slate-300">

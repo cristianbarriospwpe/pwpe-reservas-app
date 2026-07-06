@@ -1,4 +1,5 @@
 import { BookingStatusBadge } from "../../components/admin/BookingStatusBadge";
+import { ResourceStatusBadge } from "@/components/admin/ResourceStatusBadge";
 import { StatCard } from "../../components/admin/StatCard";
 import { mockAvailabilityBlocks } from "../../data/mock-availability-blocks";
 import { mockBookings } from "../../data/mock-bookings";
@@ -88,9 +89,7 @@ export default function AdminPage() {
                       </p>
                     </div>
 
-                    <span className="rounded-full bg-white/10 px-3 py-1 text-xs text-slate-300">
-                      {resource.isActive ? "Ativo" : "Inativo"}
-                    </span>
+                    <ResourceStatusBadge isActive={resource.isActive} />
                   </div>
                 </div>
               ))}
