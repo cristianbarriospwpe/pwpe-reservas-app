@@ -1,20 +1,31 @@
+import { mockBusiness } from "../../data/mock-business";
+import { mockResources } from "../../data/mock-resources";
+
+const activeResources = mockResources.filter((resource) => resource.isActive);
+
+const priceUnitLabels = {
+  night: "noite",
+  day: "dia",
+  service: "serviço",
+  person: "pessoa",
+};
+
 export default function PousadaMarAzulPage() {
   return (
     <main className="min-h-screen bg-slate-50 text-slate-900">
       <section className="bg-slate-950 text-white">
         <div className="mx-auto flex min-h-[70vh] max-w-6xl flex-col justify-center px-6 py-20">
           <p className="mb-4 text-sm font-semibold uppercase tracking-[0.3em] text-cyan-400">
-            Pousada em Arraial do Cabo
+            Pousada em {mockBusiness.city}
           </p>
 
           <h1 className="max-w-3xl text-4xl font-bold tracking-tight sm:text-6xl">
-            Pousada Mar Azul
+            {mockBusiness.name}
           </h1>
 
           <p className="mt-6 max-w-2xl text-lg leading-8 text-slate-300">
-            Hospedagem simples, confortável e próxima das principais praias.
-            Consulte disponibilidade e solicite sua reserva diretamente pelo
-            WhatsApp.
+            {mockBusiness.description} Consulte disponibilidade e solicite sua
+            reserva diretamente pelo WhatsApp.
           </p>
 
           <div className="mt-10 flex flex-col gap-4 sm:flex-row">
@@ -43,43 +54,35 @@ export default function PousadaMarAzulPage() {
         <h2 className="text-3xl font-bold">Escolha sua acomodação</h2>
 
         <p className="mt-4 max-w-2xl text-slate-600">
-          Estes dados ainda são estáticos. Mais adiante, as acomodações serão
-          carregadas automaticamente do banco de dados.
+          Estes dados ainda são estáticos, mas agora já vêm de um arquivo mock.
+          Mais adiante, as acomodações serão carregadas automaticamente do banco
+          de dados.
         </p>
 
         <div className="mt-10 grid gap-6 md:grid-cols-3">
-          <article className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
-            <p className="text-sm font-semibold text-cyan-600">
-              Até 2 pessoas
-            </p>
-            <h3 className="mt-3 text-xl font-bold">Suíte casal</h3>
-            <p className="mt-3 text-sm leading-6 text-slate-600">
-              Acomodação para casal com cama de casal e banheiro privativo.
-            </p>
-            <p className="mt-5 text-lg font-bold">R$ 250,00 / noite</p>
-          </article>
+          {activeResources.map((resource) => (
+            <article
+              key={resource.id}
+              className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm"
+            >
+              {resource.capacity ? (
+                <p className="text-sm font-semibold text-cyan-600">
+                  Até {resource.capacity} pessoas
+                </p>
+              ) : null}
 
-          <article className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
-            <p className="text-sm font-semibold text-cyan-600">
-              Até 4 pessoas
-            </p>
-            <h3 className="mt-3 text-xl font-bold">Quarto família</h3>
-            <p className="mt-3 text-sm leading-6 text-slate-600">
-              Quarto espaçoso para famílias, com capacidade para até 4 pessoas.
-            </p>
-            <p className="mt-5 text-lg font-bold">R$ 400,00 / noite</p>
-          </article>
+              <h3 className="mt-3 text-xl font-bold">{resource.name}</h3>
 
-          <article className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
-            <p className="text-sm font-semibold text-cyan-600">
-              Até 2 pessoas
-            </p>
-            <h3 className="mt-3 text-xl font-bold">Chalé vista mar</h3>
-            <p className="mt-3 text-sm leading-6 text-slate-600">
-              Chalé confortável com vista para o mar, ideal para casais.
-            </p>
-            <p className="mt-5 text-lg font-bold">R$ 450,00 / noite</p>
-          </article>
+              <p className="mt-3 text-sm leading-6 text-slate-600">
+                {resource.description}
+              </p>
+
+              <p className="mt-5 text-lg font-bold">
+                R$ {resource.price.toFixed(2)} /{" "}
+                {priceUnitLabels[resource.priceUnit]}
+              </p>
+            </article>
+          ))}
         </div>
       </section>
 
@@ -156,9 +159,11 @@ export default function PousadaMarAzulPage() {
                   Acomodação
                 </label>
                 <select className="mt-2 w-full rounded-xl border border-slate-300 px-4 py-3 outline-none transition focus:border-cyan-500">
-                  <option>Suíte casal</option>
-                  <option>Quarto família</option>
-                  <option>Chalé vista mar</option>
+                  {activeResources.map((resource) => (
+                    <option key={resource.id} value={resource.id}>
+                      {resource.name}
+                    </option>
+                  ))}
                 </select>
               </div>
             </div>
@@ -169,6 +174,14 @@ export default function PousadaMarAzulPage() {
           </div>
         </div>
       </section>
+
+      <footer className="border-t border-slate-200 bg-slate-50">
+        <div className="mx-auto flex max-w-6xl flex-col gap-3 px-6 py-8 text-sm text-slate-600 sm:flex-row sm:items-center sm:justify-between">
+          <p>{mockBusiness.name}</p>
+          <p>{mockBusiness.address}</p>
+          <p>WhatsApp: {mockBusiness.whatsapp}</p>
+        </div>
+      </footer>
     </main>
   );
 }
