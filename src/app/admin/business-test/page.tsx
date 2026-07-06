@@ -1,5 +1,5 @@
 import { supabase } from "@/lib/supabase";
-import { mapBusinessRowToBusiness } from "@/mappers/business";
+import { mapBusinessRowToBusiness } from "@/mappers/businesses";
 import type { BusinessRow } from "@/types/business";
 
 export default async function BusinessTestPage() {

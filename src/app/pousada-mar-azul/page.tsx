@@ -1,6 +1,6 @@
 import { PublicBookingForm } from "@/components/public/PublicBookingForm";
-import { mockBusiness } from "@/data/mock-business";
 import { mockResources } from "@/data/mock-resources";
+import { getBusinessBySlug } from "@/services/business";
 import type { PriceUnit } from "@/types/resource";
 
 const activeResources = mockResources.filter((resource) => resource.isActive);
@@ -12,21 +12,41 @@ const priceUnitLabels: Record<PriceUnit, string> = {
   person: "pessoa",
 };
 
-export default function PousadaMarAzulPage() {
+export default async function PousadaMarAzulPage() {
+  const business = await getBusinessBySlug("pousada-mar-azul");
+
+  if (!business) {
+    return (
+      <main className="min-h-screen bg-slate-950 px-6 py-20 text-white">
+        <section className="mx-auto max-w-4xl">
+          <p className="mb-3 text-sm font-semibold uppercase tracking-[0.3em] text-red-400">
+            PWPE Reservas
+          </p>
+
+          <h1 className="text-4xl font-bold">Negócio não encontrado</h1>
+
+          <p className="mt-4 text-slate-300">
+            Não foi possível carregar as informações deste negócio.
+          </p>
+        </section>
+      </main>
+    );
+  }
+
   return (
     <main className="min-h-screen bg-slate-50 text-slate-900">
       <section className="bg-slate-950 text-white">
         <div className="mx-auto flex min-h-[70vh] max-w-6xl flex-col justify-center px-6 py-20">
           <p className="mb-4 text-sm font-semibold uppercase tracking-[0.3em] text-cyan-400">
-            Pousada em {mockBusiness.city}
+            Pousada em {business.city}
           </p>
 
           <h1 className="max-w-3xl text-4xl font-bold tracking-tight sm:text-6xl">
-            {mockBusiness.name}
+            {business.name}
           </h1>
 
           <p className="mt-6 max-w-2xl text-lg leading-8 text-slate-300">
-            {mockBusiness.description} Consulte disponibilidade e solicite sua
+            {business.description} Consulte disponibilidade e solicite sua
             reserva diretamente pelo WhatsApp.
           </p>
 
@@ -56,9 +76,8 @@ export default function PousadaMarAzulPage() {
         <h2 className="text-3xl font-bold">Escolha sua acomodação</h2>
 
         <p className="mt-4 max-w-2xl text-slate-600">
-          Estes dados ainda são estáticos, mas agora já vêm de um arquivo mock.
-          Mais adiante, as acomodações serão carregadas automaticamente do banco
-          de dados.
+          As acomodações ainda estão vindo dos dados mock. No próximo passo,
+          também vamos carregar os recursos diretamente do Supabase.
         </p>
 
         <div className="mt-10 grid gap-6 md:grid-cols-3">
@@ -102,8 +121,8 @@ export default function PousadaMarAzulPage() {
           </p>
 
           <PublicBookingForm
-            businessName={mockBusiness.name}
-            businessWhatsapp={mockBusiness.whatsapp}
+            businessName={business.name}
+            businessWhatsapp={business.whatsapp}
             resources={activeResources}
           />
         </div>
@@ -111,9 +130,9 @@ export default function PousadaMarAzulPage() {
 
       <footer className="border-t border-slate-200 bg-slate-50">
         <div className="mx-auto flex max-w-6xl flex-col gap-3 px-6 py-8 text-sm text-slate-600 sm:flex-row sm:items-center sm:justify-between">
-          <p>{mockBusiness.name}</p>
-          <p>{mockBusiness.address}</p>
-          <p>WhatsApp: {mockBusiness.whatsapp}</p>
+          <p>{business.name}</p>
+          <p>{business.address}</p>
+          <p>WhatsApp: {business.whatsapp}</p>
         </div>
       </footer>
     </main>
