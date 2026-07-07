@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { createBooking } from "@/services/bookings";
 import type { Resource } from "@/types/resource";
 
@@ -10,6 +10,21 @@ type PublicBookingFormProps = {
   businessWhatsapp: string;
   resources: Resource[];
 };
+
+function calculateNights(startDate: string, endDate: string): number {
+  if (!startDate || !endDate) {
+    return 0;
+  }
+
+  const start = new Date(`${startDate}T00:00:00`);
+  const end = new Date(`${endDate}T00:00:00`);
+
+  const differenceInMilliseconds = end.getTime() - start.getTime();
+  const differenceInDays =
+    differenceInMilliseconds / (1000 * 60 * 60 * 24);
+
+  return differenceInDays > 0 ? differenceInDays : 0;
+}
 
 export function PublicBookingForm({
   businessId,
@@ -27,7 +42,16 @@ export function PublicBookingForm({
   const [successMessage, setSuccessMessage] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const selectedResource = resources.find((resource) => resource.id === resourceId);
+  const selectedResource = resources.find(
+    (resource) => resource.id === resourceId,
+  );
+
+  const nights = useMemo(
+    () => calculateNights(startDate, endDate),
+    [startDate, endDate],
+  );
+
+  const totalPrice = selectedResource ? selectedResource.price * nights : 0;
 
   async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -47,6 +71,11 @@ export function PublicBookingForm({
       return;
     }
 
+    if (nights <= 0) {
+      setErrorMessage("A data de saída deve ser depois da data de entrada.");
+      return;
+    }
+
     setIsSubmitting(true);
 
     const bookingCreated = await createBooking({
@@ -58,6 +87,7 @@ export function PublicBookingForm({
       startDate,
       endDate,
       peopleCount: Number(peopleCount),
+      totalPrice,
     });
 
     setIsSubmitting(false);
@@ -75,7 +105,9 @@ Negócio: ${businessName}
 Acomodação: ${selectedResource?.name ?? "Não informada"}
 Entrada: ${startDate}
 Saída: ${endDate}
+Noites: ${nights}
 Pessoas: ${peopleCount}
+Total estimado: R$ ${totalPrice.toFixed(2)}
 
 Nome: ${customerName}
 WhatsApp: ${customerWhatsapp}`;
@@ -183,12 +215,34 @@ WhatsApp: ${customerWhatsapp}`;
             <option value="">Selecione uma acomodação</option>
             {resources.map((resource) => (
               <option key={resource.id} value={resource.id}>
-                {resource.name}
+                {resource.name} - R$ {resource.price.toFixed(2)} / noite
               </option>
             ))}
           </select>
         </div>
       </div>
+
+      {selectedResource && nights > 0 ? (
+        <div className="rounded-2xl border border-cyan-200 bg-cyan-50 px-4 py-4 text-sm text-slate-700">
+          <p className="font-semibold text-slate-900">Resumo da reserva</p>
+
+          <div className="mt-3 grid gap-2 sm:grid-cols-3">
+            <p>
+              <span className="font-semibold">Noites:</span> {nights}
+            </p>
+
+            <p>
+              <span className="font-semibold">Preço:</span> R${" "}
+              {selectedResource.price.toFixed(2)}
+            </p>
+
+            <p>
+              <span className="font-semibold">Total:</span> R${" "}
+              {totalPrice.toFixed(2)}
+            </p>
+          </div>
+        </div>
+      ) : null}
 
       {errorMessage ? (
         <p className="rounded-2xl border border-red-200 bg-red-50 px-4 py-3 text-sm font-semibold text-red-700">
