@@ -13,6 +13,23 @@ export async function getActiveResourcesByBusinessId(
     .order("created_at", { ascending: true });
 
   if (error) {
+    console.error("Erro ao buscar recursos ativos:", error);
+    return [];
+  }
+
+  return data.map((row) => mapResourceRowToResource(row as ResourceRow));
+}
+
+export async function getResourcesByBusinessId(
+  businessId: string,
+): Promise<Resource[]> {
+  const { data, error } = await supabase
+    .from("resources")
+    .select("*")
+    .eq("business_id", businessId)
+    .order("created_at", { ascending: true });
+
+  if (error) {
     console.error("Erro ao buscar recursos:", error);
     return [];
   }

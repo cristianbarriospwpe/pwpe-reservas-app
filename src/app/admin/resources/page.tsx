@@ -1,5 +1,7 @@
+import Link from "next/link";
 import { ResourceStatusBadge } from "@/components/admin/ResourceStatusBadge";
-import { mockResources } from "@/data/mock-resources";
+import { getBusinessBySlug } from "@/services/businesses";
+import { getResourcesByBusinessId } from "@/services/resources";
 import type { PriceUnit, ResourceType } from "@/types/resource";
 
 const resourceTypeLabels: Record<ResourceType, string> = {
@@ -16,34 +18,59 @@ const priceUnitLabels: Record<PriceUnit, string> = {
   person: "pessoa",
 };
 
-export default function AdminResourcesPage() {
+export default async function ResourcesPage() {
+  const business = await getBusinessBySlug("pousada-mar-azul");
+
+  if (!business) {
+    return (
+      <main>
+        <p className="mb-3 text-sm font-semibold uppercase tracking-[0.3em] text-red-400">
+          Recursos
+        </p>
+
+        <h1 className="text-4xl font-bold">Negócio não encontrado</h1>
+
+        <p className="mt-4 text-slate-400">
+          Não foi possível carregar os recursos porque o negócio não foi
+          encontrado.
+        </p>
+      </main>
+    );
+  }
+
+  const resources = await getResourcesByBusinessId(business.id);
+
   return (
-    <main className="px-6 py-10">
-      <section className="mx-auto max-w-6xl">
-        <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
-          <div>
-            <p className="mb-3 text-sm font-semibold uppercase tracking-[0.3em] text-cyan-400">
-              Gestão
-            </p>
+    <main>
+      <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+        <div>
+          <p className="mb-3 text-sm font-semibold uppercase tracking-[0.3em] text-cyan-400">
+            Recursos
+          </p>
 
-            <h1 className="text-4xl font-bold">Recursos</h1>
+          <h1 className="text-4xl font-bold">Recursos cadastrados</h1>
 
-            <p className="mt-4 max-w-2xl text-slate-300">
-              Aqui serão administradas as acomodações, veículos, serviços ou
-              experiências que o negócio oferece para reserva.
-            </p>
-          </div>
-
-          <a
-            href="/admin/resources/new"
-            className="rounded-full bg-cyan-400 px-5 py-3 text-sm font-semibold text-slate-950 transition hover:bg-cyan-300"
-          >
-            Novo recurso
-          </a>
+          <p className="mt-4 text-slate-400">
+            Gerencie acomodações, veículos, serviços ou experiências disponíveis
+            para reserva.
+          </p>
         </div>
 
-        <div className="mt-10 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-          {mockResources.map((resource) => (
+        <Link
+          href="/admin/resources/new"
+          className="rounded-full bg-cyan-400 px-5 py-3 text-sm font-semibold text-slate-950 transition hover:bg-cyan-300"
+        >
+          Novo recurso
+        </Link>
+      </div>
+
+      {resources.length === 0 ? (
+        <div className="mt-10 rounded-2xl border border-white/10 bg-white/5 p-6 text-slate-400">
+          Nenhum recurso encontrado.
+        </div>
+      ) : (
+        <div className="mt-10 grid gap-6 md:grid-cols-2 xl:grid-cols-3">
+          {resources.map((resource) => (
             <article
               key={resource.id}
               className="rounded-2xl border border-white/10 bg-white/5 p-6"
@@ -54,27 +81,33 @@ export default function AdminResourcesPage() {
                     {resourceTypeLabels[resource.resourceType]}
                   </p>
 
-                  <h2 className="mt-3 text-xl font-bold">{resource.name}</h2>
+                  <h2 className="mt-3 text-2xl font-bold">{resource.name}</h2>
                 </div>
 
                 <ResourceStatusBadge isActive={resource.isActive} />
               </div>
 
-              <p className="mt-4 text-sm leading-6 text-slate-300">
+              <p className="mt-4 text-sm leading-6 text-slate-400">
                 {resource.description}
               </p>
 
-              <div className="mt-6 flex flex-wrap gap-3 text-sm text-slate-300">
-                {resource.capacity ? (
-                  <span className="rounded-full bg-white/10 px-3 py-1">
-                    Até {resource.capacity} pessoas
-                  </span>
-                ) : null}
+              <div className="mt-6 grid gap-4 rounded-2xl border border-white/10 bg-slate-950/40 p-4 text-sm">
+                <div>
+                  <p className="text-slate-500">Capacidade</p>
+                  <p className="mt-1 font-semibold text-white">
+                    {resource.capacity
+                      ? `Até ${resource.capacity} pessoas`
+                      : "Não informado"}
+                  </p>
+                </div>
 
-                <span className="rounded-full bg-white/10 px-3 py-1">
-                  R$ {resource.price.toFixed(2)} /{" "}
-                  {priceUnitLabels[resource.priceUnit]}
-                </span>
+                <div>
+                  <p className="text-slate-500">Preço</p>
+                  <p className="mt-1 font-semibold text-white">
+                    R$ {resource.price.toFixed(2)} /{" "}
+                    {priceUnitLabels[resource.priceUnit]}
+                  </p>
+                </div>
               </div>
 
               <div className="mt-6 flex gap-3">
@@ -89,7 +122,7 @@ export default function AdminResourcesPage() {
             </article>
           ))}
         </div>
-      </section>
+      )}
     </main>
   );
 }
