@@ -16,3 +16,24 @@ export type Booking = {
   totalPrice?: number;
   createdAt: string;
 };
+
+export type BookingRow = {
+  id: string;
+  business_id: string;
+  resource_id: string | null;
+  customer_name: string;
+  customer_phone: string;
+  booking_type: BookingType;
+  start_date: string;
+  end_date: string | null;
+  people_count: number | null;
+  status: BookingStatus;
+  total_price: number | string | null;
+  created_at: string;
+  businesses?: {
+    name: string;
+  } | null;
+  resources?: {
+    name: string;
+  } | null;
+};
