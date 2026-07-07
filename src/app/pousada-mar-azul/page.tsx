@@ -126,10 +126,11 @@ export default async function PousadaMarAzulPage() {
           </p>
 
           <PublicBookingForm
-            businessName={business.name}
-            businessWhatsapp={business.whatsapp}
-            resources={activeResources}
-          />
+  businessId={business.id}
+  businessName={business.name}
+  businessWhatsapp={business.whatsapp}
+  resources={activeResources}
+/>
         </div>
       </section>
 
