@@ -1,128 +1,131 @@
-import Link from "next/link";
+import { BookingStatusBadge } from "@/components/admin/BookingStatusBadge";
 import { ResourceStatusBadge } from "@/components/admin/ResourceStatusBadge";
+import { StatCard } from "@/components/admin/StatCard";
+import { mockAvailabilityBlocks } from "@/data/mock-availability-blocks";
+import { getBookingsByBusinessId } from "@/services/bookings";
 import { getBusinessBySlug } from "@/services/businesses";
 import { getResourcesByBusinessId } from "@/services/resources";
-import type { PriceUnit, ResourceType } from "@/types/resource";
 
-const resourceTypeLabels: Record<ResourceType, string> = {
-  accommodation: "Acomodação",
-  vehicle: "Veículo",
-  service: "Serviço",
-  experience: "Experiência",
-};
-
-const priceUnitLabels: Record<PriceUnit, string> = {
-  night: "noite",
-  day: "dia",
-  service: "serviço",
-  person: "pessoa",
-};
-
-export default async function ResourcesPage() {
+export default async function AdminDashboardPage() {
   const business = await getBusinessBySlug("pousada-mar-azul");
 
   if (!business) {
     return (
       <main>
         <p className="mb-3 text-sm font-semibold uppercase tracking-[0.3em] text-red-400">
-          Recursos
+          Dashboard
         </p>
 
         <h1 className="text-4xl font-bold">Negócio não encontrado</h1>
 
         <p className="mt-4 text-slate-400">
-          Não foi possível carregar os recursos porque o negócio não foi
-          encontrado.
+          Não foi possível carregar as informações do painel administrativo.
         </p>
       </main>
     );
   }
 
+  const bookings = await getBookingsByBusinessId(business.id);
   const resources = await getResourcesByBusinessId(business.id);
+
+  const pendingBookings = bookings.filter(
+    (booking) => booking.status === "pending",
+  ).length;
+
+  const confirmedBookings = bookings.filter(
+    (booking) => booking.status === "confirmed",
+  ).length;
+
+  const activeResources = resources.filter((resource) => resource.isActive).length;
+
+  const blockedDates = mockAvailabilityBlocks.length;
 
   return (
     <main>
-      <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-        <div>
-          <p className="mb-3 text-sm font-semibold uppercase tracking-[0.3em] text-cyan-400">
-            Recursos
-          </p>
+      <p className="mb-3 text-sm font-semibold uppercase tracking-[0.3em] text-cyan-400">
+        Dashboard
+      </p>
 
-          <h1 className="text-4xl font-bold">Recursos cadastrados</h1>
+      <h1 className="text-4xl font-bold">Visão geral</h1>
 
-          <p className="mt-4 text-slate-400">
-            Gerencie acomodações, veículos, serviços ou experiências disponíveis
-            para reserva.
-          </p>
-        </div>
+      <p className="mt-4 text-slate-400">
+        Acompanhe reservas, recursos cadastrados e bloqueios de disponibilidade
+        de {business.name}.
+      </p>
 
-        <Link
-          href="/admin/resources/new"
-          className="rounded-full bg-cyan-400 px-5 py-3 text-sm font-semibold text-slate-950 transition hover:bg-cyan-300"
-        >
-          Novo recurso
-        </Link>
-      </div>
+      <section className="mt-10 grid gap-5 md:grid-cols-2 xl:grid-cols-4">
+        <StatCard label="Reservas pendentes" value={pendingBookings} />
+        <StatCard label="Confirmadas" value={confirmedBookings} />
+        <StatCard label="Recursos ativos" value={activeResources} />
+        <StatCard label="Bloqueios" value={blockedDates} />
+      </section>
 
-      {resources.length === 0 ? (
-        <div className="mt-10 rounded-2xl border border-white/10 bg-white/5 p-6 text-slate-400">
-          Nenhum recurso encontrado.
-        </div>
-      ) : (
-        <div className="mt-10 grid gap-6 md:grid-cols-2 xl:grid-cols-3">
-          {resources.map((resource) => (
-            <article
-              key={resource.id}
-              className="rounded-2xl border border-white/10 bg-white/5 p-6"
-            >
-              <div className="flex items-start justify-between gap-4">
-                <div>
-                  <p className="text-sm font-semibold text-cyan-400">
-                    {resourceTypeLabels[resource.resourceType]}
-                  </p>
+      <section className="mt-10 grid gap-6 xl:grid-cols-2">
+        <div className="rounded-2xl border border-white/10 bg-white/5 p-6">
+          <h2 className="text-xl font-bold">Últimas reservas</h2>
 
-                  <h2 className="mt-3 text-2xl font-bold">{resource.name}</h2>
-                </div>
-
-                <ResourceStatusBadge isActive={resource.isActive} />
-              </div>
-
-              <p className="mt-4 text-sm leading-6 text-slate-400">
-                {resource.description}
+          <div className="mt-6 space-y-4">
+            {bookings.length === 0 ? (
+              <p className="text-sm text-slate-400">
+                Nenhuma reserva encontrada.
               </p>
+            ) : (
+              bookings.slice(0, 3).map((booking) => (
+                <div
+                  key={booking.id}
+                  className="rounded-2xl border border-white/10 bg-slate-950/40 p-4"
+                >
+                  <div className="flex items-start justify-between gap-4">
+                    <div>
+                      <p className="font-semibold">{booking.customerName}</p>
+                      <p className="mt-1 text-sm text-slate-400">
+                        {booking.resourceName}
+                      </p>
+                    </div>
 
-              <div className="mt-6 grid gap-4 rounded-2xl border border-white/10 bg-slate-950/40 p-4 text-sm">
-                <div>
-                  <p className="text-slate-500">Capacidade</p>
-                  <p className="mt-1 font-semibold text-white">
-                    {resource.capacity
-                      ? `Até ${resource.capacity} pessoas`
-                      : "Não informado"}
+                    <BookingStatusBadge status={booking.status} />
+                  </div>
+
+                  <p className="mt-3 text-sm text-slate-500">
+                    {booking.startDate}
+                    {booking.endDate ? ` até ${booking.endDate}` : ""}
                   </p>
                 </div>
-
-                <div>
-                  <p className="text-slate-500">Preço</p>
-                  <p className="mt-1 font-semibold text-white">
-                    R$ {resource.price.toFixed(2)} /{" "}
-                    {priceUnitLabels[resource.priceUnit]}
-                  </p>
-                </div>
-              </div>
-
-              <div className="mt-6 flex gap-3">
-                <button className="rounded-full border border-white/10 px-4 py-2 text-sm font-semibold text-white transition hover:bg-white/10">
-                  Editar
-                </button>
-
-                <button className="rounded-full border border-white/10 px-4 py-2 text-sm font-semibold text-white transition hover:bg-white/10">
-                  Ver reservas
-                </button>
-              </div>
-            </article>
-          ))}
+              ))
+            )}
+          </div>
         </div>
-      )}
+
+        <div className="rounded-2xl border border-white/10 bg-white/5 p-6">
+          <h2 className="text-xl font-bold">Recursos cadastrados</h2>
+
+          <div className="mt-6 space-y-4">
+            {resources.length === 0 ? (
+              <p className="text-sm text-slate-400">
+                Nenhum recurso encontrado.
+              </p>
+            ) : (
+              resources.slice(0, 3).map((resource) => (
+                <div
+                  key={resource.id}
+                  className="rounded-2xl border border-white/10 bg-slate-950/40 p-4"
+                >
+                  <div className="flex items-start justify-between gap-4">
+                    <div>
+                      <p className="font-semibold">{resource.name}</p>
+                      <p className="mt-1 text-sm text-slate-400">
+                        R$ {resource.price.toFixed(2)}
+                      </p>
+                    </div>
+
+                    <ResourceStatusBadge isActive={resource.isActive} />
+                  </div>
+                </div>
+              ))
+            )}
+          </div>
+        </div>
+      </section>
     </main>
   );
 }
