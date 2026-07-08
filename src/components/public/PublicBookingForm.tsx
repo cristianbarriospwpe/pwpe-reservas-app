@@ -1,7 +1,7 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import { createBooking } from "@/services/bookings";
+import { createBooking, hasBookingConflict } from "@/services/bookings";
 import type { Resource } from "@/types/resource";
 
 type PublicBookingFormProps = {
@@ -78,18 +78,33 @@ export function PublicBookingForm({
 
     setIsSubmitting(true);
 
-    const bookingCreated = await createBooking({
-      businessId,
-      resourceId,
-      customerName,
-      customerPhone: customerWhatsapp,
-      bookingType: "period",
-      startDate,
-      endDate,
-      peopleCount: Number(peopleCount),
-      totalPrice,
-    });
+const bookingConflict = await hasBookingConflict({
+  resourceId,
+  startDate,
+  endDate,
+});
 
+if (bookingConflict) {
+  setIsSubmitting(false);
+  setErrorMessage(
+    "Este período não está disponível para a acomodação selecionada.",
+  );
+  return;
+}
+
+const bookingCreated = await createBooking({
+  businessId,
+  resourceId,
+  customerName,
+  customerPhone: customerWhatsapp,
+  bookingType: "period",
+  startDate,
+  endDate,
+  peopleCount: Number(peopleCount),
+  totalPrice,
+});
+
+setIsSubmitting(false);
     setIsSubmitting(false);
 
     if (!bookingCreated) {

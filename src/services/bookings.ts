@@ -14,6 +14,12 @@ type CreateBookingInput = {
   totalPrice?: number;
 };
 
+type AvailabilityCheckInput = {
+  resourceId: string;
+  startDate: string;
+  endDate: string;
+};
+
 export async function getBookingsByBusinessId(
   businessId: string,
 ): Promise<Booking[]> {
@@ -39,6 +45,43 @@ export async function getBookingsByBusinessId(
   }
 
   return data.map((row) => mapBookingRowToBooking(row as BookingRow));
+}
+
+export async function hasBookingConflict({
+  resourceId,
+  startDate,
+  endDate,
+}: AvailabilityCheckInput): Promise<boolean> {
+  const { data: conflictingBookings, error: bookingsError } = await supabase
+    .from("bookings")
+    .select("id")
+    .eq("resource_id", resourceId)
+    .in("status", ["pending", "confirmed"])
+    .lt("start_date", endDate)
+    .gt("end_date", startDate);
+
+  if (bookingsError) {
+    console.error("Erro ao verificar reservas existentes:", bookingsError);
+    return true;
+  }
+
+  if (conflictingBookings.length > 0) {
+    return true;
+  }
+
+  const { data: conflictingBlocks, error: blocksError } = await supabase
+    .from("availability_blocks")
+    .select("id")
+    .eq("resource_id", resourceId)
+    .lt("start_date", endDate)
+    .gt("end_date", startDate);
+
+  if (blocksError) {
+    console.error("Erro ao verificar bloqueios:", blocksError);
+    return true;
+  }
+
+  return conflictingBlocks.length > 0;
 }
 
 export async function createBooking(
