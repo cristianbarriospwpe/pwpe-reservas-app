@@ -1,6 +1,6 @@
 import { supabase } from "@/lib/supabase";
 import { mapBookingRowToBooking } from "@/mappers/booking";
-import type { Booking, BookingRow } from "@/types/booking";
+import type { Booking, BookingRow, BookingStatus } from "@/types/booking";
 
 type CreateBookingInput = {
   businessId: string;
@@ -12,6 +12,7 @@ type CreateBookingInput = {
   endDate?: string;
   peopleCount?: number;
   totalPrice?: number;
+  status?: BookingStatus;
 };
 
 type AvailabilityCheckInput = {
@@ -96,7 +97,7 @@ export async function createBooking(
     start_date: input.startDate,
     end_date: input.endDate || null,
     people_count: input.peopleCount ?? null,
-    status: "pending",
+    status: input.status ?? "pending",
     total_price: input.totalPrice ?? null,
   });
 
@@ -110,7 +111,7 @@ export async function createBooking(
 
 export async function updateBookingStatus(
   bookingId: string,
-  status: "pending" | "confirmed" | "cancelled" | "completed",
+  status: BookingStatus,
 ): Promise<boolean> {
   const { error } = await supabase
     .from("bookings")
