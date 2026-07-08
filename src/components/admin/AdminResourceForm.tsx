@@ -3,15 +3,17 @@
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { createResource } from "@/services/resources";
+import type { Business } from "@/types/business";
 import type { PriceUnit, ResourceType } from "@/types/resource";
 
 type AdminResourceFormProps = {
-  businessId: string;
+  businesses: Business[];
 };
 
-export function AdminResourceForm({ businessId }: AdminResourceFormProps) {
+export function AdminResourceForm({ businesses }: AdminResourceFormProps) {
   const router = useRouter();
 
+  const [businessId, setBusinessId] = useState("");
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
   const [resourceType, setResourceType] =
@@ -23,12 +25,37 @@ export function AdminResourceForm({ businessId }: AdminResourceFormProps) {
   const [errorMessage, setErrorMessage] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
 
+  const selectedBusiness = businesses.find(
+    (business) => business.id === businessId,
+  );
+
+  function handleBusinessChange(value: string) {
+    setBusinessId(value);
+
+    const business = businesses.find((item) => item.id === value);
+
+    if (!business) {
+      return;
+    }
+
+    if (business.bookingMode === "time_slot") {
+      setResourceType("service");
+      setPriceUnit("service");
+      setCapacity("1");
+    }
+
+    if (business.bookingMode === "period") {
+      setResourceType("accommodation");
+      setPriceUnit("night");
+    }
+  }
+
   async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
 
     setErrorMessage("");
 
-    if (!name || !description || !resourceType || !price || !priceUnit) {
+    if (!businessId || !name || !description || !resourceType || !price || !priceUnit) {
       setErrorMessage("Preencha os campos obrigatórios antes de salvar.");
       return;
     }
@@ -80,6 +107,37 @@ export function AdminResourceForm({ businessId }: AdminResourceFormProps) {
       onSubmit={handleSubmit}
       className="mt-10 grid gap-6 rounded-3xl border border-white/10 bg-white/5 p-6"
     >
+      <div>
+        <label className="text-sm font-semibold text-slate-300">Negócio</label>
+
+        <select
+          value={businessId}
+          onChange={(event) => handleBusinessChange(event.target.value)}
+          className="mt-2 w-full rounded-2xl border border-white/10 bg-slate-950 px-4 py-3 text-white outline-none transition focus:border-cyan-400"
+        >
+          <option value="">Selecione um negócio</option>
+
+          {businesses.map((business) => (
+            <option key={business.id} value={business.id}>
+              {business.name}
+            </option>
+          ))}
+        </select>
+      </div>
+
+      {selectedBusiness ? (
+        <div className="rounded-2xl border border-cyan-400/20 bg-cyan-400/10 p-4 text-sm text-cyan-100">
+          <p>
+            <span className="font-semibold text-white">Negócio:</span>{" "}
+            {selectedBusiness.name}
+          </p>
+          <p className="mt-1">
+            <span className="font-semibold text-white">Modo de reserva:</span>{" "}
+            {selectedBusiness.bookingMode === "period" ? "Período" : "Horário"}
+          </p>
+        </div>
+      ) : null}
+
       <div className="grid gap-5 md:grid-cols-2">
         <div>
           <label className="text-sm font-semibold text-slate-300">
@@ -91,7 +149,7 @@ export function AdminResourceForm({ businessId }: AdminResourceFormProps) {
             value={name}
             onChange={(event) => setName(event.target.value)}
             className="mt-2 w-full rounded-2xl border border-white/10 bg-slate-950 px-4 py-3 text-white outline-none transition focus:border-cyan-400"
-            placeholder="Ex: Suíte premium"
+            placeholder="Ex: Suíte premium, Corte masculino, Buggy..."
           />
         </div>
 

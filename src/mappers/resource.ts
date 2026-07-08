@@ -3,7 +3,8 @@ import type { Resource, ResourceRow } from "@/types/resource";
 export function mapResourceRowToResource(row: ResourceRow): Resource {
   return {
     id: row.id,
-    businessName: "",
+    businessId: row.business_id,
+    businessName: row.businesses?.name ?? "",
     name: row.name,
     description: row.description ?? "",
     resourceType: row.resource_type,

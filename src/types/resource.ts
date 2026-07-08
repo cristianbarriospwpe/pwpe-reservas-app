@@ -4,6 +4,7 @@ export type PriceUnit = "night" | "day" | "service" | "person";
 
 export type Resource = {
   id: string;
+  businessId?: string;
   businessName: string;
   name: string;
   description: string;
@@ -25,4 +26,7 @@ export type ResourceRow = {
   price_unit: PriceUnit;
   is_active: boolean | null;
   created_at: string;
+  businesses?: {
+    name: string;
+  } | null;
 };

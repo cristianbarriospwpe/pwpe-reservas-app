@@ -23,7 +23,14 @@ export async function getActiveResourcesByBusinessId(
 ): Promise<Resource[]> {
   const { data, error } = await supabase
     .from("resources")
-    .select("*")
+    .select(
+      `
+      *,
+      businesses (
+        name
+      )
+    `,
+    )
     .eq("business_id", businessId)
     .eq("is_active", true)
     .order("created_at", { ascending: true });
@@ -41,12 +48,40 @@ export async function getResourcesByBusinessId(
 ): Promise<Resource[]> {
   const { data, error } = await supabase
     .from("resources")
-    .select("*")
+    .select(
+      `
+      *,
+      businesses (
+        name
+      )
+    `,
+    )
     .eq("business_id", businessId)
     .order("created_at", { ascending: true });
 
   if (error) {
     console.error("Erro ao buscar recursos:", error);
+    return [];
+  }
+
+  return data.map((row) => mapResourceRowToResource(row as ResourceRow));
+}
+
+export async function getAllResources(): Promise<Resource[]> {
+  const { data, error } = await supabase
+    .from("resources")
+    .select(
+      `
+      *,
+      businesses (
+        name
+      )
+    `,
+    )
+    .order("created_at", { ascending: true });
+
+  if (error) {
+    console.error("Erro ao buscar todos os recursos:", error);
     return [];
   }
 
