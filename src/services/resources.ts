@@ -1,6 +1,22 @@
 import { supabase } from "@/lib/supabase";
 import { mapResourceRowToResource } from "@/mappers/resource";
-import type { Resource, ResourceRow } from "@/types/resource";
+import type {
+  PriceUnit,
+  Resource,
+  ResourceRow,
+  ResourceType,
+} from "@/types/resource";
+
+type CreateResourceInput = {
+  businessId: string;
+  name: string;
+  description: string;
+  resourceType: ResourceType;
+  capacity?: number;
+  price: number;
+  priceUnit: PriceUnit;
+  isActive: boolean;
+};
 
 export async function getActiveResourcesByBusinessId(
   businessId: string,
@@ -35,4 +51,26 @@ export async function getResourcesByBusinessId(
   }
 
   return data.map((row) => mapResourceRowToResource(row as ResourceRow));
+}
+
+export async function createResource(
+  input: CreateResourceInput,
+): Promise<boolean> {
+  const { error } = await supabase.from("resources").insert({
+    business_id: input.businessId,
+    name: input.name,
+    description: input.description,
+    resource_type: input.resourceType,
+    capacity: input.capacity ?? null,
+    price: input.price,
+    price_unit: input.priceUnit,
+    is_active: input.isActive,
+  });
+
+  if (error) {
+    console.error("Erro ao criar recurso:", error);
+    return false;
+  }
+
+  return true;
 }
