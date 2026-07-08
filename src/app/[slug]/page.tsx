@@ -144,11 +144,12 @@ export default async function PublicBusinessPage({
           </p>
 
           <PublicBookingForm
-            businessId={business.id}
-            businessName={business.name}
-            businessWhatsapp={business.whatsapp}
-            resources={activeResources}
-          />
+  businessId={business.id}
+  businessName={business.name}
+  businessWhatsapp={business.whatsapp}
+  bookingMode={business.bookingMode}
+  resources={activeResources}
+/>
         </div>
       </section>
 

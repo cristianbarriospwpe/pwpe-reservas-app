@@ -1,30 +1,10 @@
 import Link from "next/link";
 import { BookingStatusActions } from "@/components/admin/BookingStatusActions";
 import { BookingStatusBadge } from "@/components/admin/BookingStatusBadge";
-import { getBusinessBySlug } from "@/services/businesses";
-import { getBookingsByBusinessId } from "@/services/bookings";
+import { getAllBookings } from "@/services/bookings";
 
 export default async function BookingsPage() {
-  const business = await getBusinessBySlug("pousada-mar-azul");
-
-  if (!business) {
-    return (
-      <main>
-        <p className="mb-3 text-sm font-semibold uppercase tracking-[0.3em] text-red-400">
-          Reservas
-        </p>
-
-        <h1 className="text-4xl font-bold">Negócio não encontrado</h1>
-
-        <p className="mt-4 text-slate-400">
-          Não foi possível carregar as reservas porque o negócio não foi
-          encontrado.
-        </p>
-      </main>
-    );
-  }
-
-  const bookings = await getBookingsByBusinessId(business.id);
+  const bookings = await getAllBookings();
 
   return (
     <main>
@@ -55,10 +35,11 @@ export default async function BookingsPage() {
         </div>
       ) : (
         <div className="mt-10 overflow-hidden rounded-2xl border border-white/10 bg-white/5">
-          <table className="w-full min-w-[900px] border-collapse text-left text-sm">
+          <table className="w-full min-w-[1050px] border-collapse text-left text-sm">
             <thead className="bg-white/5 text-slate-300">
               <tr>
                 <th className="px-5 py-4 font-semibold">Cliente</th>
+                <th className="px-5 py-4 font-semibold">Negócio</th>
                 <th className="px-5 py-4 font-semibold">Recurso</th>
                 <th className="px-5 py-4 font-semibold">Datas</th>
                 <th className="px-5 py-4 font-semibold">Pessoas</th>
@@ -78,6 +59,10 @@ export default async function BookingsPage() {
                     <p className="mt-1 text-xs text-slate-400">
                       {booking.customerPhone}
                     </p>
+                  </td>
+
+                  <td className="px-5 py-4 text-slate-300">
+                    {booking.businessName || "-"}
                   </td>
 
                   <td className="px-5 py-4 text-slate-300">
@@ -106,6 +91,7 @@ export default async function BookingsPage() {
                   <td className="px-5 py-4">
                     <BookingStatusBadge status={booking.status} />
                   </td>
+
                   <td className="px-5 py-4">
                     <BookingStatusActions
                       bookingId={booking.id}

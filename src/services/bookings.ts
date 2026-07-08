@@ -125,3 +125,27 @@ export async function updateBookingStatus(
 
   return true;
 }
+
+export async function getAllBookings(): Promise<Booking[]> {
+  const { data, error } = await supabase
+    .from("bookings")
+    .select(
+      `
+      *,
+      businesses (
+        name
+      ),
+      resources (
+        name
+      )
+    `,
+    )
+    .order("created_at", { ascending: false });
+
+  if (error) {
+    console.error("Erro ao buscar todas as reservas:", error);
+    return [];
+  }
+
+  return data.map((row) => mapBookingRowToBooking(row as BookingRow));
+}
