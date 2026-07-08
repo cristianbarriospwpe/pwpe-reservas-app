@@ -108,16 +108,17 @@ export function PublicBookingForm({
     }
 
     const bookingCreated = await createBooking({
-      businessId,
-      resourceId,
-      customerName,
-      customerPhone: customerWhatsapp,
-      bookingType: bookingMode,
-      startDate,
-      endDate: isPeriodBooking ? endDate : undefined,
-      peopleCount: isPeriodBooking ? Number(peopleCount) : 1,
-      totalPrice,
-    });
+  businessId,
+  resourceId,
+  customerName,
+  customerPhone: customerWhatsapp,
+  bookingType: bookingMode,
+  startDate,
+  endDate: isPeriodBooking ? endDate : undefined,
+  startTime: isTimeSlotBooking ? bookingTime : undefined,
+  peopleCount: isPeriodBooking ? Number(peopleCount) : 1,
+  totalPrice,
+});
 
     setIsSubmitting(false);
 

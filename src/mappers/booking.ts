@@ -10,6 +10,7 @@ export function mapBookingRowToBooking(row: BookingRow): Booking {
     bookingType: row.booking_type,
     startDate: row.start_date,
     endDate: row.end_date ?? undefined,
+    startTime: row.start_time ?? undefined,
     peopleCount: row.people_count ?? undefined,
     status: row.status,
     totalPrice:

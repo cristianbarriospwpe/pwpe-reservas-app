@@ -71,6 +71,13 @@ export default async function BookingsPage() {
 
                   <td className="px-5 py-4 text-slate-300">
                     <p>{booking.startDate}</p>
+
+                    {booking.startTime ? (
+                      <p className="text-xs text-slate-500">
+                        às {booking.startTime.slice(0, 5)}
+                      </p>
+                    ) : null}
+
                     {booking.endDate ? (
                       <p className="text-xs text-slate-500">
                         até {booking.endDate}

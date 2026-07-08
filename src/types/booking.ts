@@ -11,6 +11,7 @@ export type Booking = {
   bookingType: BookingType;
   startDate: string;
   endDate?: string;
+  startTime?: string;
   peopleCount?: number;
   status: BookingStatus;
   totalPrice?: number;
@@ -26,6 +27,7 @@ export type BookingRow = {
   booking_type: BookingType;
   start_date: string;
   end_date: string | null;
+  start_time: string | null;
   people_count: number | null;
   status: BookingStatus;
   total_price: number | string | null;

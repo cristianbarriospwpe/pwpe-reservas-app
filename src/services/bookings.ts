@@ -10,6 +10,7 @@ type CreateBookingInput = {
   bookingType: "period" | "time_slot";
   startDate: string;
   endDate?: string;
+  startTime?: string;
   peopleCount?: number;
   totalPrice?: number;
   status?: BookingStatus;
@@ -96,6 +97,7 @@ export async function createBooking(
     booking_type: input.bookingType,
     start_date: input.startDate,
     end_date: input.endDate || null,
+    start_time: input.startTime || null,
     people_count: input.peopleCount ?? null,
     status: input.status ?? "pending",
     total_price: input.totalPrice ?? null,
