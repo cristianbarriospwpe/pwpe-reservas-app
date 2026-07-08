@@ -1,92 +1,44 @@
-export default function NewAvailabilityBlockPage() {
+import { AdminAvailabilityBlockForm } from "@/components/admin/AdminAvailabilityBlockForm";
+import { getBusinessBySlug } from "@/services/businesses";
+import { getResourcesByBusinessId } from "@/services/resources";
+
+export default async function NewAvailabilityBlockPage() {
+  const business = await getBusinessBySlug("pousada-mar-azul");
+
+  if (!business) {
+    return (
+      <main>
+        <p className="mb-3 text-sm font-semibold uppercase tracking-[0.3em] text-red-400">
+          Novo bloqueio
+        </p>
+
+        <h1 className="text-4xl font-bold">Negócio não encontrado</h1>
+
+        <p className="mt-4 text-slate-400">
+          Não foi possível carregar os dados para criar um novo bloqueio.
+        </p>
+      </main>
+    );
+  }
+
+  const resources = await getResourcesByBusinessId(business.id);
+
   return (
-    <main className="px-6 py-10">
-      <section className="mx-auto max-w-3xl">
-        <p className="mb-3 text-sm font-semibold uppercase tracking-[0.3em] text-cyan-400">
-          Disponibilidade
-        </p>
+    <main>
+      <p className="mb-3 text-sm font-semibold uppercase tracking-[0.3em] text-cyan-400">
+        Disponibilidade
+      </p>
 
-        <h1 className="text-4xl font-bold">Novo bloqueio</h1>
+      <h1 className="text-4xl font-bold">Novo bloqueio</h1>
 
-        <p className="mt-4 text-slate-300">
-          Bloqueie datas para evitar reservas em períodos indisponíveis.
-        </p>
+      <p className="mt-4 max-w-2xl text-slate-400">
+        Marque um período em que um recurso não deve receber reservas.
+      </p>
 
-        <form className="mt-10 rounded-2xl border border-white/10 bg-white/5 p-6">
-          <div className="grid gap-6">
-            <div>
-              <label className="text-sm font-medium text-slate-200">
-                Recurso
-              </label>
-              <select className="mt-2 w-full rounded-xl border border-white/10 bg-slate-900 px-4 py-3 text-white outline-none transition focus:border-cyan-400">
-                <option value="suite-casal">Suíte casal</option>
-                <option value="quarto-familia">Quarto família</option>
-                <option value="chale-vista-mar">Chalé vista mar</option>
-              </select>
-            </div>
-
-            <div className="grid gap-6 md:grid-cols-2">
-              <div>
-                <label className="text-sm font-medium text-slate-200">
-                  Data inicial
-                </label>
-                <input
-                  type="date"
-                  className="mt-2 w-full rounded-xl border border-white/10 bg-slate-900 px-4 py-3 text-white outline-none transition focus:border-cyan-400"
-                />
-              </div>
-
-              <div>
-                <label className="text-sm font-medium text-slate-200">
-                  Data final
-                </label>
-                <input
-                  type="date"
-                  className="mt-2 w-full rounded-xl border border-white/10 bg-slate-900 px-4 py-3 text-white outline-none transition focus:border-cyan-400"
-                />
-              </div>
-            </div>
-
-            <div>
-              <label className="text-sm font-medium text-slate-200">
-                Motivo do bloqueio
-              </label>
-              <input
-                type="text"
-                placeholder="Ex: Manutenção, reforma, uso interno..."
-                className="mt-2 w-full rounded-xl border border-white/10 bg-slate-900 px-4 py-3 text-white outline-none transition placeholder:text-slate-500 focus:border-cyan-400"
-              />
-            </div>
-
-            <div>
-              <label className="text-sm font-medium text-slate-200">
-                Observações
-              </label>
-              <textarea
-                rows={4}
-                placeholder="Informações adicionais sobre o bloqueio..."
-                className="mt-2 w-full rounded-xl border border-white/10 bg-slate-900 px-4 py-3 text-white outline-none transition placeholder:text-slate-500 focus:border-cyan-400"
-              />
-            </div>
-          </div>
-
-          <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-            <button
-              type="submit"
-              className="rounded-full bg-cyan-400 px-6 py-3 text-sm font-semibold text-slate-950 transition hover:bg-cyan-300"
-            >
-              Salvar bloqueio
-            </button>
-
-            <a
-              href="/admin/availability"
-              className="rounded-full border border-white/10 px-6 py-3 text-center text-sm font-semibold text-white transition hover:bg-white/10"
-            >
-              Cancelar
-            </a>
-          </div>
-        </form>
-      </section>
+      <AdminAvailabilityBlockForm
+        businessId={business.id}
+        resources={resources}
+      />
     </main>
   );
 }
