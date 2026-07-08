@@ -45,6 +45,21 @@ export async function getBusinessBySlug(
   return mapBusinessRowToBusiness(data);
 }
 
+export async function getAllBusinesses(): Promise<Business[]> {
+  const { data, error } = await supabase
+    .from("businesses")
+    .select("*")
+    .eq("is_active", true)
+    .order("created_at", { ascending: true });
+
+  if (error) {
+    console.error("Erro ao buscar negócios:", error);
+    return [];
+  }
+
+  return data.map((row) => mapBusinessRowToBusiness(row as BusinessRow));
+}
+
 export async function updateBusiness(
   input: UpdateBusinessInput,
 ): Promise<boolean> {

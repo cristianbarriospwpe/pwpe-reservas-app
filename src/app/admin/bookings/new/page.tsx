@@ -1,27 +1,8 @@
 import { AdminBookingForm } from "@/components/admin/AdminBookingForm";
-import { getBusinessBySlug } from "@/services/businesses";
-import { getActiveResourcesByBusinessId } from "@/services/resources";
+import { getAllBusinesses } from "@/services/businesses";
 
 export default async function NewBookingPage() {
-  const business = await getBusinessBySlug("pousada-mar-azul");
-
-  if (!business) {
-    return (
-      <main>
-        <p className="mb-3 text-sm font-semibold uppercase tracking-[0.3em] text-red-400">
-          Nova reserva
-        </p>
-
-        <h1 className="text-4xl font-bold">Negócio não encontrado</h1>
-
-        <p className="mt-4 text-slate-400">
-          Não foi possível carregar os dados para criar uma nova reserva.
-        </p>
-      </main>
-    );
-  }
-
-  const resources = await getActiveResourcesByBusinessId(business.id);
+  const businesses = await getAllBusinesses();
 
   return (
     <main>
@@ -36,7 +17,13 @@ export default async function NewBookingPage() {
         Instagram ou atendimento presencial.
       </p>
 
-      <AdminBookingForm businessId={business.id} resources={resources} />
+      {businesses.length === 0 ? (
+        <div className="mt-10 rounded-2xl border border-white/10 bg-white/5 p-6 text-slate-400">
+          Nenhum negócio encontrado para criar reservas.
+        </div>
+      ) : (
+        <AdminBookingForm businesses={businesses} />
+      )}
     </main>
   );
 }
