@@ -22,6 +22,12 @@ type AvailabilityCheckInput = {
   endDate: string;
 };
 
+type TimeSlotConflictInput = {
+  resourceId: string;
+  startDate: string;
+  startTime: string;
+};
+
 export async function getBookingsByBusinessId(
   businessId: string,
 ): Promise<Booking[]> {
@@ -43,6 +49,30 @@ export async function getBookingsByBusinessId(
 
   if (error) {
     console.error("Erro ao buscar reservas:", error);
+    return [];
+  }
+
+  return data.map((row) => mapBookingRowToBooking(row as BookingRow));
+}
+
+export async function getAllBookings(): Promise<Booking[]> {
+  const { data, error } = await supabase
+    .from("bookings")
+    .select(
+      `
+      *,
+      businesses (
+        name
+      ),
+      resources (
+        name
+      )
+    `,
+    )
+    .order("created_at", { ascending: false });
+
+  if (error) {
+    console.error("Erro ao buscar todas as reservas:", error);
     return [];
   }
 
@@ -80,6 +110,46 @@ export async function hasBookingConflict({
 
   if (blocksError) {
     console.error("Erro ao verificar bloqueios:", blocksError);
+    return true;
+  }
+
+  return conflictingBlocks.length > 0;
+}
+
+export async function hasTimeSlotConflict({
+  resourceId,
+  startDate,
+  startTime,
+}: TimeSlotConflictInput): Promise<boolean> {
+  const normalizedStartTime =
+    startTime.length === 5 ? `${startTime}:00` : startTime;
+
+  const { data: conflictingBookings, error: bookingsError } = await supabase
+    .from("bookings")
+    .select("id")
+    .eq("resource_id", resourceId)
+    .eq("start_date", startDate)
+    .eq("start_time", normalizedStartTime)
+    .in("status", ["pending", "confirmed"]);
+
+  if (bookingsError) {
+    console.error("Erro ao verificar horário reservado:", bookingsError);
+    return true;
+  }
+
+  if (conflictingBookings.length > 0) {
+    return true;
+  }
+
+  const { data: conflictingBlocks, error: blocksError } = await supabase
+    .from("availability_blocks")
+    .select("id")
+    .eq("resource_id", resourceId)
+    .lte("start_date", startDate)
+    .gt("end_date", startDate);
+
+  if (blocksError) {
+    console.error("Erro ao verificar bloqueios do horário:", blocksError);
     return true;
   }
 
@@ -126,28 +196,4 @@ export async function updateBookingStatus(
   }
 
   return true;
-}
-
-export async function getAllBookings(): Promise<Booking[]> {
-  const { data, error } = await supabase
-    .from("bookings")
-    .select(
-      `
-      *,
-      businesses (
-        name
-      ),
-      resources (
-        name
-      )
-    `,
-    )
-    .order("created_at", { ascending: false });
-
-  if (error) {
-    console.error("Erro ao buscar todas as reservas:", error);
-    return [];
-  }
-
-  return data.map((row) => mapBookingRowToBooking(row as BookingRow));
 }

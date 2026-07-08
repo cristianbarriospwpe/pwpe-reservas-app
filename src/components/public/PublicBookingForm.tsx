@@ -1,7 +1,11 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import { createBooking, hasBookingConflict } from "@/services/bookings";
+import {
+  createBooking,
+  hasBookingConflict,
+  hasTimeSlotConflict,
+} from "@/services/bookings";
 import type { BookingMode } from "@/types/business";
 import type { Resource } from "@/types/resource";
 
@@ -91,21 +95,27 @@ export function PublicBookingForm({
 
     setIsSubmitting(true);
 
-    const conflictEndDate = isPeriodBooking ? endDate : startDate;
-
-    const bookingConflict = await hasBookingConflict({
+    const bookingConflict = isPeriodBooking
+  ? await hasBookingConflict({
       resourceId,
       startDate,
-      endDate: conflictEndDate,
+      endDate,
+    })
+  : await hasTimeSlotConflict({
+      resourceId,
+      startDate,
+      startTime: bookingTime,
     });
 
-    if (bookingConflict) {
-      setIsSubmitting(false);
-      setErrorMessage(
-        "Este período não está disponível para a opção selecionada.",
-      );
-      return;
-    }
+if (bookingConflict) {
+  setIsSubmitting(false);
+  setErrorMessage(
+    isPeriodBooking
+      ? "Este período não está disponível para a opção selecionada."
+      : "Este horário não está disponível para o serviço selecionado.",
+  );
+  return;
+}
 
     const bookingCreated = await createBooking({
   businessId,
