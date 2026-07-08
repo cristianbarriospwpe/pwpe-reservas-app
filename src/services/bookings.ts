@@ -107,3 +107,20 @@ export async function createBooking(
 
   return true;
 }
+
+export async function updateBookingStatus(
+  bookingId: string,
+  status: "pending" | "confirmed" | "cancelled" | "completed",
+): Promise<boolean> {
+  const { error } = await supabase
+    .from("bookings")
+    .update({ status })
+    .eq("id", bookingId);
+
+  if (error) {
+    console.error("Erro ao atualizar status da reserva:", error);
+    return false;
+  }
+
+  return true;
+}

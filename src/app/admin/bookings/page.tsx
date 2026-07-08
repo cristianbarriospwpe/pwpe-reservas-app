@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { BookingStatusActions } from "@/components/admin/BookingStatusActions";
 import { BookingStatusBadge } from "@/components/admin/BookingStatusBadge";
 import { getBusinessBySlug } from "@/services/businesses";
 import { getBookingsByBusinessId } from "@/services/bookings";
@@ -63,6 +64,7 @@ export default async function BookingsPage() {
                 <th className="px-5 py-4 font-semibold">Pessoas</th>
                 <th className="px-5 py-4 font-semibold">Total</th>
                 <th className="px-5 py-4 font-semibold">Status</th>
+                <th className="px-5 py-4 font-semibold">Ações</th>
               </tr>
             </thead>
 
@@ -103,6 +105,12 @@ export default async function BookingsPage() {
 
                   <td className="px-5 py-4">
                     <BookingStatusBadge status={booking.status} />
+                  </td>
+                  <td className="px-5 py-4">
+                    <BookingStatusActions
+                      bookingId={booking.id}
+                      currentStatus={booking.status}
+                    />
                   </td>
                 </tr>
               ))}
