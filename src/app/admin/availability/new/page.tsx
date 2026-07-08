@@ -1,27 +1,8 @@
 import { AdminAvailabilityBlockForm } from "@/components/admin/AdminAvailabilityBlockForm";
-import { getBusinessBySlug } from "@/services/businesses";
-import { getResourcesByBusinessId } from "@/services/resources";
+import { getAllBusinesses } from "@/services/businesses";
 
 export default async function NewAvailabilityBlockPage() {
-  const business = await getBusinessBySlug("pousada-mar-azul");
-
-  if (!business) {
-    return (
-      <main>
-        <p className="mb-3 text-sm font-semibold uppercase tracking-[0.3em] text-red-400">
-          Novo bloqueio
-        </p>
-
-        <h1 className="text-4xl font-bold">Negócio não encontrado</h1>
-
-        <p className="mt-4 text-slate-400">
-          Não foi possível carregar os dados para criar um novo bloqueio.
-        </p>
-      </main>
-    );
-  }
-
-  const resources = await getResourcesByBusinessId(business.id);
+  const businesses = await getAllBusinesses();
 
   return (
     <main>
@@ -32,13 +13,17 @@ export default async function NewAvailabilityBlockPage() {
       <h1 className="text-4xl font-bold">Novo bloqueio</h1>
 
       <p className="mt-4 max-w-2xl text-slate-400">
-        Marque um período em que um recurso não deve receber reservas.
+        Marque um período ou horário em que um recurso não deve receber
+        reservas.
       </p>
 
-      <AdminAvailabilityBlockForm
-        businessId={business.id}
-        resources={resources}
-      />
+      {businesses.length === 0 ? (
+        <div className="mt-10 rounded-2xl border border-white/10 bg-white/5 p-6 text-slate-400">
+          Nenhum negócio encontrado para criar bloqueios.
+        </div>
+      ) : (
+        <AdminAvailabilityBlockForm businesses={businesses} />
+      )}
     </main>
   );
 }

@@ -1,6 +1,8 @@
 export type AvailabilityBlock = {
   id: string;
+  businessId?: string;
   businessName: string;
+  resourceId?: string;
   resourceName: string;
   startDate: string;
   endDate: string;

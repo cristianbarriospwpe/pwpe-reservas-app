@@ -1,30 +1,8 @@
 import Link from "next/link";
-import { getAvailabilityBlocksByBusinessId } from "@/services/availability";
-import { getBusinessBySlug } from "@/services/businesses";
+import { getAllAvailabilityBlocks } from "@/services/availability";
 
 export default async function AvailabilityPage() {
-  const business = await getBusinessBySlug("pousada-mar-azul");
-
-  if (!business) {
-    return (
-      <main>
-        <p className="mb-3 text-sm font-semibold uppercase tracking-[0.3em] text-red-400">
-          Disponibilidade
-        </p>
-
-        <h1 className="text-4xl font-bold">Negócio não encontrado</h1>
-
-        <p className="mt-4 text-slate-400">
-          Não foi possível carregar os bloqueios porque o negócio não foi
-          encontrado.
-        </p>
-      </main>
-    );
-  }
-
-  const availabilityBlocks = await getAvailabilityBlocksByBusinessId(
-    business.id,
-  );
+  const availabilityBlocks = await getAllAvailabilityBlocks();
 
   return (
     <main>
@@ -37,7 +15,7 @@ export default async function AvailabilityPage() {
           <h1 className="text-4xl font-bold">Bloqueios de disponibilidade</h1>
 
           <p className="mt-4 text-slate-400">
-            Marque períodos em que um recurso não deve receber reservas.
+            Veja períodos em que recursos não devem receber reservas.
           </p>
         </div>
 
@@ -55,9 +33,10 @@ export default async function AvailabilityPage() {
         </div>
       ) : (
         <div className="mt-10 overflow-hidden rounded-2xl border border-white/10 bg-white/5">
-          <table className="w-full min-w-[800px] border-collapse text-left text-sm">
+          <table className="w-full min-w-[950px] border-collapse text-left text-sm">
             <thead className="bg-white/5 text-slate-300">
               <tr>
+                <th className="px-5 py-4 font-semibold">Negócio</th>
                 <th className="px-5 py-4 font-semibold">Recurso</th>
                 <th className="px-5 py-4 font-semibold">Início</th>
                 <th className="px-5 py-4 font-semibold">Fim</th>
@@ -69,6 +48,10 @@ export default async function AvailabilityPage() {
             <tbody>
               {availabilityBlocks.map((block) => (
                 <tr key={block.id} className="border-t border-white/10">
+                  <td className="px-5 py-4 text-slate-300">
+                    {block.businessName || "-"}
+                  </td>
+
                   <td className="px-5 py-4 font-semibold text-white">
                     {block.resourceName}
                   </td>

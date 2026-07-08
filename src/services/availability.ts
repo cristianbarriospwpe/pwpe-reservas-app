@@ -42,6 +42,32 @@ export async function getAvailabilityBlocksByBusinessId(
   );
 }
 
+export async function getAllAvailabilityBlocks(): Promise<AvailabilityBlock[]> {
+  const { data, error } = await supabase
+    .from("availability_blocks")
+    .select(
+      `
+      *,
+      businesses (
+        name
+      ),
+      resources (
+        name
+      )
+    `,
+    )
+    .order("start_date", { ascending: true });
+
+  if (error) {
+    console.error("Erro ao buscar todos os bloqueios:", error);
+    return [];
+  }
+
+  return data.map((row) =>
+    mapAvailabilityBlockRowToAvailabilityBlock(row as AvailabilityBlockRow),
+  );
+}
+
 export async function createAvailabilityBlock(
   input: CreateAvailabilityBlockInput,
 ): Promise<boolean> {
