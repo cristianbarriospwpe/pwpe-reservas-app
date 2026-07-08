@@ -3,6 +3,12 @@ import { getBusinessBySlug } from "@/services/businesses";
 import { getActiveResourcesByBusinessId } from "@/services/resources";
 import type { PriceUnit } from "@/types/resource";
 
+type PublicBusinessPageProps = {
+  params: Promise<{
+    slug: string;
+  }>;
+};
+
 const priceUnitLabels: Record<PriceUnit, string> = {
   night: "noite",
   day: "dia",
@@ -10,8 +16,20 @@ const priceUnitLabels: Record<PriceUnit, string> = {
   person: "pessoa",
 };
 
-export default async function PousadaMarAzulPage() {
-  const business = await getBusinessBySlug("pousada-mar-azul");
+const businessTypeLabels = {
+  pousada: "Hospedagem",
+  vehicle_rental: "Aluguel de veículos",
+  barbershop: "Barbearia",
+  tourism: "Turismo",
+  service: "Serviço",
+};
+
+export default async function PublicBusinessPage({
+  params,
+}: PublicBusinessPageProps) {
+  const { slug } = await params;
+
+  const business = await getBusinessBySlug(slug);
 
   if (!business) {
     return (
@@ -38,7 +56,7 @@ export default async function PousadaMarAzulPage() {
       <section className="bg-slate-950 text-white">
         <div className="mx-auto flex min-h-[70vh] max-w-6xl flex-col justify-center px-6 py-20">
           <p className="mb-4 text-sm font-semibold uppercase tracking-[0.3em] text-cyan-400">
-            Pousada em {business.city}
+            {businessTypeLabels[business.businessType]} em {business.city}
           </p>
 
           <h1 className="max-w-3xl text-4xl font-bold tracking-tight sm:text-6xl">
@@ -59,29 +77,29 @@ export default async function PousadaMarAzulPage() {
             </a>
 
             <a
-              href="#acomodacoes"
+              href="#recursos"
               className="rounded-full border border-white/20 px-6 py-3 text-sm font-semibold text-white transition hover:bg-white/10"
             >
-              Ver acomodações
+              Ver opções
             </a>
           </div>
         </div>
       </section>
 
-      <section id="acomodacoes" className="mx-auto max-w-6xl px-6 py-16">
+      <section id="recursos" className="mx-auto max-w-6xl px-6 py-16">
         <p className="mb-3 text-sm font-semibold uppercase tracking-[0.3em] text-cyan-600">
-          Acomodações
+          Opções
         </p>
 
-        <h2 className="text-3xl font-bold">Escolha sua acomodação</h2>
+        <h2 className="text-3xl font-bold">Escolha uma opção</h2>
 
         <p className="mt-4 max-w-2xl text-slate-600">
-          As acomodações agora são carregadas diretamente do Supabase.
+          Confira as opções disponíveis para reserva.
         </p>
 
         {activeResources.length === 0 ? (
           <div className="mt-10 rounded-2xl border border-slate-200 bg-white p-6 text-slate-600">
-            Nenhuma acomodação disponível no momento.
+            Nenhuma opção disponível no momento.
           </div>
         ) : (
           <div className="mt-10 grid gap-6 md:grid-cols-3">
@@ -122,15 +140,15 @@ export default async function PousadaMarAzulPage() {
 
           <p className="mt-4 max-w-2xl text-slate-600">
             Preencha os dados abaixo para abrir uma mensagem pronta no WhatsApp
-            da pousada.
+            do negócio.
           </p>
 
           <PublicBookingForm
-  businessId={business.id}
-  businessName={business.name}
-  businessWhatsapp={business.whatsapp}
-  resources={activeResources}
-/>
+            businessId={business.id}
+            businessName={business.name}
+            businessWhatsapp={business.whatsapp}
+            resources={activeResources}
+          />
         </div>
       </section>
 
