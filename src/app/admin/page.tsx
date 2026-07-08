@@ -1,35 +1,16 @@
 import { BookingStatusBadge } from "@/components/admin/BookingStatusBadge";
 import { ResourceStatusBadge } from "@/components/admin/ResourceStatusBadge";
 import { StatCard } from "@/components/admin/StatCard";
-import { getAvailabilityBlocksByBusinessId } from "@/services/availability";
-import { getBookingsByBusinessId } from "@/services/bookings";
-import { getBusinessBySlug } from "@/services/businesses";
-import { getResourcesByBusinessId } from "@/services/resources";
+import { getAllAvailabilityBlocks } from "@/services/availability";
+import { getAllBookings } from "@/services/bookings";
+import { getAllBusinesses } from "@/services/businesses";
+import { getAllResources } from "@/services/resources";
 
 export default async function AdminDashboardPage() {
-  const business = await getBusinessBySlug("pousada-mar-azul");
-
-  if (!business) {
-    return (
-      <main>
-        <p className="mb-3 text-sm font-semibold uppercase tracking-[0.3em] text-red-400">
-          Dashboard
-        </p>
-
-        <h1 className="text-4xl font-bold">Negócio não encontrado</h1>
-
-        <p className="mt-4 text-slate-400">
-          Não foi possível carregar as informações do painel administrativo.
-        </p>
-      </main>
-    );
-  }
-
-  const bookings = await getBookingsByBusinessId(business.id);
-  const resources = await getResourcesByBusinessId(business.id);
-  const availabilityBlocks = await getAvailabilityBlocksByBusinessId(
-    business.id,
-  );
+  const businesses = await getAllBusinesses();
+  const bookings = await getAllBookings();
+  const resources = await getAllResources();
+  const availabilityBlocks = await getAllAvailabilityBlocks();
 
   const pendingBookings = bookings.filter(
     (booking) => booking.status === "pending",
@@ -54,11 +35,12 @@ export default async function AdminDashboardPage() {
       <h1 className="text-4xl font-bold">Visão geral</h1>
 
       <p className="mt-4 text-slate-400">
-        Acompanhe reservas, recursos cadastrados e bloqueios de disponibilidade
-        de {business.name}.
+        Acompanhe negócios, reservas, recursos e bloqueios cadastrados na
+        plataforma.
       </p>
 
-      <section className="mt-10 grid gap-5 md:grid-cols-2 xl:grid-cols-4">
+      <section className="mt-10 grid gap-5 md:grid-cols-2 xl:grid-cols-5">
+        <StatCard label="Negócios ativos" value={businesses.length} />
         <StatCard label="Reservas pendentes" value={pendingBookings} />
         <StatCard label="Confirmadas" value={confirmedBookings} />
         <StatCard label="Recursos ativos" value={activeResources} />
@@ -75,7 +57,7 @@ export default async function AdminDashboardPage() {
                 Nenhuma reserva encontrada.
               </p>
             ) : (
-              bookings.slice(0, 3).map((booking) => (
+              bookings.slice(0, 5).map((booking) => (
                 <div
                   key={booking.id}
                   className="rounded-2xl border border-white/10 bg-slate-950/40 p-4"
@@ -83,7 +65,9 @@ export default async function AdminDashboardPage() {
                   <div className="flex items-start justify-between gap-4">
                     <div>
                       <p className="font-semibold">{booking.customerName}</p>
+
                       <p className="mt-1 text-sm text-slate-400">
+                        {booking.businessName || "Negócio não informado"} ·{" "}
                         {booking.resourceName}
                       </p>
                     </div>
@@ -93,6 +77,9 @@ export default async function AdminDashboardPage() {
 
                   <p className="mt-3 text-sm text-slate-500">
                     {booking.startDate}
+                    {booking.startTime
+                      ? ` às ${booking.startTime.slice(0, 5)}`
+                      : ""}
                     {booking.endDate ? ` até ${booking.endDate}` : ""}
                   </p>
                 </div>
@@ -110,7 +97,7 @@ export default async function AdminDashboardPage() {
                 Nenhum recurso encontrado.
               </p>
             ) : (
-              resources.slice(0, 3).map((resource) => (
+              resources.slice(0, 5).map((resource) => (
                 <div
                   key={resource.id}
                   className="rounded-2xl border border-white/10 bg-slate-950/40 p-4"
@@ -118,8 +105,10 @@ export default async function AdminDashboardPage() {
                   <div className="flex items-start justify-between gap-4">
                     <div>
                       <p className="font-semibold">{resource.name}</p>
+
                       <p className="mt-1 text-sm text-slate-400">
-                        R$ {resource.price.toFixed(2)}
+                        {resource.businessName || "Negócio não informado"} · R${" "}
+                        {resource.price.toFixed(2)}
                       </p>
                     </div>
 
