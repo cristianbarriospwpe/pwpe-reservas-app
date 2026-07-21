@@ -1,3 +1,4 @@
+export const dynamic = "force-dynamic";
 import { PublicBookingForm } from "@/components/public/PublicBookingForm";
 import { getBusinessBySlug } from "@/services/businesses";
 import { getActiveResourcesByBusinessId } from "@/services/resources";
