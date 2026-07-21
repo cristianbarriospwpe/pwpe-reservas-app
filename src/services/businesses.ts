@@ -49,8 +49,7 @@ export async function getAllBusinesses(): Promise<Business[]> {
   const { data, error } = await supabase
     .from("businesses")
     .select("*")
-    .eq("is_active", true)
-    .order("created_at", { ascending: true });
+    .order("name", { ascending: true });
 
   if (error) {
     console.error("Erro ao buscar negócios:", error);
@@ -59,6 +58,7 @@ export async function getAllBusinesses(): Promise<Business[]> {
 
   return data.map((row) => mapBusinessRowToBusiness(row as BusinessRow));
 }
+
 
 export async function updateBusiness(
   input: UpdateBusinessInput,
