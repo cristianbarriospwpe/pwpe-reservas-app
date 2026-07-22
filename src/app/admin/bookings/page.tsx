@@ -56,6 +56,11 @@ export default async function BookingsPage() {
                     <p className="font-semibold text-white">
                       {booking.customerName}
                     </p>
+                    {booking.customerNotes ? (
+                      <p className="mt-2 max-w-xs text-xs leading-5 text-slate-400">
+                        Obs: {booking.customerNotes}
+                      </p>
+                    ) : null}
                     <p className="mt-1 text-xs text-slate-400">
                       {booking.customerPhone}
                     </p>

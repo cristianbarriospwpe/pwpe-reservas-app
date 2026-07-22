@@ -7,6 +7,7 @@ export function mapBookingRowToBooking(row: BookingRow): Booking {
     resourceName: row.resources?.name ?? "Recurso não informado",
     customerName: row.customer_name,
     customerPhone: row.customer_phone,
+    customerNotes: row.customer_notes ?? "",
     bookingType: row.booking_type,
     startDate: row.start_date,
     endDate: row.end_date ?? undefined,

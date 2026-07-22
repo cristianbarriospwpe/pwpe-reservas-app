@@ -8,6 +8,7 @@ export type Booking = {
   resourceName: string;
   customerName: string;
   customerPhone: string;
+  customerNotes?: string;
   bookingType: BookingType;
   startDate: string;
   endDate?: string;
@@ -24,6 +25,7 @@ export type BookingRow = {
   resource_id: string | null;
   customer_name: string;
   customer_phone: string;
+  customer_notes: string | null;
   booking_type: BookingType;
   start_date: string;
   end_date: string | null;

@@ -7,6 +7,7 @@ type CreateBookingInput = {
   resourceId: string;
   customerName: string;
   customerPhone: string;
+  customerNotes?: string;
   bookingType: "period" | "time_slot";
   startDate: string;
   endDate?: string;
@@ -164,6 +165,7 @@ export async function createBooking(
     resource_id: input.resourceId,
     customer_name: input.customerName,
     customer_phone: input.customerPhone,
+    customer_notes: input.customerNotes ?? null,
     booking_type: input.bookingType,
     start_date: input.startDate,
     end_date: input.endDate || null,
