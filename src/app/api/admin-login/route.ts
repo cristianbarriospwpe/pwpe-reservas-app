@@ -8,15 +8,11 @@ export async function POST(request: Request) {
   const sessionToken = process.env.ADMIN_SESSION_TOKEN;
 
   if (!adminPassword || !sessionToken) {
-    return NextResponse.redirect(
-      new URL("/admin/login?error=config", request.url),
-    );
+    return NextResponse.redirect(new URL("/login?error=config", request.url));
   }
 
   if (password !== adminPassword) {
-    return NextResponse.redirect(
-      new URL("/admin/login?error=password", request.url),
-    );
+    return NextResponse.redirect(new URL("/login?error=password", request.url));
   }
 
   const response = NextResponse.redirect(new URL("/admin", request.url));

@@ -1,12 +1,10 @@
-type AdminLoginPageProps = {
+type LoginPageProps = {
   searchParams: Promise<{
     error?: string;
   }>;
 };
 
-export default async function AdminLoginPage({
-  searchParams,
-}: AdminLoginPageProps) {
+export default async function LoginPage({ searchParams }: LoginPageProps) {
   const params = await searchParams;
 
   const errorMessage =
