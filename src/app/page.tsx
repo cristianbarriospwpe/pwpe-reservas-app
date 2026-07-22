@@ -319,6 +319,42 @@ export default function HomePage() {
             ))}
           </div>
         </section>
+        <section className="mt-10 overflow-hidden rounded-[2rem] border border-cyan-400/20 bg-cyan-400/10 p-8 backdrop-blur sm:p-10">
+  <div className="grid gap-8 lg:grid-cols-[1fr_auto] lg:items-center">
+    <div>
+      <p className="text-sm font-semibold uppercase tracking-[0.3em] text-cyan-300">
+        Próximo passo
+      </p>
+
+      <h2 className="mt-4 max-w-2xl text-3xl font-black sm:text-4xl">
+        Quer uma página de reservas para o seu negócio?
+      </h2>
+
+      <p className="mt-4 max-w-2xl text-slate-300">
+        A PWPE pode preparar uma demo personalizada para pousadas, barbearias,
+        passeios, aluguel de veículos ou serviços com agenda.
+      </p>
+    </div>
+
+    <div className="flex flex-col gap-3 sm:flex-row lg:flex-col">
+      <a
+        href="https://wa.me/5522992231382?text=Ol%C3%A1%2C%20quero%20uma%20demo%20da%20PWPE%20Reservas%20para%20meu%20neg%C3%B3cio."
+        target="_blank"
+        rel="noreferrer"
+        className="rounded-2xl bg-cyan-400 px-6 py-3 text-center font-bold text-slate-950 shadow-lg shadow-cyan-400/20 transition hover:-translate-y-0.5 hover:bg-cyan-300"
+      >
+        Falar pelo WhatsApp
+      </a>
+
+      <Link
+        href="/admin"
+        className="rounded-2xl border border-white/10 bg-white/5 px-6 py-3 text-center font-bold text-white transition hover:-translate-y-0.5 hover:bg-white/10"
+      >
+        Ver painel admin
+      </Link>
+    </div>
+  </div>
+</section>
       </section>
     </main>
   );
