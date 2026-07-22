@@ -182,11 +182,11 @@ export function PublicBookingForm({
       });
 
       const periodText =
-        bookingMode === "period"
-          ? `Entrada: ${formatDateForMessage(startDate)}%0ASaída: ${formatDateForMessage(
-              endDate,
-            )}%0ANoites: ${nights}`
-          : `Data: ${formatDateForMessage(startDate)}%0AHorário: ${startTime}`;
+  bookingMode === "period"
+    ? `Entrada: ${formatDateForMessage(startDate)}%0ASaída: ${formatDateForMessage(
+        endDate,
+      )}%0ADiárias: ${nights}`
+    : `Data: ${formatDateForMessage(startDate)}%0AHorário: ${startTime}`;
 
       const peopleText =
         bookingMode === "period" ? `%0APessoas: ${peopleCount}` : "";
@@ -195,18 +195,20 @@ export function PublicBookingForm({
         ? `%0AObservações: ${encodeURIComponent(customerNotes.trim())}`
         : "";
 
-      const message = `Olá, quero solicitar uma reserva no ${encodeURIComponent(
+
+      const message = `Olá! Gostaria de solicitar uma reserva no ${encodeURIComponent(
         businessName,
-      )}.%0A%0ANome: ${encodeURIComponent(
+      )}.%0A%0A${encodeURIComponent(
+        "Dados da reserva:",
+      )}%0ANome: ${encodeURIComponent(
         customerName.trim(),
       )}%0AWhatsApp: ${encodeURIComponent(
         customerPhone.trim(),
-      )}%0AOpção: ${encodeURIComponent(
+      )}%0AAcomodação: ${encodeURIComponent(
         selectedResource.name,
       )}%0A${periodText}${peopleText}%0ATotal estimado: ${encodeURIComponent(
         formatPrice(totalPrice),
-      )}${notesText}`;
-
+      )}${notesText}%0A%0AAguardo confirmação da disponibilidade.`;
       const cleanWhatsapp = businessWhatsapp.replace(/\D/g, "");
       const whatsappUrl = `https://wa.me/${cleanWhatsapp}?text=${message}`;
 
@@ -332,63 +334,61 @@ export function PublicBookingForm({
         )}
 
         <div>
-  <label className="text-sm font-black text-[#1F1A17]">
-    {bookingMode === "period" ? "Acomodação" : "Serviço"}
-  </label>
+          <label className="text-sm font-black text-[#1F1A17]">
+            {bookingMode === "period" ? "Acomodação" : "Serviço"}
+          </label>
 
-  <div className="mt-2 grid gap-3">
-    {resources.length === 0 ? (
-      <div className="rounded-2xl border border-[#E8D8BD] bg-white p-4 text-sm font-semibold text-[#4D4038]">
-        Nenhuma opção disponível no momento.
-      </div>
-    ) : (
-      resources.map((resource) => {
-        const isSelected = selectedResourceId === resource.id;
-
-        return (
-          <button
-            key={resource.id}
-            type="button"
-            onClick={() => setSelectedResourceId(resource.id)}
-            className={`rounded-2xl border p-4 text-left transition ${
-              isSelected
-                ? "border-[#C90000] bg-[#FFF0D6] shadow-lg shadow-[#6B3A00]/10"
-                : "border-[#E8D8BD] bg-white hover:border-[#D4A23A] hover:bg-[#FFF7E8]"
-            }`}
-          >
-            <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-              <div>
-                <p className="font-black text-[#1F1A17]">{resource.name}</p>
-
-                {resource.description ? (
-                  <p className="mt-1 text-sm leading-5 text-[#4D4038]">
-                    {resource.description}
-                  </p>
-                ) : null}
+          <div className="mt-2 grid gap-3">
+            {resources.length === 0 ? (
+              <div className="rounded-2xl border border-[#E8D8BD] bg-white p-4 text-sm font-semibold text-[#4D4038]">
+                Nenhuma opção disponível no momento.
               </div>
+            ) : (
+              resources.map((resource) => {
+                const isSelected = selectedResourceId === resource.id;
 
-              <span
-                className={`shrink-0 rounded-full px-4 py-2 text-sm font-black ${
-                  isSelected
-                    ? "bg-[#C90000] text-white"
-                    : "bg-[#F6D77A] text-[#4A0606]"
-                }`}
-              >
-                {formatPrice(resource.price)}
-              </span>
-            </div>
+                return (
+                  <button
+                    key={resource.id}
+                    type="button"
+                    onClick={() => setSelectedResourceId(resource.id)}
+                    className={`rounded-2xl border p-4 text-left transition ${isSelected
+                        ? "border-[#C90000] bg-[#FFF0D6] shadow-lg shadow-[#6B3A00]/10"
+                        : "border-[#E8D8BD] bg-white hover:border-[#D4A23A] hover:bg-[#FFF7E8]"
+                      }`}
+                  >
+                    <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+                      <div>
+                        <p className="font-black text-[#1F1A17]">{resource.name}</p>
 
-            {resource.capacity ? (
-              <p className="mt-3 text-xs font-bold uppercase tracking-[0.15em] text-[#0B5D2A]">
-                Até {resource.capacity} pessoas
-              </p>
-            ) : null}
-          </button>
-        );
-      })
-    )}
-  </div>
-</div>
+                        {resource.description ? (
+                          <p className="mt-1 text-sm leading-5 text-[#4D4038]">
+                            {resource.description}
+                          </p>
+                        ) : null}
+                      </div>
+
+                      <span
+                        className={`shrink-0 rounded-full px-4 py-2 text-sm font-black ${isSelected
+                            ? "bg-[#C90000] text-white"
+                            : "bg-[#F6D77A] text-[#4A0606]"
+                          }`}
+                      >
+                        {formatPrice(resource.price)}
+                      </span>
+                    </div>
+
+                    {resource.capacity ? (
+                      <p className="mt-3 text-xs font-bold uppercase tracking-[0.15em] text-[#0B5D2A]">
+                        Até {resource.capacity} pessoas
+                      </p>
+                    ) : null}
+                  </button>
+                );
+              })
+            )}
+          </div>
+        </div>
 
         {bookingMode === "period" ? (
           <div>
@@ -430,8 +430,8 @@ export function PublicBookingForm({
               <p className="mt-2 text-sm font-semibold text-[#4D4038]">
                 {nights > 0
                   ? `${nights} diária(s) · Total estimado: ${formatPrice(
-                      totalPrice,
-                    )}`
+                    totalPrice,
+                  )}`
                   : `Valor da diária: ${formatPrice(selectedResource.price)}`}
               </p>
             ) : (
