@@ -1,6 +1,7 @@
 "use client";
 
 import { useMemo, useState } from "react";
+import { BookingDateRangePicker } from "@/components/public/BookingDateRangePicker";
 import type { BookingMode } from "@/types/business";
 import type { Resource } from "@/types/resource";
 import {
@@ -236,47 +237,49 @@ export function PublicBookingForm({
   return (
     <form
       onSubmit={handleSubmit}
-      className="rounded-[1.5rem] border border-white/10 bg-slate-950 p-5 text-white shadow-2xl"
+      className="rounded-[1.5rem] border border-[#E8D8BD] bg-[#FFF7E8] p-5 text-[#1F1A17] shadow-2xl shadow-[#6B3A00]/10"
     >
       <div>
-        <p className="text-sm font-black uppercase tracking-[0.3em] text-cyan-300">
+        <p className="text-sm font-black uppercase tracking-[0.3em] text-[#C90000]">
           Solicitar reserva
         </p>
 
-        <h3 className="mt-3 text-2xl font-black">{businessName}</h3>
+        <h3 className="mt-3 text-2xl font-black text-[#1F1A17]">
+          {businessName}
+        </h3>
 
-        <p className="mt-2 text-sm leading-6 text-slate-400">
+        <p className="mt-2 text-sm leading-6 text-[#4D4038]">
           Preencha os dados abaixo para enviar sua solicitação pelo WhatsApp.
         </p>
       </div>
 
       {errorMessage ? (
-        <div className="mt-5 rounded-2xl border border-red-400/20 bg-red-400/10 p-4 text-sm text-red-200">
+        <div className="mt-5 rounded-2xl border border-red-300 bg-red-50 p-4 text-sm font-semibold text-red-700">
           {errorMessage}
         </div>
       ) : null}
 
       {successMessage ? (
-        <div className="mt-5 rounded-2xl border border-emerald-400/20 bg-emerald-400/10 p-4 text-sm text-emerald-200">
+        <div className="mt-5 rounded-2xl border border-green-300 bg-green-50 p-4 text-sm font-semibold text-green-700">
           {successMessage}
         </div>
       ) : null}
 
       <div className="mt-6 grid gap-4">
         <div>
-          <label className="text-sm font-semibold text-slate-300">Nome</label>
+          <label className="text-sm font-black text-[#1F1A17]">Nome</label>
 
           <input
             type="text"
             value={customerName}
             onChange={(event) => setCustomerName(event.target.value)}
             placeholder="Seu nome"
-            className="mt-2 w-full rounded-2xl border border-white/10 bg-slate-950 px-4 py-3 text-white outline-none transition placeholder:text-slate-600 focus:border-cyan-400"
+            className="mt-2 w-full rounded-2xl border border-[#E8D8BD] bg-white px-4 py-3 text-[#1F1A17] outline-none transition placeholder:text-[#8A7B6D] focus:border-[#C90000] focus:ring-4 focus:ring-[#C90000]/10"
           />
         </div>
 
         <div>
-          <label className="text-sm font-semibold text-slate-300">
+          <label className="text-sm font-black text-[#1F1A17]">
             WhatsApp
           </label>
 
@@ -285,42 +288,23 @@ export function PublicBookingForm({
             value={customerPhone}
             onChange={(event) => setCustomerPhone(event.target.value)}
             placeholder="Ex: 88999999999"
-            className="mt-2 w-full rounded-2xl border border-white/10 bg-slate-950 px-4 py-3 text-white outline-none transition placeholder:text-slate-600 focus:border-cyan-400"
+            className="mt-2 w-full rounded-2xl border border-[#E8D8BD] bg-white px-4 py-3 text-[#1F1A17] outline-none transition placeholder:text-[#8A7B6D] focus:border-[#C90000] focus:ring-4 focus:ring-[#C90000]/10"
           />
         </div>
 
         {bookingMode === "period" ? (
-          <div className="grid gap-4 sm:grid-cols-2">
-            <div>
-              <label className="text-sm font-semibold text-slate-300">
-                Entrada
-              </label>
-
-              <input
-                type="date"
-                value={startDate}
-                onChange={(event) => setStartDate(event.target.value)}
-                className="mt-2 w-full rounded-2xl border border-white/10 bg-slate-950 px-4 py-3 text-white outline-none transition focus:border-cyan-400"
-              />
-            </div>
-
-            <div>
-              <label className="text-sm font-semibold text-slate-300">
-                Saída
-              </label>
-
-              <input
-                type="date"
-                value={endDate}
-                onChange={(event) => setEndDate(event.target.value)}
-                className="mt-2 w-full rounded-2xl border border-white/10 bg-slate-950 px-4 py-3 text-white outline-none transition focus:border-cyan-400"
-              />
-            </div>
-          </div>
+          <BookingDateRangePicker
+            startDate={startDate}
+            endDate={endDate}
+            onChange={(range) => {
+              setStartDate(range.startDate);
+              setEndDate(range.endDate);
+            }}
+          />
         ) : (
           <div className="grid gap-4 sm:grid-cols-2">
             <div>
-              <label className="text-sm font-semibold text-slate-300">
+              <label className="text-sm font-black text-[#1F1A17]">
                 Data
               </label>
 
@@ -328,12 +312,12 @@ export function PublicBookingForm({
                 type="date"
                 value={startDate}
                 onChange={(event) => setStartDate(event.target.value)}
-                className="mt-2 w-full rounded-2xl border border-white/10 bg-slate-950 px-4 py-3 text-white outline-none transition focus:border-cyan-400"
+                className="mt-2 w-full rounded-2xl border border-[#E8D8BD] bg-white px-4 py-3 text-[#1F1A17] outline-none transition focus:border-[#C90000] focus:ring-4 focus:ring-[#C90000]/10"
               />
             </div>
 
             <div>
-              <label className="text-sm font-semibold text-slate-300">
+              <label className="text-sm font-black text-[#1F1A17]">
                 Horário
               </label>
 
@@ -341,21 +325,21 @@ export function PublicBookingForm({
                 type="time"
                 value={startTime}
                 onChange={(event) => setStartTime(event.target.value)}
-                className="mt-2 w-full rounded-2xl border border-white/10 bg-slate-950 px-4 py-3 text-white outline-none transition focus:border-cyan-400"
+                className="mt-2 w-full rounded-2xl border border-[#E8D8BD] bg-white px-4 py-3 text-[#1F1A17] outline-none transition focus:border-[#C90000] focus:ring-4 focus:ring-[#C90000]/10"
               />
             </div>
           </div>
         )}
 
         <div>
-          <label className="text-sm font-semibold text-slate-300">
+          <label className="text-sm font-black text-[#1F1A17]">
             {bookingMode === "period" ? "Acomodação" : "Serviço"}
           </label>
 
           <select
             value={selectedResourceId}
             onChange={(event) => setSelectedResourceId(event.target.value)}
-            className="mt-2 w-full rounded-2xl border border-white/10 bg-slate-950 px-4 py-3 text-white outline-none transition focus:border-cyan-400"
+            className="mt-2 w-full rounded-2xl border border-[#E8D8BD] bg-white px-4 py-3 text-[#1F1A17] outline-none transition focus:border-[#C90000] focus:ring-4 focus:ring-[#C90000]/10"
           >
             <option value="">
               {bookingMode === "period"
@@ -373,7 +357,7 @@ export function PublicBookingForm({
 
         {bookingMode === "period" ? (
           <div>
-            <label className="text-sm font-semibold text-slate-300">
+            <label className="text-sm font-black text-[#1F1A17]">
               Pessoas
             </label>
 
@@ -382,13 +366,13 @@ export function PublicBookingForm({
               min="1"
               value={peopleCount}
               onChange={(event) => setPeopleCount(event.target.value)}
-              className="mt-2 w-full rounded-2xl border border-white/10 bg-slate-950 px-4 py-3 text-white outline-none transition focus:border-cyan-400"
+              className="mt-2 w-full rounded-2xl border border-[#E8D8BD] bg-white px-4 py-3 text-[#1F1A17] outline-none transition focus:border-[#C90000] focus:ring-4 focus:ring-[#C90000]/10"
             />
           </div>
         ) : null}
 
         <div>
-          <label className="text-sm font-semibold text-slate-300">
+          <label className="text-sm font-black text-[#1F1A17]">
             Observações
           </label>
 
@@ -397,18 +381,18 @@ export function PublicBookingForm({
             onChange={(event) => setCustomerNotes(event.target.value)}
             placeholder="Ex: Vou chegar à noite, preciso de cama extra..."
             rows={4}
-            className="mt-2 w-full resize-none rounded-2xl border border-white/10 bg-slate-950 px-4 py-3 text-white outline-none transition placeholder:text-slate-600 focus:border-cyan-400"
+            className="mt-2 w-full resize-none rounded-2xl border border-[#E8D8BD] bg-white px-4 py-3 text-[#1F1A17] outline-none transition placeholder:text-[#8A7B6D] focus:border-[#C90000] focus:ring-4 focus:ring-[#C90000]/10"
           />
         </div>
 
         {selectedResource ? (
-          <div className="rounded-2xl border border-cyan-400/20 bg-cyan-400/10 p-4">
-            <p className="text-sm font-semibold text-cyan-100">
+          <div className="rounded-2xl border border-[#F6D77A] bg-[#F6D77A]/35 p-4">
+            <p className="text-sm font-black text-[#7A0909]">
               {selectedResource.name}
             </p>
 
             {bookingMode === "period" ? (
-              <p className="mt-2 text-sm text-slate-300">
+              <p className="mt-2 text-sm font-semibold text-[#4D4038]">
                 {nights > 0
                   ? `${nights} diária(s) · Total estimado: ${formatPrice(
                       totalPrice,
@@ -416,7 +400,7 @@ export function PublicBookingForm({
                   : `Valor da diária: ${formatPrice(selectedResource.price)}`}
               </p>
             ) : (
-              <p className="mt-2 text-sm text-slate-300">
+              <p className="mt-2 text-sm font-semibold text-[#4D4038]">
                 Total estimado: {formatPrice(totalPrice)}
               </p>
             )}
@@ -426,7 +410,7 @@ export function PublicBookingForm({
         <button
           type="submit"
           disabled={isSubmitting}
-          className="rounded-2xl bg-cyan-400 px-5 py-3 font-black text-slate-950 transition hover:bg-cyan-300 disabled:cursor-not-allowed disabled:opacity-60"
+          className="rounded-2xl bg-[#0B5D2A] px-5 py-3 font-black text-white shadow-lg shadow-[#0B5D2A]/20 transition hover:-translate-y-0.5 hover:bg-[#0A4D24] disabled:cursor-not-allowed disabled:opacity-60"
         >
           {buttonLabel}
         </button>

@@ -240,9 +240,9 @@ export default async function PublicBusinessPage({
   <HotelGallery images={hotelGalleryImages} />
 </section>
 
-        <section className="bg-[#0B5D2A] py-14 text-white">
+       <section className="bg-[#FFF7E8] py-14 text-[#1F1A17]">
           <div className="mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-8">
-            <p className="text-sm font-black uppercase tracking-[0.3em] text-[#F6D77A]">
+            <p className="text-sm font-black uppercase tracking-[0.3em] text-[#C90000]">
               Acomodações
             </p>
 
@@ -254,17 +254,17 @@ export default async function PublicBusinessPage({
               {resources.map((resource) => (
                 <article
                   key={resource.id}
-                  className="rounded-[2rem] border border-white/15 bg-white/10 p-6 backdrop-blur"
+                  className="rounded-[2rem] border border-[#E8D8BD] bg-white p-6 shadow-xl shadow-[#6B3A00]/5"
                 >
                   <h3 className="text-2xl font-black">{resource.name}</h3>
 
-                  <p className="mt-3 text-sm leading-6 text-white/75">
+                  <p className="mt-3 text-sm leading-6 text-[#4D4038]">
                     {resource.description}
                   </p>
 
                   <div className="mt-5 flex flex-wrap items-center gap-3">
                     {resource.capacity ? (
-                      <span className="rounded-full bg-white/10 px-4 py-2 text-sm font-bold">
+                      <span className="rounded-full bg-[#0B5D2A]/10 px-4 py-2 text-sm font-bold text-[#0B5D2A]">
                         Até {resource.capacity} pessoas
                       </span>
                     ) : null}
