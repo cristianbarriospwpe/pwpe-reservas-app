@@ -137,7 +137,6 @@ export function PublicBookingForm({
 
       if (bookingMode === "period") {
         const hasConflict = await hasBookingConflict({
-          businessId,
           resourceId: selectedResource.id,
           startDate,
           endDate,
@@ -153,7 +152,6 @@ export function PublicBookingForm({
 
       if (bookingMode === "time_slot") {
         const hasConflict = await hasTimeSlotConflict({
-          businessId,
           resourceId: selectedResource.id,
           startDate,
           startTime,
@@ -182,11 +180,11 @@ export function PublicBookingForm({
       });
 
       const periodText =
-  bookingMode === "period"
-    ? `Entrada: ${formatDateForMessage(startDate)}%0ASaída: ${formatDateForMessage(
-        endDate,
-      )}%0ADiárias: ${nights}`
-    : `Data: ${formatDateForMessage(startDate)}%0AHorário: ${startTime}`;
+        bookingMode === "period"
+          ? `Entrada: ${formatDateForMessage(startDate)}%0ASaída: ${formatDateForMessage(
+              endDate,
+            )}%0ADiárias: ${nights}`
+          : `Data: ${formatDateForMessage(startDate)}%0AHorário: ${startTime}`;
 
       const peopleText =
         bookingMode === "period" ? `%0APessoas: ${peopleCount}` : "";
@@ -194,7 +192,6 @@ export function PublicBookingForm({
       const notesText = customerNotes.trim()
         ? `%0AObservações: ${encodeURIComponent(customerNotes.trim())}`
         : "";
-
 
       const message = `Olá! Gostaria de solicitar uma reserva no ${encodeURIComponent(
         businessName,
@@ -209,6 +206,7 @@ export function PublicBookingForm({
       )}%0A${periodText}${peopleText}%0ATotal estimado: ${encodeURIComponent(
         formatPrice(totalPrice),
       )}${notesText}%0A%0AAguardo confirmação da disponibilidade.`;
+
       const cleanWhatsapp = businessWhatsapp.replace(/\D/g, "");
       const whatsappUrl = `https://wa.me/${cleanWhatsapp}?text=${message}`;
 
@@ -352,14 +350,17 @@ export function PublicBookingForm({
                     key={resource.id}
                     type="button"
                     onClick={() => setSelectedResourceId(resource.id)}
-                    className={`rounded-2xl border p-4 text-left transition ${isSelected
+                    className={`rounded-2xl border p-4 text-left transition ${
+                      isSelected
                         ? "border-[#C90000] bg-[#FFF0D6] shadow-lg shadow-[#6B3A00]/10"
                         : "border-[#E8D8BD] bg-white hover:border-[#D4A23A] hover:bg-[#FFF7E8]"
-                      }`}
+                    }`}
                   >
                     <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
                       <div>
-                        <p className="font-black text-[#1F1A17]">{resource.name}</p>
+                        <p className="font-black text-[#1F1A17]">
+                          {resource.name}
+                        </p>
 
                         {resource.description ? (
                           <p className="mt-1 text-sm leading-5 text-[#4D4038]">
@@ -369,10 +370,11 @@ export function PublicBookingForm({
                       </div>
 
                       <span
-                        className={`shrink-0 rounded-full px-4 py-2 text-sm font-black ${isSelected
+                        className={`shrink-0 rounded-full px-4 py-2 text-sm font-black ${
+                          isSelected
                             ? "bg-[#C90000] text-white"
                             : "bg-[#F6D77A] text-[#4A0606]"
-                          }`}
+                        }`}
                       >
                         {formatPrice(resource.price)}
                       </span>
@@ -430,8 +432,8 @@ export function PublicBookingForm({
               <p className="mt-2 text-sm font-semibold text-[#4D4038]">
                 {nights > 0
                   ? `${nights} diária(s) · Total estimado: ${formatPrice(
-                    totalPrice,
-                  )}`
+                      totalPrice,
+                    )}`
                   : `Valor da diária: ${formatPrice(selectedResource.price)}`}
               </p>
             ) : (
