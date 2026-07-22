@@ -41,6 +41,50 @@ const stats = [
   },
 ];
 
+const targetBusinesses = [
+  {
+    title: "Pousadas e hospedagens",
+    description:
+      "Receba pedidos de reserva por período, organize acomodações e bloqueie datas indisponíveis.",
+  },
+  {
+    title: "Barbearias e salões",
+    description:
+      "Permita que clientes solicitem horários para serviços como corte, barba e atendimento personalizado.",
+  },
+  {
+    title: "Aluguel de veículos",
+    description:
+      "Gerencie pedidos para carros, motos, buggys, bicicletas e outros recursos alugados por dia.",
+  },
+  {
+    title: "Passeios e experiências",
+    description:
+      "Venda passeios turísticos, experiências locais e atividades com confirmação pelo WhatsApp.",
+  },
+];
+
+const howItWorks = [
+  {
+    step: "01",
+    title: "O cliente solicita a reserva",
+    description:
+      "Ele acessa a página pública do negócio, escolhe data, serviço ou acomodação e envia o pedido.",
+  },
+  {
+    step: "02",
+    title: "O negócio recebe no painel",
+    description:
+      "A reserva aparece no painel administrativo e também pode abrir uma conversa direto no WhatsApp.",
+  },
+  {
+    step: "03",
+    title: "A reserva é confirmada",
+    description:
+      "O responsável confirma, cancela ou conclui a reserva com controle simples de status.",
+  },
+];
+
 export default function HomePage() {
   return (
     <main className="min-h-screen overflow-hidden bg-slate-950 text-white">
@@ -89,7 +133,12 @@ export default function HomePage() {
             </div>
 
             <div className="mt-8 flex flex-wrap gap-2">
-              {["Reservas online", "Painel protegido", "WhatsApp automático", "Pix em breve"].map((item) => (
+              {[
+                "Reservas online",
+                "Painel protegido",
+                "WhatsApp automático",
+                "Pix em breve",
+              ].map((item) => (
                 <span
                   key={item}
                   className="rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs font-semibold text-slate-300"
@@ -183,6 +232,78 @@ export default function HomePage() {
             </Link>
           ))}
         </div>
+
+        <section className="mt-10">
+          <div>
+            <p className="text-sm font-semibold uppercase tracking-[0.3em] text-cyan-400">
+              Para quem é
+            </p>
+
+            <h2 className="mt-3 text-3xl font-black">
+              Um sistema flexível para vários tipos de negócio.
+            </h2>
+
+            <p className="mt-4 max-w-2xl text-slate-400">
+              A mesma base pode ser adaptada para negócios que trabalham com
+              reservas por data, período ou horário.
+            </p>
+          </div>
+
+          <div className="mt-6 grid gap-4 md:grid-cols-2">
+            {targetBusinesses.map((business) => (
+              <div
+                key={business.title}
+                className="rounded-3xl border border-white/10 bg-white/5 p-6 transition hover:border-cyan-400/40 hover:bg-white/10"
+              >
+                <h3 className="text-xl font-bold">{business.title}</h3>
+
+                <p className="mt-3 text-sm leading-6 text-slate-400">
+                  {business.description}
+                </p>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        <section className="mt-10 rounded-3xl border border-white/10 bg-white/5 p-6 backdrop-blur">
+          <div className="flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
+            <div>
+              <p className="text-sm font-semibold uppercase tracking-[0.3em] text-cyan-400">
+                Como funciona
+              </p>
+
+              <h2 className="mt-3 text-3xl font-black">
+                Da solicitação até a confirmação.
+              </h2>
+            </div>
+
+            <Link
+              href="/admin"
+              className="rounded-2xl border border-white/10 px-5 py-3 text-center text-sm font-bold text-white transition hover:bg-white/10"
+            >
+              Ver painel admin
+            </Link>
+          </div>
+
+          <div className="mt-6 grid gap-4 lg:grid-cols-3">
+            {howItWorks.map((item) => (
+              <div
+                key={item.step}
+                className="rounded-3xl border border-white/10 bg-slate-950/60 p-6"
+              >
+                <span className="text-sm font-black text-cyan-300">
+                  {item.step}
+                </span>
+
+                <h3 className="mt-4 text-xl font-bold">{item.title}</h3>
+
+                <p className="mt-3 text-sm leading-6 text-slate-400">
+                  {item.description}
+                </p>
+              </div>
+            ))}
+          </div>
+        </section>
 
         <section className="mt-10 rounded-3xl border border-white/10 bg-white/5 p-6 backdrop-blur">
           <h2 className="text-xl font-bold">O que esta demo já faz</h2>
