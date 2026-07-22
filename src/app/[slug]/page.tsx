@@ -1,8 +1,11 @@
-export const dynamic = "force-dynamic";
+import Image from "next/image";
+import Link from "next/link";
+import { notFound } from "next/navigation";
 import { PublicBookingForm } from "@/components/public/PublicBookingForm";
 import { getBusinessBySlug } from "@/services/businesses";
 import { getActiveResourcesByBusinessId } from "@/services/resources";
-import type { PriceUnit } from "@/types/resource";
+
+export const dynamic = "force-dynamic";
 
 type PublicBusinessPageProps = {
   params: Promise<{
@@ -10,20 +13,27 @@ type PublicBusinessPageProps = {
   }>;
 };
 
-const priceUnitLabels: Record<PriceUnit, string> = {
-  night: "noite",
-  day: "dia",
-  service: "serviço",
-  person: "pessoa",
-};
+const hotelGalleryImages = [
+  {
+    src: "/demo/ta-em-casa-park-hotel/galeria-1.jpg",
+    alt: "Área externa do Tá em Casa Park Hotel",
+  },
+  {
+    src: "/demo/ta-em-casa-park-hotel/galeria-2.jpg",
+    alt: "Piscina e área de lazer do Tá em Casa Park Hotel",
+  },
+  {
+    src: "/demo/ta-em-casa-park-hotel/galeria-3.jpg",
+    alt: "Área verde com piscina do Tá em Casa Park Hotel",
+  },
+];
 
-const businessTypeLabels = {
-  pousada: "Hospedagem",
-  vehicle_rental: "Aluguel de veículos",
-  barbershop: "Barbearia",
-  tourism: "Turismo",
-  service: "Serviço",
-};
+function formatPrice(value: number) {
+  return new Intl.NumberFormat("pt-BR", {
+    style: "currency",
+    currency: "BRL",
+  }).format(value);
+}
 
 export default async function PublicBusinessPage({
   params,
@@ -33,134 +43,315 @@ export default async function PublicBusinessPage({
   const business = await getBusinessBySlug(slug);
 
   if (!business) {
+    notFound();
+  }
+
+  const resources = await getActiveResourcesByBusinessId(business.id);
+
+  if (business.slug === "ta-em-casa-park-hotel") {
     return (
-      <main className="min-h-screen bg-slate-950 px-6 py-20 text-white">
-        <section className="mx-auto max-w-4xl">
-          <p className="mb-3 text-sm font-semibold uppercase tracking-[0.3em] text-red-400">
-            PWPE Reservas
-          </p>
+      <main className="min-h-screen bg-[#FFF7E8] text-[#1F1A17]">
+        <section className="relative overflow-hidden bg-[#7A0909] text-white">
+          <div className="absolute inset-0">
+            <Image
+              src="/demo/ta-em-casa-park-hotel/hero.jpg"
+              alt="Área de lazer do Tá em Casa Park Hotel"
+              fill
+              priority
+              className="object-cover opacity-45"
+            />
+            <div className="absolute inset-0 bg-gradient-to-br from-[#7A0909]/95 via-[#7A0909]/75 to-[#0B5D2A]/80" />
+          </div>
 
-          <h1 className="text-4xl font-bold">Negócio não encontrado</h1>
+          <div className="relative mx-auto grid min-h-[720px] w-full max-w-6xl items-center gap-10 px-4 py-16 sm:px-6 lg:grid-cols-[1fr_420px] lg:px-8">
+            <div>
+              <Link
+                href="/"
+                className="inline-flex rounded-full border border-white/20 bg-white/10 px-4 py-2 text-sm font-bold text-white backdrop-blur transition hover:bg-white/20"
+              >
+                ← PWPE Reservas
+              </Link>
 
-          <p className="mt-4 text-slate-300">
-            Não foi possível carregar as informações deste negócio.
-          </p>
+              <p className="mt-8 text-sm font-black uppercase tracking-[0.35em] text-[#F6D77A]">
+                Lagoa do Mato · Itatira · Ceará
+              </p>
+
+              <h1 className="mt-5 max-w-3xl text-5xl font-black tracking-tight sm:text-7xl">
+                Tá em Casa Park Hotel
+              </h1>
+
+              <p className="mt-6 max-w-2xl text-lg leading-8 text-white/85">
+                Hotel com área verde, piscina, espaço de lazer e atendimento
+                direto pelo WhatsApp para solicitações de reserva.
+              </p>
+
+              <div className="mt-8 flex flex-col gap-3 sm:flex-row">
+                <a
+                  href="#reservar"
+                  className="rounded-2xl bg-[#F6D77A] px-6 py-3 text-center font-black text-[#4A0606] shadow-xl shadow-black/20 transition hover:-translate-y-0.5 hover:bg-[#FFE89A]"
+                >
+                  Solicitar reserva
+                </a>
+
+                <a
+                  href="https://wa.me/5588981011427?text=Ol%C3%A1%2C%20quero%20fazer%20uma%20reserva%20no%20T%C3%A1%20em%20Casa%20Park%20Hotel."
+                  target="_blank"
+                  rel="noreferrer"
+                  className="rounded-2xl border border-white/20 bg-white/10 px-6 py-3 text-center font-bold text-white backdrop-blur transition hover:-translate-y-0.5 hover:bg-white/20"
+                >
+                  Falar no WhatsApp
+                </a>
+              </div>
+
+              <div className="mt-8 flex flex-wrap gap-2">
+                {[
+                  "15 quartos",
+                  "Piscina",
+                  "Área verde",
+                  "Reservas pelo WhatsApp",
+                ].map((item) => (
+                  <span
+                    key={item}
+                    className="rounded-full border border-white/20 bg-white/10 px-4 py-2 text-sm font-bold text-white backdrop-blur"
+                  >
+                    {item}
+                  </span>
+                ))}
+              </div>
+            </div>
+
+            <div className="rounded-[2rem] border border-white/20 bg-white/15 p-4 shadow-2xl shadow-black/30 backdrop-blur">
+              <div className="overflow-hidden rounded-[1.5rem] bg-white">
+                <Image
+                  src="/demo/ta-em-casa-park-hotel/logo.jpg"
+                  alt="Logo Tá em Casa Park Hotel"
+                  width={900}
+                  height={1200}
+                  className="h-auto w-full object-cover"
+                />
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section className="mx-auto w-full max-w-6xl px-4 py-14 sm:px-6 lg:px-8">
+          <div className="grid gap-6 lg:grid-cols-[1fr_0.8fr]">
+            <div>
+              <p className="text-sm font-black uppercase tracking-[0.3em] text-[#C90000]">
+                Sobre o hotel
+              </p>
+
+              <h2 className="mt-4 text-4xl font-black">
+                Um espaço para descansar, aproveitar a piscina e curtir com a
+                família.
+              </h2>
+
+              <p className="mt-5 text-lg leading-8 text-[#4D4038]">
+                O Tá em Casa Park Hotel fica em Lagoa do Mato, Itatira - CE, e
+                conta com estrutura de lazer, área externa e quartos para
+                hospedagem com solicitação de reserva direta.
+              </p>
+            </div>
+
+            <div className="rounded-[2rem] border border-[#E8D8BD] bg-white p-6 shadow-xl shadow-[#6B3A00]/5">
+              <h3 className="text-2xl font-black">Informações</h3>
+
+              <div className="mt-5 space-y-4 text-[#4D4038]">
+                <div>
+                  <p className="text-sm font-bold text-[#C90000]">Local</p>
+                  <p>Lagoa do Mato, Itatira - Ceará</p>
+                </div>
+
+                <div>
+                  <p className="text-sm font-bold text-[#C90000]">WhatsApp</p>
+                  <p>(88) 98101-1427</p>
+                </div>
+
+                <div>
+                  <p className="text-sm font-bold text-[#C90000]">Instagram</p>
+                  <p>@taemcasaparkhotel</p>
+                </div>
+
+                <div>
+                  <p className="text-sm font-bold text-[#C90000]">Reservas</p>
+                  <p>Solicitação direta pelo site e confirmação pelo WhatsApp.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section className="mx-auto w-full max-w-6xl px-4 pb-14 sm:px-6 lg:px-8">
+          <div className="grid gap-4 md:grid-cols-3">
+            {hotelGalleryImages.map((image) => (
+              <div
+                key={image.src}
+                className="relative h-80 overflow-hidden rounded-[2rem] shadow-xl shadow-[#6B3A00]/10"
+              >
+                <Image
+                  src={image.src}
+                  alt={image.alt}
+                  fill
+                  className="object-cover transition duration-500 hover:scale-105"
+                />
+              </div>
+            ))}
+          </div>
+        </section>
+
+        <section className="bg-[#0B5D2A] py-14 text-white">
+          <div className="mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-8">
+            <p className="text-sm font-black uppercase tracking-[0.3em] text-[#F6D77A]">
+              Acomodações
+            </p>
+
+            <h2 className="mt-4 text-4xl font-black">
+              Quartos disponíveis para solicitação de reserva.
+            </h2>
+
+            <div className="mt-8 grid gap-5 md:grid-cols-2">
+              {resources.map((resource) => (
+                <article
+                  key={resource.id}
+                  className="rounded-[2rem] border border-white/15 bg-white/10 p-6 backdrop-blur"
+                >
+                  <h3 className="text-2xl font-black">{resource.name}</h3>
+
+                  <p className="mt-3 text-sm leading-6 text-white/75">
+                    {resource.description}
+                  </p>
+
+                  <div className="mt-5 flex flex-wrap items-center gap-3">
+                    {resource.capacity ? (
+                      <span className="rounded-full bg-white/10 px-4 py-2 text-sm font-bold">
+                        Até {resource.capacity} pessoas
+                      </span>
+                    ) : null}
+
+                    <span className="rounded-full bg-[#F6D77A] px-4 py-2 text-sm font-black text-[#4A0606]">
+                      {formatPrice(resource.price)} / diária
+                    </span>
+                  </div>
+                </article>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        <section
+          id="reservar"
+          className="mx-auto grid w-full max-w-6xl gap-8 px-4 py-14 sm:px-6 lg:grid-cols-[0.85fr_1fr] lg:px-8"
+        >
+          <div>
+            <p className="text-sm font-black uppercase tracking-[0.3em] text-[#C90000]">
+              Reserva
+            </p>
+
+            <h2 className="mt-4 text-4xl font-black">
+              Solicite sua reserva pelo formulário.
+            </h2>
+
+            <p className="mt-5 text-lg leading-8 text-[#4D4038]">
+              Preencha seus dados, escolha as datas e envie a solicitação. O
+              hotel recebe o pedido e pode continuar o atendimento pelo
+              WhatsApp.
+            </p>
+
+            <div className="mt-6 rounded-[2rem] border border-[#E8D8BD] bg-white p-6 shadow-xl shadow-[#6B3A00]/5">
+              <h3 className="text-xl font-black">Como funciona</h3>
+
+              <div className="mt-5 space-y-4 text-sm text-[#4D4038]">
+                <p>
+                  <span className="font-black text-[#C90000]">1.</span> Escolha
+                  o quarto e as datas.
+                </p>
+                <p>
+                  <span className="font-black text-[#C90000]">2.</span> Envie a
+                  solicitação de reserva.
+                </p>
+                <p>
+                  <span className="font-black text-[#C90000]">3.</span> Continue
+                  a conversa pelo WhatsApp.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div className="rounded-[2rem] border border-[#E8D8BD] bg-white p-4 shadow-2xl shadow-[#6B3A00]/10">
+            <PublicBookingForm
+              businessId={business.id}
+              businessName={business.name}
+              businessWhatsapp={business.whatsapp}
+              bookingMode={business.bookingMode}
+              resources={resources}
+            />
+          </div>
         </section>
       </main>
     );
   }
 
-  const activeResources = await getActiveResourcesByBusinessId(business.id);
-
   return (
-    <main className="min-h-screen bg-slate-50 text-slate-900">
-      <section className="bg-slate-950 text-white">
-        <div className="mx-auto flex min-h-[70vh] max-w-6xl flex-col justify-center px-6 py-20">
-          <p className="mb-4 text-sm font-semibold uppercase tracking-[0.3em] text-cyan-400">
-            {businessTypeLabels[business.businessType]} em {business.city}
+    <main className="min-h-screen bg-slate-950 text-white">
+      <section className="mx-auto w-full max-w-5xl px-4 py-16 sm:px-6 lg:px-8">
+        <Link
+          href="/"
+          className="inline-flex rounded-full border border-white/10 bg-white/5 px-4 py-2 text-sm font-bold text-slate-300 transition hover:bg-white/10"
+        >
+          ← PWPE Reservas
+        </Link>
+
+        <div className="mt-10 rounded-[2rem] border border-white/10 bg-white/5 p-8">
+          <p className="text-sm font-semibold uppercase tracking-[0.3em] text-cyan-400">
+            Reservas online
           </p>
 
-          <h1 className="max-w-3xl text-4xl font-bold tracking-tight sm:text-6xl">
-            {business.name}
-          </h1>
+          <h1 className="mt-4 text-5xl font-black">{business.name}</h1>
 
-          <p className="mt-6 max-w-2xl text-lg leading-8 text-slate-300">
-            {business.description} Consulte disponibilidade e solicite sua
-            reserva diretamente pelo WhatsApp.
+          <p className="mt-5 max-w-3xl text-lg leading-8 text-slate-300">
+            {business.description}
           </p>
 
-          <div className="mt-10 flex flex-col gap-4 sm:flex-row">
-            <a
-              href="#reserva"
-              className="rounded-full bg-cyan-400 px-6 py-3 text-sm font-semibold text-slate-950 transition hover:bg-cyan-300"
-            >
-              Solicitar reserva
-            </a>
+          <div className="mt-6 flex flex-wrap gap-2">
+            <span className="rounded-full border border-white/10 bg-white/5 px-4 py-2 text-sm font-semibold text-slate-300">
+              {business.city} - {business.state}
+            </span>
 
-            <a
-              href="#recursos"
-              className="rounded-full border border-white/20 px-6 py-3 text-sm font-semibold text-white transition hover:bg-white/10"
-            >
-              Ver opções
-            </a>
+            <span className="rounded-full border border-white/10 bg-white/5 px-4 py-2 text-sm font-semibold text-slate-300">
+              Atendimento pelo WhatsApp
+            </span>
           </div>
         </div>
-      </section>
 
-      <section id="recursos" className="mx-auto max-w-6xl px-6 py-16">
-        <p className="mb-3 text-sm font-semibold uppercase tracking-[0.3em] text-cyan-600">
-          Opções
-        </p>
+        <div className="mt-8 grid gap-5 md:grid-cols-2">
+          {resources.map((resource) => (
+            <article
+              key={resource.id}
+              className="rounded-3xl border border-white/10 bg-white/5 p-6"
+            >
+              <h2 className="text-2xl font-bold">{resource.name}</h2>
 
-        <h2 className="text-3xl font-bold">Escolha uma opção</h2>
+              <p className="mt-3 text-sm leading-6 text-slate-400">
+                {resource.description}
+              </p>
 
-        <p className="mt-4 max-w-2xl text-slate-600">
-          Confira as opções disponíveis para reserva.
-        </p>
+              <p className="mt-5 text-xl font-black text-cyan-300">
+                {formatPrice(resource.price)}
+              </p>
+            </article>
+          ))}
+        </div>
 
-        {activeResources.length === 0 ? (
-          <div className="mt-10 rounded-2xl border border-slate-200 bg-white p-6 text-slate-600">
-            Nenhuma opção disponível no momento.
-          </div>
-        ) : (
-          <div className="mt-10 grid gap-6 md:grid-cols-3">
-            {activeResources.map((resource) => (
-              <article
-                key={resource.id}
-                className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm"
-              >
-                {resource.capacity ? (
-                  <p className="text-sm font-semibold text-cyan-600">
-                    Até {resource.capacity} pessoas
-                  </p>
-                ) : null}
-
-                <h3 className="mt-3 text-xl font-bold">{resource.name}</h3>
-
-                <p className="mt-3 text-sm leading-6 text-slate-600">
-                  {resource.description}
-                </p>
-
-                <p className="mt-5 text-lg font-bold">
-                  R$ {resource.price.toFixed(2)} /{" "}
-                  {priceUnitLabels[resource.priceUnit]}
-                </p>
-              </article>
-            ))}
-          </div>
-        )}
-      </section>
-
-      <section id="reserva" className="bg-white">
-        <div className="mx-auto max-w-6xl px-6 py-16">
-          <p className="mb-3 text-sm font-semibold uppercase tracking-[0.3em] text-cyan-600">
-            Reserva
-          </p>
-
-          <h2 className="text-3xl font-bold">Solicitar reserva</h2>
-
-          <p className="mt-4 max-w-2xl text-slate-600">
-            Preencha os dados abaixo para abrir uma mensagem pronta no WhatsApp
-            do negócio.
-          </p>
-
+        <section className="mt-8 rounded-[2rem] border border-white/10 bg-white p-4 text-slate-950">
           <PublicBookingForm
-  businessId={business.id}
-  businessName={business.name}
-  businessWhatsapp={business.whatsapp}
-  bookingMode={business.bookingMode}
-  resources={activeResources}
-/>
-        </div>
+            businessId={business.id}
+            businessName={business.name}
+            businessWhatsapp={business.whatsapp}
+            bookingMode={business.bookingMode}
+            resources={resources}
+          />
+        </section>
       </section>
-
-      <footer className="border-t border-slate-200 bg-slate-50">
-        <div className="mx-auto flex max-w-6xl flex-col gap-3 px-6 py-8 text-sm text-slate-600 sm:flex-row sm:items-center sm:justify-between">
-          <p>{business.name}</p>
-          <p>{business.address}</p>
-          <p>WhatsApp: {business.whatsapp}</p>
-        </div>
-      </footer>
     </main>
   );
 }
