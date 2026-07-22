@@ -183,64 +183,64 @@ export default async function PublicBusinessPage({
         </section>
 
         <section className="mx-auto w-full max-w-6xl px-4 pb-14 sm:px-6 lg:px-8">
-  <div className="mb-6 flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
-    <div>
-      <p className="text-sm font-black uppercase tracking-[0.3em] text-[#C90000]">
-        Galeria
-      </p>
+          <div className="mb-6 flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
+            <div>
+              <p className="text-sm font-black uppercase tracking-[0.3em] text-[#C90000]">
+                Galeria
+              </p>
 
-      <h2 className="mt-3 text-3xl font-black">
-        Conheça a área externa do hotel.
-      </h2>
-    </div>
+              <h2 className="mt-3 text-3xl font-black">
+                Conheça a área externa do hotel.
+              </h2>
+            </div>
 
-    <p className="text-sm font-semibold text-[#4D4038]">
-      Clique nas fotos para ampliar
-    </p>
-  </div>
+            <p className="text-sm font-semibold text-[#4D4038]">
+              Clique nas fotos para ampliar
+            </p>
+          </div>
 
-  <section className="mx-auto w-full max-w-6xl px-4 pb-14 sm:px-6 lg:px-8">
-  <div className="grid gap-6 lg:grid-cols-[0.85fr_1fr] lg:items-stretch">
-    <div className="rounded-[2rem] border border-[#E8D8BD] bg-white p-6 shadow-xl shadow-[#6B3A00]/5">
-      <p className="text-sm font-black uppercase tracking-[0.3em] text-[#C90000]">
-        Localização
-      </p>
+          <section className="mx-auto w-full max-w-6xl px-4 pb-14 sm:px-6 lg:px-8">
+            <div className="grid gap-6 lg:grid-cols-[0.85fr_1fr] lg:items-stretch">
+              <div className="rounded-[2rem] border border-[#E8D8BD] bg-white p-6 shadow-xl shadow-[#6B3A00]/5">
+                <p className="text-sm font-black uppercase tracking-[0.3em] text-[#C90000]">
+                  Localização
+                </p>
 
-      <h2 className="mt-4 text-3xl font-black">
-        Estamos em Lagoa do Mato, Itatira - CE.
-      </h2>
+                <h2 className="mt-4 text-3xl font-black">
+                  Estamos em Lagoa do Mato, Itatira - CE.
+                </h2>
 
-      <p className="mt-4 leading-7 text-[#4D4038]">
-        O Tá em Casa Park Hotel fica em uma área tranquila, com espaço verde,
-        piscina e estrutura para receber hóspedes e famílias.
-      </p>
+                <p className="mt-4 leading-7 text-[#4D4038]">
+                  O Tá em Casa Park Hotel fica em uma área tranquila, com espaço verde,
+                  piscina e estrutura para receber hóspedes e famílias.
+                </p>
 
-      <a
-        href="https://maps.app.goo.gl/VWyXANfr8R98qZqU9"
-        target="_blank"
-        rel="noreferrer"
-        className="mt-6 inline-flex rounded-2xl bg-[#0B5D2A] px-5 py-3 text-center font-black text-white transition hover:-translate-y-0.5 hover:bg-[#0A4D24]"
-      >
-        Abrir no Google Maps
-      </a>
-    </div>
+                <a
+                  href="https://maps.app.goo.gl/VWyXANfr8R98qZqU9"
+                  target="_blank"
+                  rel="noreferrer"
+                  className="mt-6 inline-flex rounded-2xl bg-[#0B5D2A] px-5 py-3 text-center font-black text-white transition hover:-translate-y-0.5 hover:bg-[#0A4D24]"
+                >
+                  Abrir no Google Maps
+                </a>
+              </div>
 
-    <div className="overflow-hidden rounded-[2rem] border border-[#E8D8BD] bg-white shadow-xl shadow-[#6B3A00]/10">
-      <iframe
-        title="Localização do Tá em Casa Park Hotel"
-        src="https://www.google.com/maps?q=-4.65563,-39.673691&z=15&output=embed"
-        className="h-[360px] w-full border-0"
-        loading="lazy"
-        referrerPolicy="no-referrer-when-downgrade"
-      />
-    </div>
-  </div>
-</section>
+              <div className="overflow-hidden rounded-[2rem] border border-[#E8D8BD] bg-white shadow-xl shadow-[#6B3A00]/10">
+                <iframe
+                  title="Localização do Tá em Casa Park Hotel"
+                  src="https://www.google.com/maps?q=-4.65563,-39.673691&z=15&output=embed"
+                  className="h-[360px] w-full border-0"
+                  loading="lazy"
+                  referrerPolicy="no-referrer-when-downgrade"
+                />
+              </div>
+            </div>
+          </section>
 
-  <HotelGallery images={hotelGalleryImages} />
-</section>
+          <HotelGallery images={hotelGalleryImages} />
+        </section>
 
-       <section className="bg-[#FFF7E8] py-14 text-[#1F1A17]">
+        <section className="bg-[#FFF7E8] py-14 text-[#1F1A17]">
           <div className="mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-8">
             <p className="text-sm font-black uppercase tracking-[0.3em] text-[#C90000]">
               Acomodações
@@ -281,9 +281,9 @@ export default async function PublicBusinessPage({
 
         <section
           id="reservar"
-          className="mx-auto grid w-full max-w-6xl gap-8 px-4 py-14 sm:px-6 lg:grid-cols-[0.85fr_1fr] lg:px-8"
+          className="mx-auto w-full max-w-6xl px-4 py-14 sm:px-6 lg:px-8"
         >
-          <div>
+          <div className="mx-auto max-w-3xl text-center">
             <p className="text-sm font-black uppercase tracking-[0.3em] text-[#C90000]">
               Reserva
             </p>
@@ -293,32 +293,12 @@ export default async function PublicBusinessPage({
             </h2>
 
             <p className="mt-5 text-lg leading-8 text-[#4D4038]">
-              Preencha seus dados, escolha as datas e envie a solicitação. O
-              hotel recebe o pedido e pode continuar o atendimento pelo
-              WhatsApp.
+              Preencha seus dados, escolha as datas, selecione uma acomodação e envie a
+              solicitação direto pelo WhatsApp.
             </p>
-
-            <div className="mt-6 rounded-[2rem] border border-[#E8D8BD] bg-white p-6 shadow-xl shadow-[#6B3A00]/5">
-              <h3 className="text-xl font-black">Como funciona</h3>
-
-              <div className="mt-5 space-y-4 text-sm text-[#4D4038]">
-                <p>
-                  <span className="font-black text-[#C90000]">1.</span> Escolha
-                  o quarto e as datas.
-                </p>
-                <p>
-                  <span className="font-black text-[#C90000]">2.</span> Envie a
-                  solicitação de reserva.
-                </p>
-                <p>
-                  <span className="font-black text-[#C90000]">3.</span> Continue
-                  a conversa pelo WhatsApp.
-                </p>
-              </div>
-            </div>
           </div>
 
-          <div className="rounded-[2rem] border border-[#E8D8BD] bg-white p-4 shadow-2xl shadow-[#6B3A00]/10">
+          <div className="mx-auto mt-8 max-w-3xl rounded-[2rem] border border-[#E8D8BD] bg-white p-4 shadow-2xl shadow-[#6B3A00]/10">
             <PublicBookingForm
               businessId={business.id}
               businessName={business.name}
@@ -326,6 +306,29 @@ export default async function PublicBusinessPage({
               bookingMode={business.bookingMode}
               resources={resources}
             />
+          </div>
+
+          <div className="mx-auto mt-8 grid max-w-3xl gap-4 md:grid-cols-3">
+            <div className="rounded-2xl border border-[#E8D8BD] bg-white p-5 text-center shadow-lg shadow-[#6B3A00]/5">
+              <p className="text-lg font-black text-[#C90000]">1</p>
+              <p className="mt-2 text-sm font-bold text-[#1F1A17]">
+                Escolha o quarto e as datas
+              </p>
+            </div>
+
+            <div className="rounded-2xl border border-[#E8D8BD] bg-white p-5 text-center shadow-lg shadow-[#6B3A00]/5">
+              <p className="text-lg font-black text-[#C90000]">2</p>
+              <p className="mt-2 text-sm font-bold text-[#1F1A17]">
+                Envie a solicitação
+              </p>
+            </div>
+
+            <div className="rounded-2xl border border-[#E8D8BD] bg-white p-5 text-center shadow-lg shadow-[#6B3A00]/5">
+              <p className="text-lg font-black text-[#C90000]">3</p>
+              <p className="mt-2 text-sm font-bold text-[#1F1A17]">
+                Aguarde confirmação
+              </p>
+            </div>
           </div>
         </section>
       </main>
