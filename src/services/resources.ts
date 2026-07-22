@@ -109,3 +109,51 @@ export async function createResource(
 
   return true;
 }
+export async function getResourceById(id: string): Promise<Resource | null> {
+  const { data, error } = await supabase
+    .from("resources")
+    .select(
+      `
+      *,
+      businesses (
+        name
+      )
+    `,
+    )
+    .eq("id", id)
+    .single();
+
+  if (error) {
+    console.error("Erro ao buscar recurso:", error);
+    return null;
+  }
+
+  return mapResourceRowToResource(data as ResourceRow);
+}
+
+export type UpdateResourceInput = {
+  id: string;
+  name: string;
+  description: string;
+  capacity?: number;
+  price: number;
+  isActive: boolean;
+};
+
+export async function updateResource(input: UpdateResourceInput) {
+  const { error } = await supabase
+    .from("resources")
+    .update({
+      name: input.name,
+      description: input.description,
+      capacity: input.capacity ?? null,
+      price: input.price,
+      is_active: input.isActive,
+    })
+    .eq("id", input.id);
+
+  if (error) {
+    console.error("Erro ao atualizar recurso:", error);
+    throw new Error("Não foi possível atualizar o recurso.");
+  }
+}
