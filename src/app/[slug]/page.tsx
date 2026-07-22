@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { PublicBookingForm } from "@/components/public/PublicBookingForm";
+import { HotelGallery } from "@/components/public/HotelGallery";
 import { getBusinessBySlug } from "@/services/businesses";
 import { getActiveResourcesByBusinessId } from "@/services/resources";
 
@@ -182,22 +183,24 @@ export default async function PublicBusinessPage({
         </section>
 
         <section className="mx-auto w-full max-w-6xl px-4 pb-14 sm:px-6 lg:px-8">
-          <div className="grid gap-4 md:grid-cols-3">
-            {hotelGalleryImages.map((image) => (
-              <div
-                key={image.src}
-                className="relative h-80 overflow-hidden rounded-[2rem] shadow-xl shadow-[#6B3A00]/10"
-              >
-                <Image
-                  src={image.src}
-                  alt={image.alt}
-                  fill
-                  className="object-cover transition duration-500 hover:scale-105"
-                />
-              </div>
-            ))}
-          </div>
-        </section>
+  <div className="mb-6 flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
+    <div>
+      <p className="text-sm font-black uppercase tracking-[0.3em] text-[#C90000]">
+        Galeria
+      </p>
+
+      <h2 className="mt-3 text-3xl font-black">
+        Conheça a área externa do hotel.
+      </h2>
+    </div>
+
+    <p className="text-sm font-semibold text-[#4D4038]">
+      Clique nas fotos para ampliar
+    </p>
+  </div>
+
+  <HotelGallery images={hotelGalleryImages} />
+</section>
 
         <section className="bg-[#0B5D2A] py-14 text-white">
           <div className="mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-8">
