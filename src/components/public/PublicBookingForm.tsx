@@ -332,28 +332,63 @@ export function PublicBookingForm({
         )}
 
         <div>
-          <label className="text-sm font-black text-[#1F1A17]">
-            {bookingMode === "period" ? "Acomodação" : "Serviço"}
-          </label>
+  <label className="text-sm font-black text-[#1F1A17]">
+    {bookingMode === "period" ? "Acomodação" : "Serviço"}
+  </label>
 
-          <select
-            value={selectedResourceId}
-            onChange={(event) => setSelectedResourceId(event.target.value)}
-            className="mt-2 w-full rounded-2xl border border-[#E8D8BD] bg-white px-4 py-3 text-[#1F1A17] outline-none transition focus:border-[#C90000] focus:ring-4 focus:ring-[#C90000]/10"
+  <div className="mt-2 grid gap-3">
+    {resources.length === 0 ? (
+      <div className="rounded-2xl border border-[#E8D8BD] bg-white p-4 text-sm font-semibold text-[#4D4038]">
+        Nenhuma opção disponível no momento.
+      </div>
+    ) : (
+      resources.map((resource) => {
+        const isSelected = selectedResourceId === resource.id;
+
+        return (
+          <button
+            key={resource.id}
+            type="button"
+            onClick={() => setSelectedResourceId(resource.id)}
+            className={`rounded-2xl border p-4 text-left transition ${
+              isSelected
+                ? "border-[#C90000] bg-[#FFF0D6] shadow-lg shadow-[#6B3A00]/10"
+                : "border-[#E8D8BD] bg-white hover:border-[#D4A23A] hover:bg-[#FFF7E8]"
+            }`}
           >
-            <option value="">
-              {bookingMode === "period"
-                ? "Selecione uma acomodação"
-                : "Selecione um serviço"}
-            </option>
+            <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+              <div>
+                <p className="font-black text-[#1F1A17]">{resource.name}</p>
 
-            {resources.map((resource) => (
-              <option key={resource.id} value={resource.id}>
-                {resource.name} - {formatPrice(resource.price)}
-              </option>
-            ))}
-          </select>
-        </div>
+                {resource.description ? (
+                  <p className="mt-1 text-sm leading-5 text-[#4D4038]">
+                    {resource.description}
+                  </p>
+                ) : null}
+              </div>
+
+              <span
+                className={`shrink-0 rounded-full px-4 py-2 text-sm font-black ${
+                  isSelected
+                    ? "bg-[#C90000] text-white"
+                    : "bg-[#F6D77A] text-[#4A0606]"
+                }`}
+              >
+                {formatPrice(resource.price)}
+              </span>
+            </div>
+
+            {resource.capacity ? (
+              <p className="mt-3 text-xs font-bold uppercase tracking-[0.15em] text-[#0B5D2A]">
+                Até {resource.capacity} pessoas
+              </p>
+            ) : null}
+          </button>
+        );
+      })
+    )}
+  </div>
+</div>
 
         {bookingMode === "period" ? (
           <div>
