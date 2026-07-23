@@ -51,7 +51,7 @@ export default async function PublicBusinessPage({
 
   if (business.slug === "ta-em-casa-park-hotel") {
     return (
-      <main className="min-h-screen bg-[#FFF7E8] text-[#1F1A17]">
+      <main className="min-h-screen overflow-x-hidden bg-[#FFF7E8] text-[#1F1A17]">
         <section className="relative overflow-hidden bg-[#7A0909] text-white">
           <div className="absolute inset-0">
             <Image
@@ -65,7 +65,7 @@ export default async function PublicBusinessPage({
           </div>
 
           <div className="relative mx-auto grid min-h-[720px] w-full max-w-6xl items-center gap-10 px-4 py-16 sm:px-6 lg:grid-cols-[1fr_420px] lg:px-8">
-            <div>
+            <div className="min-w-0">
               <Link
                 href="/"
                 className="inline-flex rounded-full border border-white/20 bg-white/10 px-4 py-2 text-sm font-bold text-white backdrop-blur transition hover:bg-white/20"
@@ -200,6 +200,44 @@ export default async function PublicBusinessPage({
         </section>
 
         <section className="mx-auto w-full max-w-6xl px-4 pb-14 sm:px-6 lg:px-8">
+          <div className="grid gap-6 lg:grid-cols-[0.85fr_1fr] lg:items-stretch">
+            <div className="rounded-[2rem] border border-[#E8D8BD] bg-white p-6 shadow-xl shadow-[#6B3A00]/5">
+              <p className="text-sm font-black uppercase tracking-[0.3em] text-[#C90000]">
+                Localização
+              </p>
+
+              <h2 className="mt-4 text-3xl font-black">
+                Estamos em Lagoa do Mato, Itatira - CE.
+              </h2>
+
+              <p className="mt-4 leading-7 text-[#4D4038]">
+                O Tá em Casa Park Hotel fica em uma área tranquila, com espaço
+                verde, piscina e estrutura para receber hóspedes e famílias.
+              </p>
+
+              <a
+                href="https://maps.app.goo.gl/VWyXANfr8R98qZqU9"
+                target="_blank"
+                rel="noreferrer"
+                className="mt-6 inline-flex rounded-2xl bg-[#0B5D2A] px-5 py-3 text-center font-black text-white transition hover:-translate-y-0.5 hover:bg-[#0A4D24]"
+              >
+                Abrir no Google Maps
+              </a>
+            </div>
+
+            <div className="overflow-hidden rounded-[2rem] border border-[#E8D8BD] bg-white shadow-xl shadow-[#6B3A00]/10">
+              <iframe
+                title="Localização do Tá em Casa Park Hotel"
+                src="https://www.google.com/maps?q=-4.65563,-39.673691&z=15&output=embed"
+                className="h-[360px] w-full border-0"
+                loading="lazy"
+                referrerPolicy="no-referrer-when-downgrade"
+              />
+            </div>
+          </div>
+        </section>
+
+        <section className="mx-auto w-full max-w-6xl px-4 pb-14 sm:px-6 lg:px-8">
           <div className="mb-6 flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
             <div>
               <p className="text-sm font-black uppercase tracking-[0.3em] text-[#C90000]">
@@ -215,44 +253,6 @@ export default async function PublicBusinessPage({
               Clique nas fotos para ampliar
             </p>
           </div>
-
-          <section className="mx-auto w-full max-w-6xl px-4 pb-14 sm:px-6 lg:px-8">
-            <div className="grid gap-6 lg:grid-cols-[0.85fr_1fr] lg:items-stretch">
-              <div className="rounded-[2rem] border border-[#E8D8BD] bg-white p-6 shadow-xl shadow-[#6B3A00]/5">
-                <p className="text-sm font-black uppercase tracking-[0.3em] text-[#C90000]">
-                  Localização
-                </p>
-
-                <h2 className="mt-4 text-3xl font-black">
-                  Estamos em Lagoa do Mato, Itatira - CE.
-                </h2>
-
-                <p className="mt-4 leading-7 text-[#4D4038]">
-                  O Tá em Casa Park Hotel fica em uma área tranquila, com espaço verde,
-                  piscina e estrutura para receber hóspedes e famílias.
-                </p>
-
-                <a
-                  href="https://maps.app.goo.gl/VWyXANfr8R98qZqU9"
-                  target="_blank"
-                  rel="noreferrer"
-                  className="mt-6 inline-flex rounded-2xl bg-[#0B5D2A] px-5 py-3 text-center font-black text-white transition hover:-translate-y-0.5 hover:bg-[#0A4D24]"
-                >
-                  Abrir no Google Maps
-                </a>
-              </div>
-
-              <div className="overflow-hidden rounded-[2rem] border border-[#E8D8BD] bg-white shadow-xl shadow-[#6B3A00]/10">
-                <iframe
-                  title="Localização do Tá em Casa Park Hotel"
-                  src="https://www.google.com/maps?q=-4.65563,-39.673691&z=15&output=embed"
-                  className="h-[360px] w-full border-0"
-                  loading="lazy"
-                  referrerPolicy="no-referrer-when-downgrade"
-                />
-              </div>
-            </div>
-          </section>
 
           <HotelGallery images={hotelGalleryImages} />
         </section>
@@ -310,10 +310,11 @@ export default async function PublicBusinessPage({
             </h2>
 
             <p className="mt-5 text-lg leading-8 text-[#4D4038]">
-              Preencha seus dados, escolha as datas, selecione uma acomodação e envie a
-              solicitação direto pelo WhatsApp.
+              Preencha seus dados, escolha as datas, selecione uma acomodação e
+              envie a solicitação direto pelo WhatsApp.
             </p>
           </div>
+
           <div className="mx-auto mt-8 w-full max-w-3xl min-w-0 overflow-hidden rounded-[2rem] border border-[#E8D8BD] bg-white p-2 shadow-2xl shadow-[#6B3A00]/10 sm:p-4">
             <PublicBookingForm
               businessId={business.id}
