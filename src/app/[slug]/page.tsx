@@ -369,12 +369,7 @@ export default async function PublicBusinessPage({
                 </span>
               </p>
 
-              <a
-                href="/login"
-                className="font-bold text-[#F6D77A] transition hover:text-white"
-              >
-                Acessar painel administrativo
-              </a>
+          
             </div>
           </div>
         </footer>
