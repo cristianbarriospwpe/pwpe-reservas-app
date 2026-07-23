@@ -104,6 +104,15 @@ export default async function PublicBusinessPage({
                 </a>
               </div>
 
+              <a
+                href="https://www.instagram.com/taemcasaparkhotel/"
+                target="_blank"
+                rel="noreferrer"
+                className="rounded-2xl border border-white/20 bg-white/10 px-6 py-3 text-center font-bold text-white backdrop-blur transition hover:-translate-y-0.5 hover:bg-white/20"
+              >
+                Ver Instagram
+              </a>
+
               <div className="mt-8 flex flex-wrap gap-2">
                 {[
                   "15 quartos",
@@ -170,7 +179,15 @@ export default async function PublicBusinessPage({
 
                 <div>
                   <p className="text-sm font-bold text-[#C90000]">Instagram</p>
-                  <p>@taemcasaparkhotel</p>
+
+                  <a
+                    href="https://www.instagram.com/taemcasaparkhotel/"
+                    target="_blank"
+                    rel="noreferrer"
+                    className="font-bold text-[#0B5D2A] underline decoration-[#D4A23A] underline-offset-4 transition hover:text-[#C90000]"
+                  >
+                    @taemcasaparkhotel
+                  </a>
                 </div>
 
                 <div>
@@ -297,8 +314,7 @@ export default async function PublicBusinessPage({
               solicitação direto pelo WhatsApp.
             </p>
           </div>
-
-          <div className="mx-auto mt-8 max-w-3xl rounded-[2rem] border border-[#E8D8BD] bg-white p-4 shadow-2xl shadow-[#6B3A00]/10">
+          <div className="mx-auto mt-8 w-full max-w-3xl min-w-0 overflow-hidden rounded-[2rem] border border-[#E8D8BD] bg-white p-2 shadow-2xl shadow-[#6B3A00]/10 sm:p-4">
             <PublicBookingForm
               businessId={business.id}
               businessName={business.name}

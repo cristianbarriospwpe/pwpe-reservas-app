@@ -237,14 +237,14 @@ export function PublicBookingForm({
   return (
     <form
       onSubmit={handleSubmit}
-      className="rounded-[1.5rem] border border-[#E8D8BD] bg-[#FFF7E8] p-5 text-[#1F1A17] shadow-2xl shadow-[#6B3A00]/10"
+      className="w-full min-w-0 overflow-hidden rounded-[1.5rem] border border-[#E8D8BD] bg-[#FFF7E8] p-4 text-[#1F1A17] shadow-2xl shadow-[#6B3A00]/10 sm:p-5"
     >
-      <div>
-        <p className="text-sm font-black uppercase tracking-[0.3em] text-[#C90000]">
+      <div className="min-w-0">
+        <p className="text-xs font-black uppercase tracking-[0.28em] text-[#C90000] sm:text-sm">
           Solicitar reserva
         </p>
 
-        <h3 className="mt-3 text-2xl font-black text-[#1F1A17]">
+        <h3 className="mt-3 break-words text-2xl font-black text-[#1F1A17]">
           {businessName}
         </h3>
 
@@ -265,8 +265,8 @@ export function PublicBookingForm({
         </div>
       ) : null}
 
-      <div className="mt-6 grid gap-4">
-        <div>
+      <div className="mt-6 grid min-w-0 gap-4">
+        <div className="min-w-0">
           <label className="text-sm font-black text-[#1F1A17]">Nome</label>
 
           <input
@@ -274,11 +274,11 @@ export function PublicBookingForm({
             value={customerName}
             onChange={(event) => setCustomerName(event.target.value)}
             placeholder="Seu nome"
-            className="mt-2 w-full rounded-2xl border border-[#E8D8BD] bg-white px-4 py-3 text-[#1F1A17] outline-none transition placeholder:text-[#8A7B6D] focus:border-[#C90000] focus:ring-4 focus:ring-[#C90000]/10"
+            className="mt-2 w-full min-w-0 rounded-2xl border border-[#E8D8BD] bg-white px-4 py-3 text-[#1F1A17] outline-none transition placeholder:text-[#8A7B6D] focus:border-[#C90000] focus:ring-4 focus:ring-[#C90000]/10"
           />
         </div>
 
-        <div>
+        <div className="min-w-0">
           <label className="text-sm font-black text-[#1F1A17]">
             WhatsApp
           </label>
@@ -288,7 +288,7 @@ export function PublicBookingForm({
             value={customerPhone}
             onChange={(event) => setCustomerPhone(event.target.value)}
             placeholder="Ex: 88999999999"
-            className="mt-2 w-full rounded-2xl border border-[#E8D8BD] bg-white px-4 py-3 text-[#1F1A17] outline-none transition placeholder:text-[#8A7B6D] focus:border-[#C90000] focus:ring-4 focus:ring-[#C90000]/10"
+            className="mt-2 w-full min-w-0 rounded-2xl border border-[#E8D8BD] bg-white px-4 py-3 text-[#1F1A17] outline-none transition placeholder:text-[#8A7B6D] focus:border-[#C90000] focus:ring-4 focus:ring-[#C90000]/10"
           />
         </div>
 
@@ -302,8 +302,8 @@ export function PublicBookingForm({
             }}
           />
         ) : (
-          <div className="grid gap-4 sm:grid-cols-2">
-            <div>
+          <div className="grid min-w-0 gap-4 sm:grid-cols-2">
+            <div className="min-w-0">
               <label className="text-sm font-black text-[#1F1A17]">
                 Data
               </label>
@@ -312,11 +312,11 @@ export function PublicBookingForm({
                 type="date"
                 value={startDate}
                 onChange={(event) => setStartDate(event.target.value)}
-                className="mt-2 w-full rounded-2xl border border-[#E8D8BD] bg-white px-4 py-3 text-[#1F1A17] outline-none transition focus:border-[#C90000] focus:ring-4 focus:ring-[#C90000]/10"
+                className="mt-2 w-full min-w-0 rounded-2xl border border-[#E8D8BD] bg-white px-4 py-3 text-[#1F1A17] outline-none transition focus:border-[#C90000] focus:ring-4 focus:ring-[#C90000]/10"
               />
             </div>
 
-            <div>
+            <div className="min-w-0">
               <label className="text-sm font-black text-[#1F1A17]">
                 Horário
               </label>
@@ -325,18 +325,18 @@ export function PublicBookingForm({
                 type="time"
                 value={startTime}
                 onChange={(event) => setStartTime(event.target.value)}
-                className="mt-2 w-full rounded-2xl border border-[#E8D8BD] bg-white px-4 py-3 text-[#1F1A17] outline-none transition focus:border-[#C90000] focus:ring-4 focus:ring-[#C90000]/10"
+                className="mt-2 w-full min-w-0 rounded-2xl border border-[#E8D8BD] bg-white px-4 py-3 text-[#1F1A17] outline-none transition focus:border-[#C90000] focus:ring-4 focus:ring-[#C90000]/10"
               />
             </div>
           </div>
         )}
 
-        <div>
+        <div className="min-w-0">
           <label className="text-sm font-black text-[#1F1A17]">
             {bookingMode === "period" ? "Acomodação" : "Serviço"}
           </label>
 
-          <div className="mt-2 grid gap-3">
+          <div className="mt-2 grid min-w-0 gap-3">
             {resources.length === 0 ? (
               <div className="rounded-2xl border border-[#E8D8BD] bg-white p-4 text-sm font-semibold text-[#4D4038]">
                 Nenhuma opção disponível no momento.
@@ -350,27 +350,27 @@ export function PublicBookingForm({
                     key={resource.id}
                     type="button"
                     onClick={() => setSelectedResourceId(resource.id)}
-                    className={`rounded-2xl border p-4 text-left transition ${
+                    className={`w-full min-w-0 rounded-2xl border p-4 text-left transition ${
                       isSelected
                         ? "border-[#C90000] bg-[#FFF0D6] shadow-lg shadow-[#6B3A00]/10"
                         : "border-[#E8D8BD] bg-white hover:border-[#D4A23A] hover:bg-[#FFF7E8]"
                     }`}
                   >
-                    <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-                      <div>
-                        <p className="font-black text-[#1F1A17]">
+                    <div className="grid min-w-0 gap-3 sm:grid-cols-[1fr_auto] sm:items-start">
+                      <div className="min-w-0">
+                        <p className="break-words font-black text-[#1F1A17]">
                           {resource.name}
                         </p>
 
                         {resource.description ? (
-                          <p className="mt-1 text-sm leading-5 text-[#4D4038]">
+                          <p className="mt-1 break-words text-sm leading-5 text-[#4D4038]">
                             {resource.description}
                           </p>
                         ) : null}
                       </div>
 
                       <span
-                        className={`shrink-0 rounded-full px-4 py-2 text-sm font-black ${
+                        className={`inline-flex w-full justify-center rounded-full px-4 py-2 text-sm font-black sm:w-auto ${
                           isSelected
                             ? "bg-[#C90000] text-white"
                             : "bg-[#F6D77A] text-[#4A0606]"
@@ -393,7 +393,7 @@ export function PublicBookingForm({
         </div>
 
         {bookingMode === "period" ? (
-          <div>
+          <div className="min-w-0">
             <label className="text-sm font-black text-[#1F1A17]">
               Pessoas
             </label>
@@ -403,12 +403,12 @@ export function PublicBookingForm({
               min="1"
               value={peopleCount}
               onChange={(event) => setPeopleCount(event.target.value)}
-              className="mt-2 w-full rounded-2xl border border-[#E8D8BD] bg-white px-4 py-3 text-[#1F1A17] outline-none transition focus:border-[#C90000] focus:ring-4 focus:ring-[#C90000]/10"
+              className="mt-2 w-full min-w-0 rounded-2xl border border-[#E8D8BD] bg-white px-4 py-3 text-[#1F1A17] outline-none transition focus:border-[#C90000] focus:ring-4 focus:ring-[#C90000]/10"
             />
           </div>
         ) : null}
 
-        <div>
+        <div className="min-w-0">
           <label className="text-sm font-black text-[#1F1A17]">
             Observações
           </label>
@@ -418,7 +418,7 @@ export function PublicBookingForm({
             onChange={(event) => setCustomerNotes(event.target.value)}
             placeholder="Ex: Vou chegar à noite, preciso de cama extra..."
             rows={4}
-            className="mt-2 w-full resize-none rounded-2xl border border-[#E8D8BD] bg-white px-4 py-3 text-[#1F1A17] outline-none transition placeholder:text-[#8A7B6D] focus:border-[#C90000] focus:ring-4 focus:ring-[#C90000]/10"
+            className="mt-2 w-full min-w-0 resize-none rounded-2xl border border-[#E8D8BD] bg-white px-4 py-3 text-[#1F1A17] outline-none transition placeholder:text-[#8A7B6D] focus:border-[#C90000] focus:ring-4 focus:ring-[#C90000]/10"
           />
         </div>
 
@@ -447,7 +447,7 @@ export function PublicBookingForm({
         <button
           type="submit"
           disabled={isSubmitting}
-          className="rounded-2xl bg-[#0B5D2A] px-5 py-3 font-black text-white shadow-lg shadow-[#0B5D2A]/20 transition hover:-translate-y-0.5 hover:bg-[#0A4D24] disabled:cursor-not-allowed disabled:opacity-60"
+          className="w-full rounded-2xl bg-[#0B5D2A] px-5 py-3 font-black text-white shadow-lg shadow-[#0B5D2A]/20 transition hover:-translate-y-0.5 hover:bg-[#0A4D24] disabled:cursor-not-allowed disabled:opacity-60"
         >
           {buttonLabel}
         </button>
