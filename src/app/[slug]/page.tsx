@@ -200,44 +200,6 @@ export default async function PublicBusinessPage({
         </section>
 
         <section className="mx-auto w-full max-w-6xl px-4 pb-14 sm:px-6 lg:px-8">
-          <div className="grid gap-6 lg:grid-cols-[0.85fr_1fr] lg:items-stretch">
-            <div className="rounded-[2rem] border border-[#E8D8BD] bg-white p-6 shadow-xl shadow-[#6B3A00]/5">
-              <p className="text-sm font-black uppercase tracking-[0.3em] text-[#C90000]">
-                Localização
-              </p>
-
-              <h2 className="mt-4 text-3xl font-black">
-                Estamos em Lagoa do Mato, Itatira - CE.
-              </h2>
-
-              <p className="mt-4 leading-7 text-[#4D4038]">
-                O Tá em Casa Park Hotel fica em uma área tranquila, com espaço
-                verde, piscina e estrutura para receber hóspedes e famílias.
-              </p>
-
-              <a
-                href="https://maps.app.goo.gl/VWyXANfr8R98qZqU9"
-                target="_blank"
-                rel="noreferrer"
-                className="mt-6 inline-flex rounded-2xl bg-[#0B5D2A] px-5 py-3 text-center font-black text-white transition hover:-translate-y-0.5 hover:bg-[#0A4D24]"
-              >
-                Abrir no Google Maps
-              </a>
-            </div>
-
-            <div className="overflow-hidden rounded-[2rem] border border-[#E8D8BD] bg-white shadow-xl shadow-[#6B3A00]/10">
-              <iframe
-                title="Localização do Tá em Casa Park Hotel"
-                src="https://www.google.com/maps?q=-4.65563,-39.673691&z=15&output=embed"
-                className="h-[360px] w-full border-0"
-                loading="lazy"
-                referrerPolicy="no-referrer-when-downgrade"
-              />
-            </div>
-          </div>
-        </section>
-
-        <section className="mx-auto w-full max-w-6xl px-4 pb-14 sm:px-6 lg:px-8">
           <div className="mb-6 flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
             <div>
               <p className="text-sm font-black uppercase tracking-[0.3em] text-[#C90000]">
@@ -348,6 +310,74 @@ export default async function PublicBusinessPage({
             </div>
           </div>
         </section>
+
+        <section className="mx-auto w-full max-w-6xl px-4 pb-14 sm:px-6 lg:px-8">
+          <div className="grid gap-6 lg:grid-cols-[0.85fr_1fr] lg:items-stretch">
+            <div className="rounded-[2rem] border border-[#E8D8BD] bg-white p-6 shadow-xl shadow-[#6B3A00]/5">
+              <p className="text-sm font-black uppercase tracking-[0.3em] text-[#C90000]">
+                Localização
+              </p>
+
+              <h2 className="mt-4 text-3xl font-black">
+                Estamos em Lagoa do Mato, Itatira - CE.
+              </h2>
+
+              <p className="mt-4 leading-7 text-[#4D4038]">
+                O Tá em Casa Park Hotel fica em uma área tranquila, com espaço
+                verde, piscina e estrutura para receber hóspedes e famílias.
+              </p>
+
+              <a
+                href="https://maps.app.goo.gl/VWyXANfr8R98qZqU9"
+                target="_blank"
+                rel="noreferrer"
+                className="mt-6 inline-flex rounded-2xl bg-[#0B5D2A] px-5 py-3 text-center font-black text-white transition hover:-translate-y-0.5 hover:bg-[#0A4D24]"
+              >
+                Abrir no Google Maps
+              </a>
+            </div>
+
+            <div className="overflow-hidden rounded-[2rem] border border-[#E8D8BD] bg-white shadow-xl shadow-[#6B3A00]/10">
+              <iframe
+                title="Localização do Tá em Casa Park Hotel"
+                src="https://www.google.com/maps?q=-4.65563,-39.673691&z=15&output=embed"
+                className="h-[360px] w-full border-0"
+                loading="lazy"
+                referrerPolicy="no-referrer-when-downgrade"
+              />
+            </div>
+          </div>
+        </section>
+
+        <footer className="border-t border-[#E8D8BD] bg-[#1F1A17] px-4 py-8 text-white sm:px-6 lg:px-8">
+          <div className="mx-auto flex w-full max-w-6xl flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+            <div>
+              <p className="text-sm font-black uppercase tracking-[0.3em] text-[#F6D77A]">
+                PWPE Reservas
+              </p>
+
+              <p className="mt-2 text-sm text-white/70">
+                Página de reservas desenvolvida para Tá em Casa Park Hotel.
+              </p>
+            </div>
+
+            <div className="flex flex-col gap-2 text-sm text-white/70 sm:text-right">
+              <p>
+                Desenvolvido por{" "}
+                <span className="font-bold text-white">
+                  PWPE Desenvolvimentos
+                </span>
+              </p>
+
+              <a
+                href="/login"
+                className="font-bold text-[#F6D77A] transition hover:text-white"
+              >
+                Acessar painel administrativo
+              </a>
+            </div>
+          </div>
+        </footer>
       </main>
     );
   }
