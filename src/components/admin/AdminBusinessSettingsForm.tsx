@@ -270,20 +270,25 @@ export function AdminBusinessSettingsForm({
       </section>
 
       <section className="rounded-3xl border border-white/10 bg-white/5 p-6">
-        <h2 className="text-xl font-bold">Pagamentos e reservas</h2>
+        <h2 className="text-xl font-bold">Reservas e confirmação</h2>
 
-        <div className="mt-6">
+        <div>
           <label className="text-sm font-semibold text-slate-300">
-            Chave Pix
+            Chave Pix (opcional)
           </label>
 
           <input
             type="text"
             value={pixKey}
             onChange={(event) => setPixKey(event.target.value)}
-            className="mt-2 w-full rounded-2xl border border-white/10 bg-slate-950 px-4 py-3 text-white outline-none transition focus:border-cyan-400"
             placeholder="CPF, CNPJ, email, telefone ou chave aleatória"
+            className="mt-2 w-full rounded-2xl border border-white/10 bg-slate-950 px-4 py-3 text-white outline-none transition focus:border-cyan-400"
           />
+
+          <p className="mt-2 text-xs leading-5 text-slate-500">
+            Em breve esta chave poderá ser usada para instruções de pagamento nas
+            reservas. Nesta versão, a reserva é confirmada manualmente pelo painel.
+          </p>
         </div>
 
         <div className="mt-5 grid gap-4">

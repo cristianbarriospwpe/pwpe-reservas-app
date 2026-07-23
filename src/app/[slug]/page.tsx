@@ -145,57 +145,21 @@ export default async function PublicBusinessPage({
         </section>
 
         <section className="mx-auto w-full max-w-6xl px-4 py-14 sm:px-6 lg:px-8">
-          <div className="grid gap-6 lg:grid-cols-[1fr_0.8fr]">
-            <div>
-              <p className="text-sm font-black uppercase tracking-[0.3em] text-[#C90000]">
-                Sobre o hotel
-              </p>
+          <div className="mx-auto max-w-4xl text-center">
+            <p className="text-sm font-black uppercase tracking-[0.3em] text-[#C90000]">
+              Sobre o hotel
+            </p>
 
-              <h2 className="mt-4 text-4xl font-black">
-                Um espaço para descansar, aproveitar a piscina e curtir com a
-                família.
-              </h2>
+            <h2 className="mt-4 text-4xl font-black">
+              Um espaço para descansar, aproveitar a piscina e curtir com a
+              família.
+            </h2>
 
-              <p className="mt-5 text-lg leading-8 text-[#4D4038]">
-                O Tá em Casa Park Hotel fica em Lagoa do Mato, Itatira - CE, e
-                conta com estrutura de lazer, área externa e quartos para
-                hospedagem com solicitação de reserva direta.
-              </p>
-            </div>
-
-            <div className="rounded-[2rem] border border-[#E8D8BD] bg-white p-6 shadow-xl shadow-[#6B3A00]/5">
-              <h3 className="text-2xl font-black">Informações</h3>
-
-              <div className="mt-5 space-y-4 text-[#4D4038]">
-                <div>
-                  <p className="text-sm font-bold text-[#C90000]">Local</p>
-                  <p>Lagoa do Mato, Itatira - Ceará</p>
-                </div>
-
-                <div>
-                  <p className="text-sm font-bold text-[#C90000]">WhatsApp</p>
-                  <p>(88) 98101-1427</p>
-                </div>
-
-                <div>
-                  <p className="text-sm font-bold text-[#C90000]">Instagram</p>
-
-                  <a
-                    href="https://www.instagram.com/taemcasaparkhotel/"
-                    target="_blank"
-                    rel="noreferrer"
-                    className="font-bold text-[#0B5D2A] underline decoration-[#D4A23A] underline-offset-4 transition hover:text-[#C90000]"
-                  >
-                    @taemcasaparkhotel
-                  </a>
-                </div>
-
-                <div>
-                  <p className="text-sm font-bold text-[#C90000]">Reservas</p>
-                  <p>Solicitação direta pelo site e confirmação pelo WhatsApp.</p>
-                </div>
-              </div>
-            </div>
+            <p className="mt-5 text-lg leading-8 text-[#4D4038]">
+              O Tá em Casa Park Hotel fica em Lagoa do Mato, Itatira - CE, e
+              conta com estrutura de lazer, área externa e quartos para
+              hospedagem com solicitação de reserva direta.
+            </p>
           </div>
         </section>
 
@@ -307,6 +271,42 @@ export default async function PublicBusinessPage({
               <p className="mt-2 text-sm font-bold text-[#1F1A17]">
                 Aguarde confirmação
               </p>
+            </div>
+          </div>
+        </section>
+
+        <section className="mx-auto w-full max-w-6xl px-4 pb-8 sm:px-6 lg:px-8">
+          <div className="rounded-[2rem] border border-[#E8D8BD] bg-white p-6 shadow-xl shadow-[#6B3A00]/5">
+            <h3 className="text-2xl font-black">Informações</h3>
+
+            <div className="mt-5 grid gap-5 text-[#4D4038] md:grid-cols-4">
+              <div>
+                <p className="text-sm font-bold text-[#C90000]">Local</p>
+                <p>Lagoa do Mato, Itatira - Ceará</p>
+              </div>
+
+              <div>
+                <p className="text-sm font-bold text-[#C90000]">WhatsApp</p>
+                <p>(88) 98101-1427</p>
+              </div>
+
+              <div>
+                <p className="text-sm font-bold text-[#C90000]">Instagram</p>
+
+                <a
+                  href="https://www.instagram.com/taemcasaparkhotel/"
+                  target="_blank"
+                  rel="noreferrer"
+                  className="font-bold text-[#0B5D2A] underline decoration-[#D4A23A] underline-offset-4 transition hover:text-[#C90000]"
+                >
+                  @taemcasaparkhotel
+                </a>
+              </div>
+
+              <div>
+                <p className="text-sm font-bold text-[#C90000]">Reservas</p>
+                <p>Solicitação direta pelo site e confirmação pelo WhatsApp.</p>
+              </div>
             </div>
           </div>
         </section>
