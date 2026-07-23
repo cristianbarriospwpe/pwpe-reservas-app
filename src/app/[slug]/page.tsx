@@ -86,7 +86,7 @@ export default async function PublicBusinessPage({
                 direto pelo WhatsApp para solicitações de reserva.
               </p>
 
-              <div className="mt-8 flex flex-col gap-3 sm:flex-row">
+              <div className="mt-8 grid gap-3 sm:max-w-xl sm:grid-cols-2">
                 <a
                   href="#reservar"
                   className="rounded-2xl bg-[#F6D77A] px-6 py-3 text-center font-black text-[#4A0606] shadow-xl shadow-black/20 transition hover:-translate-y-0.5 hover:bg-[#FFE89A]"
@@ -102,16 +102,16 @@ export default async function PublicBusinessPage({
                 >
                   Falar no WhatsApp
                 </a>
-              </div>
 
-              <a
-                href="https://www.instagram.com/taemcasaparkhotel/"
-                target="_blank"
-                rel="noreferrer"
-                className="rounded-2xl border border-white/20 bg-white/10 px-6 py-3 text-center font-bold text-white backdrop-blur transition hover:-translate-y-0.5 hover:bg-white/20"
-              >
-                Ver Instagram
-              </a>
+                <a
+                  href="https://www.instagram.com/taemcasaparkhotel/"
+                  target="_blank"
+                  rel="noreferrer"
+                  className="rounded-2xl border border-white/20 bg-white/10 px-6 py-3 text-center font-bold text-white backdrop-blur transition hover:-translate-y-0.5 hover:bg-white/20 sm:col-span-2"
+                >
+                  Ver Instagram
+                </a>
+              </div>
 
               <div className="mt-8 flex flex-wrap gap-2">
                 {[
