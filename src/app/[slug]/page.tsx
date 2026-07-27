@@ -192,8 +192,89 @@ const landingConfigs: Record<string, LandingConfig> = {
       text: "#1F1A17",
       muted: "#4D4038",
     },
+   },
+
+  "apartamentos-mobiliados-ipatinga": {
+    title: "Apartamentos Mobiliados Ipatinga",
+    subtitle: "Ipatinga · Minas Gerais",
+    eyebrow: "Hospedagem por temporada",
+    description:
+      "Apartamentos e casas mobiliadas em Ipatinga, com opções para famílias, grupos e viajantes a trabalho. Solicite sua reserva direto pelo WhatsApp.",
+    assetBase: "/demo/apartamentos-mobiliados-ipatinga",
+    heroAlt: "Apartamento mobiliado em Ipatinga",
+    badges: [
+      "Apartamentos mobiliados",
+      "Opções com garagem",
+      "Até 9 pessoas",
+      "Reservas pelo WhatsApp",
+    ],
+    galleryTitle: "Conheça alguns ambientes.",
+    gallerySubtitle:
+      "Veja fotos dos apartamentos, quartos, salas, cozinha e entrada das unidades.",
+    galleryImages: [
+      {
+        src: "/demo/apartamentos-mobiliados-ipatinga/galeria-1.jpg",
+        alt: "Sala mobiliada em Ipatinga",
+      },
+      {
+        src: "/demo/apartamentos-mobiliados-ipatinga/galeria-2.jpg",
+        alt: "Cozinha equipada do apartamento",
+      },
+      {
+        src: "/demo/apartamentos-mobiliados-ipatinga/galeria-3.jpg",
+        alt: "Quarto mobiliado com cama de casal",
+      },
+      {
+        src: "/demo/apartamentos-mobiliados-ipatinga/galeria-4.jpg",
+        alt: "Área de refeições do apartamento",
+      },
+      {
+        src: "/demo/apartamentos-mobiliados-ipatinga/galeria-5.jpg",
+        alt: "Entrada de uma das unidades",
+      },
+    ],
+    infoItems: [
+      {
+        label: "Local",
+        value: "Ipatinga - Minas Gerais",
+      },
+      {
+        label: "Hospedagem",
+        value: "Apartamentos e casas mobiliadas para temporada.",
+      },
+      {
+        label: "Capacidade",
+        value: "Opções para 4, 5, 6, 8 e até 9 pessoas.",
+      },
+      {
+        label: "Reservas",
+        value: "Solicitação direta pelo site e confirmação pelo WhatsApp.",
+      },
+    ],
+    locationTitle: "Hospedagem mobiliada em Ipatinga - MG.",
+    locationText:
+      "Opções práticas para quem precisa se hospedar em Ipatinga por trabalho, viagem, família ou temporada.",
+    googleMapsUrl:
+      "https://www.google.com/maps/search/?api=1&query=Apartamentos%20Mobiliados%20Ipatinga",
+    googleMapsEmbedUrl:
+      "https://www.google.com/maps?q=Ipatinga%20MG&z=12&output=embed",
+    instagramUrl: "https://www.instagram.com/apartamentosmobiliadosipatinga/",
+    instagramHandle: "@apartamentosmobiliadosipatinga",
+    whatsappDisplay: "+55 31 98834-8868",
+    theme: {
+      background: "#F4F7FB",
+      surface: "#FFFFFF",
+      dark: "#0F172A",
+      primary: "#2563EB",
+      primaryDark: "#1E3A8A",
+      accent: "#F59E0B",
+      text: "#0F172A",
+      muted: "#475569",
+    },
   },
 };
+
+ 
 
 function formatPrice(value: number) {
   return new Intl.NumberFormat("pt-BR", {
