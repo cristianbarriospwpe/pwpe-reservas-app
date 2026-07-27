@@ -208,8 +208,8 @@ export default async function AdminDemoPage({ params }: AdminDemoPageProps) {
           </div>
         </div>
 
-        <div className="mt-8 grid gap-6 lg:grid-cols-[1.4fr_0.8fr]">
-          <section className="rounded-[2rem] border border-white/10 bg-white/5 p-5">
+        <div className="mt-8 grid items-start gap-6 lg:grid-cols-[1.4fr_0.8fr]">
+          <section className="self-start rounded-[2rem] border border-white/10 bg-white/5 p-5">
             <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
               <div>
                 <h2 className="text-2xl font-black">Reservas</h2>
