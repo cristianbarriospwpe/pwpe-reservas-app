@@ -6,10 +6,15 @@ import { ptBR } from "date-fns/locale";
 type BookingDateRangePickerProps = {
   startDate: string;
   endDate: string;
-  onChange: (range: { startDate: string; endDate: string }) => void;
+  onStartDateChange: (value: string) => void;
+  onEndDateChange: (value: string) => void;
 };
 
-function dateToInputValue(date: Date) {
+function formatDateToInputValue(date?: Date) {
+  if (!date) {
+    return "";
+  }
+
   const year = date.getFullYear();
   const month = String(date.getMonth() + 1).padStart(2, "0");
   const day = String(date.getDate()).padStart(2, "0");
@@ -17,147 +22,141 @@ function dateToInputValue(date: Date) {
   return `${year}-${month}-${day}`;
 }
 
-function inputValueToDate(value: string) {
+function parseInputValueToDate(value: string) {
   if (!value) {
     return undefined;
   }
 
-  const [year, month, day] = value.split("-").map(Number);
-
-  return new Date(year, month - 1, day);
+  return new Date(`${value}T12:00:00`);
 }
 
-function formatDisplayDate(value: string) {
+function formatDateLabel(value: string) {
   if (!value) {
     return "Selecionar";
   }
 
-  const [year, month, day] = value.split("-");
+  const date = new Date(`${value}T12:00:00`);
 
-  return `${day}/${month}/${year}`;
+  return new Intl.DateTimeFormat("pt-BR", {
+    day: "2-digit",
+    month: "short",
+    year: "numeric",
+  }).format(date);
 }
 
 export function BookingDateRangePicker({
   startDate,
   endDate,
-  onChange,
+  onStartDateChange,
+  onEndDateChange,
 }: BookingDateRangePickerProps) {
-  const selectedRange: DateRange | undefined = startDate
-    ? {
-        from: inputValueToDate(startDate),
-        to: inputValueToDate(endDate),
-      }
-    : undefined;
+  const selectedRange: DateRange | undefined =
+    startDate || endDate
+      ? {
+          from: parseInputValueToDate(startDate),
+          to: parseInputValueToDate(endDate),
+        }
+      : undefined;
 
-  function handleSelect(range: DateRange | undefined) {
-    onChange({
-      startDate: range?.from ? dateToInputValue(range.from) : "",
-      endDate: range?.to ? dateToInputValue(range.to) : "",
-    });
+  function handleRangeSelect(range: DateRange | undefined) {
+    onStartDateChange(formatDateToInputValue(range?.from));
+    onEndDateChange(formatDateToInputValue(range?.to));
   }
 
   return (
-    <div className="w-full min-w-0 rounded-[1.5rem] border border-[#3A3326] bg-[#1F1A17] p-4 text-white">
+    <div className="w-full min-w-0 rounded-[1.5rem] border border-slate-700 bg-slate-950 p-4 text-white">
       <div className="grid gap-3 sm:grid-cols-2">
-        <div className="rounded-2xl border border-[#4A4134] bg-[#121212] p-4">
-          <p className="text-xs font-black uppercase tracking-[0.2em] text-[#F26B4F]">
+        <div className="rounded-2xl border border-slate-700 bg-slate-900 p-4">
+          <p className="text-xs font-black uppercase tracking-[0.25em] text-sky-300">
             Entrada
           </p>
 
-          <p className="mt-2 text-xl font-black">
-            {formatDisplayDate(startDate)}
+          <p className="mt-2 text-xl font-black text-white">
+            {formatDateLabel(startDate)}
           </p>
         </div>
 
-        <div className="rounded-2xl border border-[#4A4134] bg-[#121212] p-4">
-          <p className="text-xs font-black uppercase tracking-[0.2em] text-[#8BE0A4]">
+        <div className="rounded-2xl border border-slate-700 bg-slate-900 p-4">
+          <p className="text-xs font-black uppercase tracking-[0.25em] text-sky-300">
             Saída
           </p>
 
-          <p className="mt-2 text-xl font-black">
-            {formatDisplayDate(endDate)}
+          <p className="mt-2 text-xl font-black text-white">
+            {formatDateLabel(endDate)}
           </p>
         </div>
       </div>
 
-      {/* Mobile: campos nativos, más seguro y limpio */}
       <div className="mt-4 grid gap-3 md:hidden">
-        <div>
-          <label className="text-sm font-black text-white">
+        <label className="block">
+          <span className="mb-2 block text-sm font-bold text-slate-200">
             Data de entrada
-          </label>
+          </span>
 
           <input
             type="date"
             value={startDate}
-            onChange={(event) =>
-              onChange({ startDate: event.target.value, endDate })
-            }
-            className="mt-2 w-full rounded-2xl border border-[#4A4134] bg-[#121212] px-4 py-3 text-white outline-none focus:border-[#F6D77A]"
+            onChange={(event) => onStartDateChange(event.target.value)}
+            className="w-full rounded-2xl border border-slate-700 bg-slate-900 px-4 py-3 text-white outline-none transition focus:border-sky-400"
           />
-        </div>
+        </label>
 
-        <div>
-          <label className="text-sm font-black text-white">Data de saída</label>
+        <label className="block">
+          <span className="mb-2 block text-sm font-bold text-slate-200">
+            Data de saída
+          </span>
 
           <input
             type="date"
             value={endDate}
-            onChange={(event) =>
-              onChange({ startDate, endDate: event.target.value })
-            }
-            className="mt-2 w-full rounded-2xl border border-[#4A4134] bg-[#121212] px-4 py-3 text-white outline-none focus:border-[#F6D77A]"
+            min={startDate || undefined}
+            onChange={(event) => onEndDateChange(event.target.value)}
+            className="w-full rounded-2xl border border-slate-700 bg-slate-900 px-4 py-3 text-white outline-none transition focus:border-sky-400"
           />
-        </div>
+        </label>
       </div>
 
-      {/* Desktop/tablet: calendario visual */}
-      <div className="mt-4 hidden overflow-hidden rounded-[1.5rem] border border-[#4A4134] bg-[#121212] p-4 md:block">
+      <div className="mt-4 hidden overflow-hidden rounded-[1.5rem] border border-slate-700 bg-slate-900 p-4 md:block">
         <DayPicker
           mode="range"
           selected={selectedRange}
-          onSelect={handleSelect}
+          onSelect={handleRangeSelect}
           locale={ptBR}
           numberOfMonths={1}
-          disabled={{ before: new Date() }}
           weekStartsOn={0}
-          showOutsideDays
+          disabled={{ before: new Date() }}
           classNames={{
-            root: "w-full",
-            months: "w-full",
-            month: "w-full",
-            month_caption: "mb-5 flex items-center justify-center",
-            caption_label: "text-lg font-black capitalize text-[#F26B4F]",
-            nav: "mb-4 flex items-center justify-between",
+            months: "flex flex-col",
+            month: "space-y-4",
+            month_caption: "flex justify-center pt-1 relative items-center",
+            caption_label: "text-lg font-black text-sky-300 capitalize",
+            nav: "space-x-1 flex items-center",
             button_previous:
-              "rounded-full border border-[#4A4134] bg-[#2A251B] px-3 py-2 text-sm font-black text-white transition hover:bg-[#3A3326]",
+              "absolute left-1 h-10 w-10 rounded-full border border-slate-600 bg-slate-800 text-white transition hover:bg-slate-700",
             button_next:
-              "rounded-full border border-[#4A4134] bg-[#2A251B] px-3 py-2 text-sm font-black text-white transition hover:bg-[#3A3326]",
-            month_grid: "w-full border-separate border-spacing-1",
+              "absolute right-1 h-10 w-10 rounded-full border border-slate-600 bg-slate-800 text-white transition hover:bg-slate-700",
+            month_grid: "w-full border-collapse space-y-1",
+            weekdays: "flex",
             weekday:
-              "pb-3 text-center text-xs font-black uppercase text-[#D8C9B4]",
-            day: "h-10 w-10 text-center align-middle",
+              "w-12 flex-1 rounded-md text-xs font-black uppercase text-slate-400",
+            week: "mt-2 flex w-full",
+            day: "relative h-12 flex-1 text-center text-sm",
             day_button:
-              "mx-auto flex h-9 w-9 items-center justify-center rounded-full text-sm font-black text-white transition hover:bg-[#F6D77A] hover:text-[#4A0606]",
+              "h-11 w-11 rounded-full text-sm font-bold text-slate-100 transition hover:bg-sky-400 hover:text-slate-950",
             selected:
-              "rounded-full bg-[#7A0909] text-white hover:bg-[#7A0909] hover:text-white",
-            range_start:
-              "rounded-full bg-[#7A0909] text-white hover:bg-[#7A0909] hover:text-white",
-            range_end:
-              "rounded-full bg-[#7A0909] text-white hover:bg-[#7A0909] hover:text-white",
+              "bg-sky-400 text-slate-950 hover:bg-sky-300 hover:text-slate-950",
+            today: "border border-sky-400 text-sky-300",
+            outside: "text-slate-600 opacity-50",
+            disabled: "text-slate-700 opacity-40",
             range_middle:
-              "rounded-full bg-[#F6D77A] text-[#4A0606] hover:bg-[#F6D77A]",
-            today: "rounded-full border-2 border-[#0B5D2A] text-[#8BE0A4]",
-            disabled: "cursor-not-allowed opacity-25 hover:bg-transparent",
-            outside: "opacity-25",
+              "rounded-none bg-sky-400/20 text-sky-100 hover:bg-sky-400/30",
+            range_start:
+              "rounded-full bg-sky-400 text-slate-950 hover:bg-sky-300",
+            range_end:
+              "rounded-full bg-sky-400 text-slate-950 hover:bg-sky-300",
           }}
         />
       </div>
-
-      <p className="mt-3 text-xs leading-5 text-[#D8C9B4]">
-        No celular, selecione as datas nos campos acima. No computador, você
-        também pode usar o calendário visual.
-      </p>
     </div>
   );
 }

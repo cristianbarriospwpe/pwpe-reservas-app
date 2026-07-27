@@ -192,7 +192,7 @@ const landingConfigs: Record<string, LandingConfig> = {
       text: "#1F1A17",
       muted: "#4D4038",
     },
-   },
+  },
 
   "apartamentos-mobiliados-ipatinga": {
     title: "Apartamentos Mobiliados Ipatinga",
@@ -262,19 +262,19 @@ const landingConfigs: Record<string, LandingConfig> = {
     instagramHandle: "@apartamentosmobiliadosipatinga",
     whatsappDisplay: "+55 31 98834-8868",
     theme: {
-      background: "#F4F7FB",
+      background: "#F6F8FC",
       surface: "#FFFFFF",
-      dark: "#0F172A",
-      primary: "#2563EB",
-      primaryDark: "#1E3A8A",
-      accent: "#F59E0B",
+      dark: "#0B1220",
+      primary: "#1D4ED8",
+      primaryDark: "#0F2A5F",
+      accent: "#38BDF8",
       text: "#0F172A",
       muted: "#475569",
     },
   },
 };
 
- 
+
 
 function formatPrice(value: number) {
   return new Intl.NumberFormat("pt-BR", {
