@@ -53,13 +53,14 @@ export function HotelGallery({ images }: HotelGalleryProps) {
             Fechar
           </button>
 
-          <div className="relative h-[80vh] w-full max-w-6xl overflow-hidden rounded-[2rem] bg-black">
+          <div className="relative h-[70vh] w-full max-w-4xl overflow-hidden rounded-[2rem] bg-black">
             <Image
               src={selectedImage.src}
               alt={selectedImage.alt}
               fill
+              quality={90}
               className="object-contain"
-              sizes="100vw"
+              sizes="(max-width: 768px) 95vw, 900px"
             />
           </div>
         </div>
