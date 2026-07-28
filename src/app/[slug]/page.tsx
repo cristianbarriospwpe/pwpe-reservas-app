@@ -413,10 +413,10 @@ export default async function PublicBusinessPage({
               {config.description}
             </p>
 
-            <div className="mt-10 flex flex-col gap-4 sm:flex-row">
+            <div className="mt-10 grid w-full gap-4 sm:grid-cols-3">
               <a
                 href="#reserva"
-                className="rounded-2xl px-8 py-4 text-center text-base font-black text-white shadow-xl transition hover:scale-[1.02]"
+                className="flex min-h-16 w-full items-center justify-center rounded-2xl px-6 py-4 text-center text-base font-black text-white shadow-xl transition hover:scale-[1.02]"
                 style={{ background: config.theme.accent }}
               >
                 Solicitar reserva
@@ -426,17 +426,28 @@ export default async function PublicBusinessPage({
                 href={whatsappUrl}
                 target="_blank"
                 rel="noreferrer"
-                className="rounded-2xl border border-white/20 bg-white/10 px-8 py-4 text-center text-base font-black text-white transition hover:bg-white/20"
+                className="flex min-h-16 w-full items-center justify-center rounded-2xl border border-white/20 bg-white/10 px-6 py-4 text-center text-base font-black text-white transition hover:bg-white/20"
               >
                 Falar no WhatsApp
               </a>
+
+              {config.instagramUrl ? (
+                <a
+                  href={config.instagramUrl}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="flex min-h-16 w-full items-center justify-center rounded-2xl border border-white/20 bg-white/10 px-6 py-4 text-center text-base font-black text-white transition hover:bg-white/20"
+                >
+                  Ver Instagram
+                </a>
+              ) : null}
             </div>
 
-            <div className="mt-10 flex flex-wrap gap-3">
+            <div className="mt-10 grid gap-3 sm:flex sm:flex-wrap">
               {config.badges.map((badge) => (
                 <span
                   key={badge}
-                  className="rounded-full border border-white/15 bg-white/10 px-5 py-3 text-sm font-black text-white"
+                  className="w-full rounded-full border border-white/15 bg-white/10 px-5 py-3 text-center text-sm font-black text-white sm:w-auto"
                 >
                   {badge}
                 </span>
