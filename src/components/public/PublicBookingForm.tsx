@@ -182,8 +182,8 @@ export function PublicBookingForm({
       const periodText =
         bookingMode === "period"
           ? `Entrada: ${formatDateForMessage(startDate)}%0ASaída: ${formatDateForMessage(
-              endDate,
-            )}%0ADiárias: ${nights}`
+            endDate,
+          )}%0ADiárias: ${nights}`
           : `Data: ${formatDateForMessage(startDate)}%0AHorário: ${startTime}`;
 
       const peopleText =
@@ -296,10 +296,8 @@ export function PublicBookingForm({
           <BookingDateRangePicker
             startDate={startDate}
             endDate={endDate}
-            onChange={(range) => {
-              setStartDate(range.startDate);
-              setEndDate(range.endDate);
-            }}
+            onStartDateChange={setStartDate}
+            onEndDateChange={setEndDate}
           />
         ) : (
           <div className="grid min-w-0 gap-4 sm:grid-cols-2">
@@ -350,11 +348,10 @@ export function PublicBookingForm({
                     key={resource.id}
                     type="button"
                     onClick={() => setSelectedResourceId(resource.id)}
-                    className={`w-full min-w-0 rounded-2xl border p-4 text-left transition ${
-                      isSelected
+                    className={`w-full min-w-0 rounded-2xl border p-4 text-left transition ${isSelected
                         ? "border-[#C90000] bg-[#FFF0D6] shadow-lg shadow-[#6B3A00]/10"
                         : "border-[#E8D8BD] bg-white hover:border-[#D4A23A] hover:bg-[#FFF7E8]"
-                    }`}
+                      }`}
                   >
                     <div className="grid min-w-0 gap-3 sm:grid-cols-[1fr_auto] sm:items-start">
                       <div className="min-w-0">
@@ -370,11 +367,10 @@ export function PublicBookingForm({
                       </div>
 
                       <span
-                        className={`inline-flex w-full justify-center rounded-full px-4 py-2 text-sm font-black sm:w-auto ${
-                          isSelected
+                        className={`inline-flex w-full justify-center rounded-full px-4 py-2 text-sm font-black sm:w-auto ${isSelected
                             ? "bg-[#C90000] text-white"
                             : "bg-[#F6D77A] text-[#4A0606]"
-                        }`}
+                          }`}
                       >
                         {formatPrice(resource.price)}
                       </span>
@@ -432,8 +428,8 @@ export function PublicBookingForm({
               <p className="mt-2 text-sm font-semibold text-[#4D4038]">
                 {nights > 0
                   ? `${nights} diária(s) · Total estimado: ${formatPrice(
-                      totalPrice,
-                    )}`
+                    totalPrice,
+                  )}`
                   : `Valor da diária: ${formatPrice(selectedResource.price)}`}
               </p>
             ) : (
