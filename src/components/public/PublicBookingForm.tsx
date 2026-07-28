@@ -2,13 +2,13 @@
 
 import { useMemo, useState } from "react";
 import { BookingDateRangePicker } from "@/components/public/BookingDateRangePicker";
-import type { BookingMode } from "@/types/business";
-import type { Resource } from "@/types/resource";
 import {
   createBooking,
   hasBookingConflict,
   hasTimeSlotConflict,
 } from "@/services/bookings";
+import type { BookingMode } from "@/types/business";
+import type { Resource } from "@/types/resource";
 
 type PublicBookingFormProps = {
   businessId: string;
@@ -18,20 +18,6 @@ type PublicBookingFormProps = {
   resources: Resource[];
 };
 
-function calculateNights(startDate: string, endDate: string) {
-  if (!startDate || !endDate) {
-    return 0;
-  }
-
-  const start = new Date(startDate);
-  const end = new Date(endDate);
-
-  const difference = end.getTime() - start.getTime();
-  const nights = Math.ceil(difference / (1000 * 60 * 60 * 24));
-
-  return nights > 0 ? nights : 0;
-}
-
 function formatPrice(value: number) {
   return new Intl.NumberFormat("pt-BR", {
     style: "currency",
@@ -39,14 +25,78 @@ function formatPrice(value: number) {
   }).format(value);
 }
 
-function formatDateForMessage(date: string) {
-  if (!date) {
-    return "";
+function getPriceUnitLabel(priceUnit: Resource["priceUnit"]) {
+  if (priceUnit === "night") {
+    return "noite";
   }
 
-  const [year, month, day] = date.split("-");
+  if (priceUnit === "day") {
+    return "dia";
+  }
 
-  return `${day}/${month}/${year}`;
+  if (priceUnit === "person") {
+    return "pessoa";
+  }
+
+  return "serviço";
+}
+
+function normalizePhone(value: string) {
+  return value.replace(/\D/g, "");
+}
+
+function buildWhatsAppUrl({
+  businessWhatsapp,
+  businessName,
+  customerName,
+  customerPhone,
+  resourceName,
+  startDate,
+  endDate,
+  startTime,
+  peopleCount,
+  customerNotes,
+}: {
+  businessWhatsapp: string;
+  businessName: string;
+  customerName: string;
+  customerPhone: string;
+  resourceName: string;
+  startDate: string;
+  endDate?: string;
+  startTime?: string;
+  peopleCount?: string;
+  customerNotes?: string;
+}) {
+  const phone = normalizePhone(businessWhatsapp);
+
+  const lines = [
+    `Olá, gostaria de solicitar uma reserva em ${businessName}.`,
+    "",
+    `Nome: ${customerName}`,
+    `WhatsApp: ${customerPhone}`,
+    `Acomodação: ${resourceName}`,
+    `Entrada: ${startDate}`,
+  ];
+
+  if (endDate) {
+    lines.push(`Saída: ${endDate}`);
+  }
+
+  if (startTime) {
+    lines.push(`Horário: ${startTime}`);
+  }
+
+  if (peopleCount) {
+    lines.push(`Quantidade de pessoas: ${peopleCount}`);
+  }
+
+  if (customerNotes) {
+    lines.push("");
+    lines.push(`Observações: ${customerNotes}`);
+  }
+
+  return `https://wa.me/${phone}?text=${encodeURIComponent(lines.join("\n"))}`;
 }
 
 export function PublicBookingForm({
@@ -56,40 +106,23 @@ export function PublicBookingForm({
   bookingMode,
   resources,
 }: PublicBookingFormProps) {
-  const [selectedResourceId, setSelectedResourceId] = useState("");
+  const [selectedResourceId, setSelectedResourceId] = useState(
+    resources[0]?.id ?? "",
+  );
   const [customerName, setCustomerName] = useState("");
   const [customerPhone, setCustomerPhone] = useState("");
   const [customerNotes, setCustomerNotes] = useState("");
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
   const [startTime, setStartTime] = useState("");
-  const [peopleCount, setPeopleCount] = useState("1");
+  const [peopleCount, setPeopleCount] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [successMessage, setSuccessMessage] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
 
-  const selectedResource = useMemo(
-    () => resources.find((resource) => resource.id === selectedResourceId),
-    [resources, selectedResourceId],
-  );
-
-  const nights = calculateNights(startDate, endDate);
-
-  const totalPrice = useMemo(() => {
-    if (!selectedResource) {
-      return 0;
-    }
-
-    if (bookingMode === "period") {
-      return nights > 0 ? selectedResource.price * nights : 0;
-    }
-
-    return selectedResource.price;
-  }, [bookingMode, nights, selectedResource]);
-
-  const buttonLabel = isSubmitting
-    ? "Enviando solicitação..."
-    : "Enviar solicitação pelo WhatsApp";
+  const selectedResource = useMemo(() => {
+    return resources.find((resource) => resource.id === selectedResourceId);
+  }, [resources, selectedResourceId]);
 
   async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -98,7 +131,7 @@ export function PublicBookingForm({
     setErrorMessage("");
 
     if (!selectedResource) {
-      setErrorMessage("Selecione uma opção antes de enviar.");
+      setErrorMessage("Selecione uma acomodação.");
       return;
     }
 
@@ -113,22 +146,17 @@ export function PublicBookingForm({
     }
 
     if (!startDate) {
-      setErrorMessage("Informe a data da reserva.");
+      setErrorMessage("Selecione a data de entrada.");
       return;
     }
 
     if (bookingMode === "period" && !endDate) {
-      setErrorMessage("Informe a data de saída.");
-      return;
-    }
-
-    if (bookingMode === "period" && nights <= 0) {
-      setErrorMessage("A data de saída precisa ser depois da data de entrada.");
+      setErrorMessage("Selecione a data de saída.");
       return;
     }
 
     if (bookingMode === "time_slot" && !startTime) {
-      setErrorMessage("Informe o horário da reserva.");
+      setErrorMessage("Selecione um horário.");
       return;
     }
 
@@ -144,7 +172,7 @@ export function PublicBookingForm({
 
         if (hasConflict) {
           setErrorMessage(
-            "Esta acomodação não está disponível nesse período. Escolha outra data ou opção.",
+            "Essa acomodação já possui uma reserva nesse período. Escolha outras datas.",
           );
           return;
         }
@@ -159,7 +187,7 @@ export function PublicBookingForm({
 
         if (hasConflict) {
           setErrorMessage(
-            "Este horário não está disponível. Escolha outro horário.",
+            "Esse horário já possui uma reserva. Escolha outro horário.",
           );
           return;
         }
@@ -175,278 +203,213 @@ export function PublicBookingForm({
         startDate,
         endDate: bookingMode === "period" ? endDate : undefined,
         startTime: bookingMode === "time_slot" ? startTime : undefined,
-        peopleCount: Number(peopleCount),
-        totalPrice,
+        peopleCount: peopleCount ? Number(peopleCount) : undefined,
+        totalPrice: selectedResource.price,
       });
 
-      const periodText =
-        bookingMode === "period"
-          ? `Entrada: ${formatDateForMessage(startDate)}%0ASaída: ${formatDateForMessage(
-            endDate,
-          )}%0ADiárias: ${nights}`
-          : `Data: ${formatDateForMessage(startDate)}%0AHorário: ${startTime}`;
-
-      const peopleText =
-        bookingMode === "period" ? `%0APessoas: ${peopleCount}` : "";
-
-      const notesText = customerNotes.trim()
-        ? `%0AObservações: ${encodeURIComponent(customerNotes.trim())}`
-        : "";
-
-      const message = `Olá! Gostaria de solicitar uma reserva no ${encodeURIComponent(
-        businessName,
-      )}.%0A%0A${encodeURIComponent(
-        "Dados da reserva:",
-      )}%0ANome: ${encodeURIComponent(
-        customerName.trim(),
-      )}%0AWhatsApp: ${encodeURIComponent(
-        customerPhone.trim(),
-      )}%0AAcomodação: ${encodeURIComponent(
-        selectedResource.name,
-      )}%0A${periodText}${peopleText}%0ATotal estimado: ${encodeURIComponent(
-        formatPrice(totalPrice),
-      )}${notesText}%0A%0AAguardo confirmação da disponibilidade.`;
-
-      const cleanWhatsapp = businessWhatsapp.replace(/\D/g, "");
-      const whatsappUrl = `https://wa.me/${cleanWhatsapp}?text=${message}`;
-
       setSuccessMessage(
-        "Reserva enviada com sucesso. Vamos abrir o WhatsApp para continuar o atendimento.",
+        "Solicitação enviada com sucesso. Você será redirecionado para o WhatsApp.",
       );
 
-      window.open(whatsappUrl, "_blank");
+      const whatsappUrl = buildWhatsAppUrl({
+        businessWhatsapp,
+        businessName,
+        customerName: customerName.trim(),
+        customerPhone: customerPhone.trim(),
+        resourceName: selectedResource.name,
+        startDate,
+        endDate: bookingMode === "period" ? endDate : undefined,
+        startTime: bookingMode === "time_slot" ? startTime : undefined,
+        peopleCount,
+        customerNotes: customerNotes.trim(),
+      });
 
-      setSelectedResourceId("");
-      setCustomerName("");
-      setCustomerPhone("");
-      setCustomerNotes("");
-      setStartDate("");
-      setEndDate("");
-      setStartTime("");
-      setPeopleCount("1");
+      window.open(whatsappUrl, "_blank");
     } catch (error) {
       console.error(error);
       setErrorMessage(
-        "Não foi possível enviar a solicitação. Tente novamente em alguns instantes.",
+        "Não foi possível enviar sua solicitação. Tente novamente.",
       );
     } finally {
       setIsSubmitting(false);
     }
   }
 
+  if (resources.length === 0) {
+    return (
+      <div className="rounded-[2rem] border border-slate-700 bg-slate-900 p-6 text-white">
+        <p className="text-lg font-black">Nenhuma acomodação disponível.</p>
+        <p className="mt-2 text-sm text-slate-300">
+          Entre em contato pelo WhatsApp para consultar disponibilidade.
+        </p>
+      </div>
+    );
+  }
+
   return (
     <form
       onSubmit={handleSubmit}
-      className="w-full min-w-0 overflow-hidden rounded-[1.5rem] border border-[#E8D8BD] bg-[#FFF7E8] p-4 text-[#1F1A17] shadow-2xl shadow-[#6B3A00]/10 sm:p-5"
+      className="rounded-[2rem] border border-slate-700 bg-slate-900 p-5 text-white shadow-2xl shadow-slate-950/20 sm:p-8"
     >
-      <div className="min-w-0">
-        <p className="text-xs font-black uppercase tracking-[0.28em] text-[#C90000] sm:text-sm">
-          Solicitar reserva
-        </p>
+      <p className="text-sm font-black uppercase tracking-[0.35em] text-sky-300">
+        Solicitar reserva
+      </p>
 
-        <h3 className="mt-3 break-words text-2xl font-black text-[#1F1A17]">
-          {businessName}
-        </h3>
+      <h2 className="mt-4 text-3xl font-black">{businessName}</h2>
 
-        <p className="mt-2 text-sm leading-6 text-[#4D4038]">
-          Preencha os dados abaixo para enviar sua solicitação pelo WhatsApp.
-        </p>
-      </div>
+      <p className="mt-3 text-sm leading-7 text-slate-300">
+        Preencha os dados abaixo para enviar sua solicitação pelo WhatsApp.
+      </p>
 
-      {errorMessage ? (
-        <div className="mt-5 rounded-2xl border border-red-300 bg-red-50 p-4 text-sm font-semibold text-red-700">
-          {errorMessage}
-        </div>
-      ) : null}
-
-      {successMessage ? (
-        <div className="mt-5 rounded-2xl border border-green-300 bg-green-50 p-4 text-sm font-semibold text-green-700">
-          {successMessage}
-        </div>
-      ) : null}
-
-      <div className="mt-6 grid min-w-0 gap-4">
-        <div className="min-w-0">
-          <label className="text-sm font-black text-[#1F1A17]">Nome</label>
+      <div className="mt-8 grid gap-5">
+        <label className="block">
+          <span className="mb-2 block text-sm font-black text-white">Nome</span>
 
           <input
             type="text"
             value={customerName}
             onChange={(event) => setCustomerName(event.target.value)}
             placeholder="Seu nome"
-            className="mt-2 w-full min-w-0 rounded-2xl border border-[#E8D8BD] bg-white px-4 py-3 text-[#1F1A17] outline-none transition placeholder:text-[#8A7B6D] focus:border-[#C90000] focus:ring-4 focus:ring-[#C90000]/10"
+            className="w-full rounded-2xl border border-slate-700 bg-slate-950 px-4 py-4 text-white outline-none transition placeholder:text-slate-500 focus:border-sky-400"
           />
-        </div>
+        </label>
 
-        <div className="min-w-0">
-          <label className="text-sm font-black text-[#1F1A17]">
+        <label className="block">
+          <span className="mb-2 block text-sm font-black text-white">
             WhatsApp
-          </label>
+          </span>
 
           <input
             type="tel"
             value={customerPhone}
             onChange={(event) => setCustomerPhone(event.target.value)}
             placeholder="Ex: 88999999999"
-            className="mt-2 w-full min-w-0 rounded-2xl border border-[#E8D8BD] bg-white px-4 py-3 text-[#1F1A17] outline-none transition placeholder:text-[#8A7B6D] focus:border-[#C90000] focus:ring-4 focus:ring-[#C90000]/10"
+            className="w-full rounded-2xl border border-slate-700 bg-slate-950 px-4 py-4 text-white outline-none transition placeholder:text-slate-500 focus:border-sky-400"
           />
-        </div>
+        </label>
 
-        {bookingMode === "period" ? (
-          <BookingDateRangePicker
-            startDate={startDate}
-            endDate={endDate}
-            onStartDateChange={setStartDate}
-            onEndDateChange={setEndDate}
-          />
-        ) : (
-          <div className="grid min-w-0 gap-4 sm:grid-cols-2">
-            <div className="min-w-0">
-              <label className="text-sm font-black text-[#1F1A17]">
-                Data
-              </label>
+        <BookingDateRangePicker
+          startDate={startDate}
+          endDate={endDate}
+          onStartDateChange={setStartDate}
+          onEndDateChange={setEndDate}
+        />
 
-              <input
-                type="date"
-                value={startDate}
-                onChange={(event) => setStartDate(event.target.value)}
-                className="mt-2 w-full min-w-0 rounded-2xl border border-[#E8D8BD] bg-white px-4 py-3 text-[#1F1A17] outline-none transition focus:border-[#C90000] focus:ring-4 focus:ring-[#C90000]/10"
-              />
-            </div>
-
-            <div className="min-w-0">
-              <label className="text-sm font-black text-[#1F1A17]">
-                Horário
-              </label>
-
-              <input
-                type="time"
-                value={startTime}
-                onChange={(event) => setStartTime(event.target.value)}
-                className="mt-2 w-full min-w-0 rounded-2xl border border-[#E8D8BD] bg-white px-4 py-3 text-[#1F1A17] outline-none transition focus:border-[#C90000] focus:ring-4 focus:ring-[#C90000]/10"
-              />
-            </div>
-          </div>
-        )}
-
-        <div className="min-w-0">
-          <label className="text-sm font-black text-[#1F1A17]">
-            {bookingMode === "period" ? "Acomodação" : "Serviço"}
-          </label>
-
-          <div className="mt-2 grid min-w-0 gap-3">
-            {resources.length === 0 ? (
-              <div className="rounded-2xl border border-[#E8D8BD] bg-white p-4 text-sm font-semibold text-[#4D4038]">
-                Nenhuma opção disponível no momento.
-              </div>
-            ) : (
-              resources.map((resource) => {
-                const isSelected = selectedResourceId === resource.id;
-
-                return (
-                  <button
-                    key={resource.id}
-                    type="button"
-                    onClick={() => setSelectedResourceId(resource.id)}
-                    className={`w-full min-w-0 rounded-2xl border p-4 text-left transition ${isSelected
-                        ? "border-[#C90000] bg-[#FFF0D6] shadow-lg shadow-[#6B3A00]/10"
-                        : "border-[#E8D8BD] bg-white hover:border-[#D4A23A] hover:bg-[#FFF7E8]"
-                      }`}
-                  >
-                    <div className="grid min-w-0 gap-3 sm:grid-cols-[1fr_auto] sm:items-start">
-                      <div className="min-w-0">
-                        <p className="break-words font-black text-[#1F1A17]">
-                          {resource.name}
-                        </p>
-
-                        {resource.description ? (
-                          <p className="mt-1 break-words text-sm leading-5 text-[#4D4038]">
-                            {resource.description}
-                          </p>
-                        ) : null}
-                      </div>
-
-                      <span
-                        className={`inline-flex w-full justify-center rounded-full px-4 py-2 text-sm font-black sm:w-auto ${isSelected
-                            ? "bg-[#C90000] text-white"
-                            : "bg-[#F6D77A] text-[#4A0606]"
-                          }`}
-                      >
-                        {formatPrice(resource.price)}
-                      </span>
-                    </div>
-
-                    {resource.capacity ? (
-                      <p className="mt-3 text-xs font-bold uppercase tracking-[0.15em] text-[#0B5D2A]">
-                        Até {resource.capacity} pessoas
-                      </p>
-                    ) : null}
-                  </button>
-                );
-              })
-            )}
-          </div>
-        </div>
-
-        {bookingMode === "period" ? (
-          <div className="min-w-0">
-            <label className="text-sm font-black text-[#1F1A17]">
-              Pessoas
-            </label>
+        {bookingMode === "time_slot" ? (
+          <label className="block">
+            <span className="mb-2 block text-sm font-black text-white">
+              Horário
+            </span>
 
             <input
-              type="number"
-              min="1"
-              value={peopleCount}
-              onChange={(event) => setPeopleCount(event.target.value)}
-              className="mt-2 w-full min-w-0 rounded-2xl border border-[#E8D8BD] bg-white px-4 py-3 text-[#1F1A17] outline-none transition focus:border-[#C90000] focus:ring-4 focus:ring-[#C90000]/10"
+              type="time"
+              value={startTime}
+              onChange={(event) => setStartTime(event.target.value)}
+              className="w-full rounded-2xl border border-slate-700 bg-slate-950 px-4 py-4 text-white outline-none transition focus:border-sky-400"
             />
-          </div>
+          </label>
         ) : null}
 
-        <div className="min-w-0">
-          <label className="text-sm font-black text-[#1F1A17]">
+        <label className="block">
+          <span className="mb-2 block text-sm font-black text-white">
+            Quantidade de pessoas
+          </span>
+
+          <input
+            type="number"
+            min="1"
+            value={peopleCount}
+            onChange={(event) => setPeopleCount(event.target.value)}
+            placeholder="Ex: 2"
+            className="w-full rounded-2xl border border-slate-700 bg-slate-950 px-4 py-4 text-white outline-none transition placeholder:text-slate-500 focus:border-sky-400"
+          />
+        </label>
+
+        <div>
+          <p className="mb-3 text-sm font-black text-white">Acomodação</p>
+
+          <div className="grid gap-3">
+            {resources.map((resource) => {
+              const isSelected = selectedResourceId === resource.id;
+
+              return (
+                <button
+                  key={resource.id}
+                  type="button"
+                  onClick={() => setSelectedResourceId(resource.id)}
+                  className={`rounded-3xl border p-5 text-left transition ${
+                    isSelected
+                      ? "border-sky-400 bg-sky-400/10"
+                      : "border-slate-700 bg-slate-950 hover:border-sky-400/60"
+                  }`}
+                >
+                  <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
+                    <div>
+                      <p className="text-lg font-black text-white">
+                        {resource.name}
+                      </p>
+
+                      <p className="mt-2 text-sm leading-6 text-slate-300">
+                        {resource.description}
+                      </p>
+
+                      <p className="mt-4 text-xs font-black uppercase tracking-[0.25em] text-sky-300">
+                        Até {resource.capacity ?? "-"} pessoas
+                      </p>
+                    </div>
+
+                    <div className="w-fit rounded-full bg-sky-400 px-4 py-2 text-sm font-black text-slate-950">
+                      {formatPrice(resource.price)}
+                    </div>
+                  </div>
+
+                  <p className="mt-3 text-xs font-semibold text-slate-500">
+                    Valor por {getPriceUnitLabel(resource.priceUnit)}
+                  </p>
+                </button>
+              );
+            })}
+          </div>
+        </div>
+
+        <label className="block">
+          <span className="mb-2 block text-sm font-black text-white">
             Observações
-          </label>
+          </span>
 
           <textarea
             value={customerNotes}
             onChange={(event) => setCustomerNotes(event.target.value)}
-            placeholder="Ex: Vou chegar à noite, preciso de cama extra..."
+            placeholder="Ex: horário de chegada, dúvidas ou observações da reserva"
             rows={4}
-            className="mt-2 w-full min-w-0 resize-none rounded-2xl border border-[#E8D8BD] bg-white px-4 py-3 text-[#1F1A17] outline-none transition placeholder:text-[#8A7B6D] focus:border-[#C90000] focus:ring-4 focus:ring-[#C90000]/10"
+            className="w-full resize-none rounded-2xl border border-slate-700 bg-slate-950 px-4 py-4 text-white outline-none transition placeholder:text-slate-500 focus:border-sky-400"
           />
-        </div>
+        </label>
 
-        {selectedResource ? (
-          <div className="rounded-2xl border border-[#F6D77A] bg-[#F6D77A]/35 p-4">
-            <p className="text-sm font-black text-[#7A0909]">
-              {selectedResource.name}
-            </p>
+        {errorMessage ? (
+          <div className="rounded-2xl border border-red-400/30 bg-red-400/10 p-4 text-sm font-bold text-red-200">
+            {errorMessage}
+          </div>
+        ) : null}
 
-            {bookingMode === "period" ? (
-              <p className="mt-2 text-sm font-semibold text-[#4D4038]">
-                {nights > 0
-                  ? `${nights} diária(s) · Total estimado: ${formatPrice(
-                    totalPrice,
-                  )}`
-                  : `Valor da diária: ${formatPrice(selectedResource.price)}`}
-              </p>
-            ) : (
-              <p className="mt-2 text-sm font-semibold text-[#4D4038]">
-                Total estimado: {formatPrice(totalPrice)}
-              </p>
-            )}
+        {successMessage ? (
+          <div className="rounded-2xl border border-emerald-400/30 bg-emerald-400/10 p-4 text-sm font-bold text-emerald-200">
+            {successMessage}
           </div>
         ) : null}
 
         <button
           type="submit"
           disabled={isSubmitting}
-          className="w-full rounded-2xl bg-[#0B5D2A] px-5 py-3 font-black text-white shadow-lg shadow-[#0B5D2A]/20 transition hover:-translate-y-0.5 hover:bg-[#0A4D24] disabled:cursor-not-allowed disabled:opacity-60"
+          className="rounded-2xl bg-sky-400 px-6 py-4 text-center text-base font-black text-slate-950 transition hover:bg-sky-300 disabled:cursor-not-allowed disabled:opacity-60"
         >
-          {buttonLabel}
+          {isSubmitting ? "Enviando..." : "Solicitar reserva pelo WhatsApp"}
         </button>
+
+        <p className="text-center text-xs leading-6 text-slate-400">
+          Sua reserva será enviada como solicitação e ficará aguardando
+          confirmação.
+        </p>
       </div>
     </form>
   );
