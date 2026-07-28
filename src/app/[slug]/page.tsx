@@ -9,9 +9,7 @@ import { getActiveResourcesByBusinessId } from "@/services/resources";
 export const dynamic = "force-dynamic";
 
 type PublicBusinessPageProps = {
-  params: Promise<{
-    slug: string;
-  }>;
+  params: Promise<{ slug: string }>;
 };
 
 type InfoItem = {
@@ -59,26 +57,32 @@ const landingConfigs: Record<string, LandingConfig> = {
   "ta-em-casa-park-hotel": {
     title: "Tá em Casa Park Hotel",
     subtitle: "Lagoa do Mato · Itatira · Ceará",
-    eyebrow: "Hospedagem com lazer",
+    eyebrow: "Hospedagem com contato direto",
     description:
-      "Hotel com área verde, piscina, espaço de lazer e atendimento direto pelo WhatsApp para solicitações de reserva.",
+      "Uma página simples, bonita e prática para receber solicitações de reserva direto pelo WhatsApp.",
     assetBase: "/demo/ta-em-casa-park-hotel",
-    heroAlt: "Área de lazer do Tá em Casa Park Hotel",
-    badges: ["15 quartos", "Piscina", "Área verde", "Reservas pelo WhatsApp"],
-    galleryTitle: "Conheça a área externa do hotel.",
-    gallerySubtitle: "Clique nas fotos para ampliar",
+    heroAlt: "Tá em Casa Park Hotel",
+    badges: [
+      "Reservas pelo WhatsApp",
+      "Localização no mapa",
+      "Fotos do hotel",
+      "Página personalizada",
+    ],
+    galleryTitle: "Conheça o Tá em Casa Park Hotel.",
+    gallerySubtitle:
+      "Veja fotos da estrutura, ambientes e acomodações disponíveis.",
     galleryImages: [
       {
         src: "/demo/ta-em-casa-park-hotel/galeria-1.jpg",
-        alt: "Área externa do Tá em Casa Park Hotel",
+        alt: "Área do Tá em Casa Park Hotel",
       },
       {
         src: "/demo/ta-em-casa-park-hotel/galeria-2.jpg",
-        alt: "Piscina e área de lazer do Tá em Casa Park Hotel",
+        alt: "Ambiente do Tá em Casa Park Hotel",
       },
       {
         src: "/demo/ta-em-casa-park-hotel/galeria-3.jpg",
-        alt: "Área verde com piscina do Tá em Casa Park Hotel",
+        alt: "Estrutura do Tá em Casa Park Hotel",
       },
     ],
     infoItems: [
@@ -88,7 +92,7 @@ const landingConfigs: Record<string, LandingConfig> = {
       },
       {
         label: "WhatsApp",
-        value: "(88) 98101-1427",
+        value: "+55 88 98101-1427",
       },
       {
         label: "Instagram",
@@ -99,15 +103,15 @@ const landingConfigs: Record<string, LandingConfig> = {
         value: "Solicitação direta pelo site e confirmação pelo WhatsApp.",
       },
     ],
-    locationTitle: "Estamos em Lagoa do Mato, Itatira - CE.",
+    locationTitle: "Estamos em Lagoa do Mato - CE.",
     locationText:
-      "O Tá em Casa Park Hotel fica em uma área tranquila, com espaço verde, piscina e estrutura para receber hóspedes e famílias.",
+      "O Tá em Casa Park Hotel recebe solicitações de reserva pelo site e confirma os detalhes diretamente pelo WhatsApp.",
     googleMapsUrl: "https://maps.app.goo.gl/VWyXANfr8R98qZqU9",
     googleMapsEmbedUrl:
       "https://www.google.com/maps?q=-4.65563,-39.673691&z=15&output=embed",
     instagramUrl: "https://www.instagram.com/taemcasaparkhotel/",
     instagramHandle: "@taemcasaparkhotel",
-    whatsappDisplay: "(88) 98101-1427",
+    whatsappDisplay: "+55 88 98101-1427",
     theme: {
       background: "#FFF7E8",
       surface: "#FFFFFF",
@@ -119,6 +123,7 @@ const landingConfigs: Record<string, LandingConfig> = {
       muted: "#4D4038",
     },
   },
+
   "hotel-nacional-palace": {
     title: "Hotel Nacional Palace",
     subtitle: "Foz do Iguaçu · Paraná",
@@ -126,7 +131,7 @@ const landingConfigs: Record<string, LandingConfig> = {
     description:
       "Hospedagem prática em Foz do Iguaçu, com quartos confortáveis, piscina ao ar livre e atendimento direto pelo WhatsApp para solicitações de reserva.",
     assetBase: "/demo/hotel-nacional-palace",
-    heroAlt: "Piscina do Hotel Nacional Palace",
+    heroAlt: "Hotel Nacional Palace em Foz do Iguaçu",
     badges: [
       "Mais de 50 quartos",
       "Piscina ao ar livre",
@@ -134,7 +139,8 @@ const landingConfigs: Record<string, LandingConfig> = {
       "Reservas pelo WhatsApp",
     ],
     galleryTitle: "Conheça a estrutura do hotel.",
-    gallerySubtitle: "Clique nas fotos para ampliar",
+    gallerySubtitle:
+      "Veja fotos da fachada, quartos, piscina e ambientes do Hotel Nacional Palace.",
     galleryImages: [
       {
         src: "/demo/hotel-nacional-palace/galeria-1.jpg",
@@ -178,14 +184,15 @@ const landingConfigs: Record<string, LandingConfig> = {
     locationTitle: "Estamos em Foz do Iguaçu - PR.",
     locationText:
       "O Hotel Nacional Palace oferece hospedagem prática em Foz do Iguaçu, com estrutura para receber casais, famílias, grupos e viajantes a trabalho.",
-    googleMapsUrl: "https://maps.google.com/?q=Hotel%20Nacional%20Palace%20Foz%20do%20Igua%C3%A7u",
+    googleMapsUrl:
+      "https://maps.google.com/?q=Hotel%20Nacional%20Palace%20Foz%20do%20Igua%C3%A7u",
     googleMapsEmbedUrl:
       "https://www.google.com/maps?q=-25.516325,-54.5903743&z=15&output=embed",
     whatsappDisplay: "+55 45 99922-2221",
     theme: {
       background: "#FFF8EF",
       surface: "#FFFFFF",
-      dark: "#201A1A",
+      dark: "#201A17",
       primary: "#8B1E2D",
       primaryDark: "#55121C",
       accent: "#00A7C8",
@@ -254,9 +261,9 @@ const landingConfigs: Record<string, LandingConfig> = {
     locationTitle: "Hospedagem mobiliada em Ipatinga - MG.",
     locationText:
       "Opções práticas para quem precisa se hospedar em Ipatinga por trabalho, viagem, família ou temporada.",
-   googleMapsUrl: "https://maps.app.goo.gl/dWngcydPfwpAXPZVA",
-googleMapsEmbedUrl:
-  "https://www.google.com/maps?q=-19.4557188,-42.5437781&z=17&output=embed",
+    googleMapsUrl: "https://maps.app.goo.gl/dWngcydPfwpAXPZVA",
+    googleMapsEmbedUrl:
+      "https://www.google.com/maps?q=-19.4557188,-42.5437781&z=17&output=embed",
     instagramUrl: "https://www.instagram.com/apartamentosmobiliadosipatinga/",
     instagramHandle: "@apartamentosmobiliadosipatinga",
     whatsappDisplay: "+55 31 98834-8868",
@@ -273,7 +280,20 @@ googleMapsEmbedUrl:
   },
 };
 
-
+const apartamentosDetailsLinks: Record<string, string> = {
+  "Apartamento 101 para até 6 pessoas":
+    "/apartamentos-mobiliados-ipatinga/apartamento-101",
+  "Casa para 4 pessoas com garagem":
+    "/apartamentos-mobiliados-ipatinga/casa-4-pessoas-com-garagem",
+  "Apartamento para 5 pessoas sem garagem":
+    "/apartamentos-mobiliados-ipatinga/apartamento-5-pessoas-sem-garagem",
+  "Apartamento para 8 pessoas com garagem":
+    "/apartamentos-mobiliados-ipatinga/apartamento-8-pessoas-com-garagem",
+  "Apartamento para 9 pessoas com garagem":
+    "/apartamentos-mobiliados-ipatinga/apartamento-9-pessoas-com-garagem",
+  "Casa de 2 dormitórios para até 8 pessoas":
+    "/apartamentos-mobiliados-ipatinga/casa-2-dormitorios-8-pessoas",
+};
 
 function formatPrice(value: number) {
   return new Intl.NumberFormat("pt-BR", {
@@ -289,66 +309,40 @@ function normalizePhone(value: string) {
 function buildWhatsAppUrl(phone: string, businessName: string) {
   const normalizedPhone = normalizePhone(phone);
 
-  if (!normalizedPhone) {
-    return "#";
-  }
+  const message = `Olá, gostaria de saber mais sobre reservas em ${businessName}.`;
 
-  const message = encodeURIComponent(
-    `Olá, quero fazer uma reserva no ${businessName}.`,
-  );
-
-  return `https://wa.me/${normalizedPhone}?text=${message}`;
+  return `https://wa.me/${normalizedPhone}?text=${encodeURIComponent(message)}`;
 }
 
 function getFallbackConfig(slug: string): LandingConfig {
+  const readableName = slug
+    .split("-")
+    .map((part) => part.charAt(0).toUpperCase() + part.slice(1))
+    .join(" ");
+
   return {
-    title: "PWPE Reservas",
-    subtitle: "Reservas online",
-    eyebrow: "Reservas diretas",
+    title: readableName,
+    subtitle: "Reservas diretas pelo WhatsApp",
+    eyebrow: "Página de reservas",
     description:
-      "Página de reservas com atendimento direto pelo WhatsApp e painel administrativo.",
-    assetBase: `/demo/${slug}`,
-    heroAlt: "Página de reservas",
-    badges: ["Reservas online", "WhatsApp", "Painel administrativo"],
-    galleryTitle: "Galeria",
-    gallerySubtitle: "Clique nas fotos para ampliar",
-    galleryImages: [
-      {
-        src: `/demo/${slug}/galeria-1.jpg`,
-        alt: "Foto da hospedagem",
-      },
-      {
-        src: `/demo/${slug}/galeria-2.jpg`,
-        alt: "Foto da acomodação",
-      },
-      {
-        src: `/demo/${slug}/galeria-3.jpg`,
-        alt: "Foto da estrutura",
-      },
-    ],
+      "Uma página simples para apresentar o negócio, mostrar opções disponíveis e receber solicitações de reserva pelo WhatsApp.",
+    assetBase: "/demo/default",
+    heroAlt: readableName,
+    badges: ["Reservas diretas", "WhatsApp", "Página personalizada"],
+    galleryTitle: "Conheça nosso espaço.",
+    gallerySubtitle: "Veja fotos e informações do negócio.",
+    galleryImages: [],
     infoItems: [
       {
-        label: "Atendimento",
-        value: "Solicitação de reserva pelo site e WhatsApp.",
-      },
-      {
         label: "Reservas",
-        value: "Confirmação manual pelo responsável.",
-      },
-      {
-        label: "Sistema",
-        value: "Página pública e painel administrativo.",
-      },
-      {
-        label: "PWPE",
-        value: "Reservas diretas para pequenos negócios.",
+        value: "Solicitação direta pelo site e confirmação pelo WhatsApp.",
       },
     ],
     locationTitle: "Localização",
     locationText:
-      "As informações de localização podem ser configuradas conforme o negócio.",
-    googleMapsUrl: "#",
-    googleMapsEmbedUrl: "",
+      "Confira a localização e entre em contato para consultar disponibilidade.",
+    googleMapsUrl: "https://www.google.com/maps",
+    googleMapsEmbedUrl: "https://www.google.com/maps?q=Brasil&output=embed",
     theme: {
       background: "#F8FAFC",
       surface: "#FFFFFF",
@@ -360,6 +354,14 @@ function getFallbackConfig(slug: string): LandingConfig {
       muted: "#475569",
     },
   };
+}
+
+function getDetailsHref(businessSlug: string, resourceName: string) {
+  if (businessSlug !== "apartamentos-mobiliados-ipatinga") {
+    return null;
+  }
+
+  return apartamentosDetailsLinks[resourceName] ?? null;
 }
 
 export default async function PublicBusinessPage({
@@ -375,431 +377,327 @@ export default async function PublicBusinessPage({
 
   const resources = await getActiveResourcesByBusinessId(business.id);
   const config = landingConfigs[business.slug] ?? getFallbackConfig(business.slug);
-
   const heroImage = `${config.assetBase}/hero.jpg`;
   const whatsappUrl = buildWhatsAppUrl(business.whatsapp, config.title);
 
   return (
     <main
-      className="min-h-screen overflow-x-hidden"
+      className="min-h-screen overflow-hidden"
       style={{
-        backgroundColor: config.theme.background,
+        background: config.theme.background,
         color: config.theme.text,
       }}
     >
       <section
-        className="relative overflow-hidden text-white"
+        className="relative overflow-hidden"
         style={{
-          backgroundColor: config.theme.primaryDark,
+          background: `linear-gradient(135deg, ${config.theme.primaryDark}, ${config.theme.primary})`,
         }}
       >
-        <div className="absolute inset-0">
-          <Image
-            src={heroImage}
-            alt={config.heroAlt}
-            fill
-            priority
-            sizes="100vw"
-            className="object-cover opacity-45"
-          />
+        <div className="absolute inset-0 bg-black/20" />
 
-          <div
-            className="absolute inset-0"
-            style={{
-              background: `linear-gradient(135deg, ${config.theme.primaryDark}f2, ${config.theme.primaryDark}cc, #00000088)`,
-            }}
-          />
-        </div>
-
-        <div className="relative mx-auto grid min-h-[720px] w-full max-w-6xl items-center gap-10 px-4 py-16 sm:px-6 lg:grid-cols-[1fr_420px] lg:px-8">
-          <div className="min-w-0">
-            <Link
-              href="/"
-              className="inline-flex rounded-full border border-white/20 bg-white/10 px-4 py-2 text-sm font-bold text-white backdrop-blur transition hover:bg-white/20"
-            >
-              ← PWPE Reservas
-            </Link>
-
+        <div className="relative mx-auto grid min-h-[620px] w-full max-w-7xl gap-10 px-4 py-16 sm:px-6 lg:grid-cols-[1fr_0.85fr] lg:items-center lg:px-8">
+          <div>
             <p
-              className="mt-8 text-sm font-black uppercase tracking-[0.35em]"
+              className="text-sm font-black uppercase tracking-[0.45em]"
               style={{ color: config.theme.accent }}
             >
               {config.subtitle}
             </p>
 
-            <h1 className="mt-5 max-w-3xl text-5xl font-black tracking-tight sm:text-7xl">
+            <h1 className="mt-8 max-w-4xl text-5xl font-black leading-tight text-white sm:text-7xl">
               {config.title}
             </h1>
 
-            <p className="mt-6 max-w-2xl text-lg leading-8 text-white/85">
+            <p className="mt-8 max-w-2xl text-lg font-semibold leading-9 text-white/90">
               {config.description}
             </p>
 
-            <div className="mt-8 grid gap-3 sm:max-w-xl sm:grid-cols-2">
+            <div className="mt-10 flex flex-col gap-4 sm:flex-row">
               <a
-                href="#reservar"
-                className="rounded-2xl px-6 py-3 text-center font-black shadow-xl shadow-black/20 transition hover:-translate-y-0.5"
-                style={{
-                  backgroundColor: config.theme.accent,
-                  color: config.theme.primaryDark,
-                }}
+                href="#reserva"
+                className="rounded-2xl px-8 py-4 text-center text-base font-black text-white shadow-xl transition hover:scale-[1.02]"
+                style={{ background: config.theme.accent }}
               >
                 Solicitar reserva
               </a>
 
-              {business.whatsapp ? (
-                <a
-                  href={whatsappUrl}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="rounded-2xl border border-white/20 bg-white/10 px-6 py-3 text-center font-bold text-white backdrop-blur transition hover:-translate-y-0.5 hover:bg-white/20"
-                >
-                  Falar no WhatsApp
-                </a>
-              ) : null}
-
-              {config.instagramUrl ? (
-                <a
-                  href={config.instagramUrl}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="rounded-2xl border border-white/20 bg-white/10 px-6 py-3 text-center font-bold text-white backdrop-blur transition hover:-translate-y-0.5 hover:bg-white/20 sm:col-span-2"
-                >
-                  Ver Instagram
-                </a>
-              ) : null}
+              <a
+                href={whatsappUrl}
+                target="_blank"
+                rel="noreferrer"
+                className="rounded-2xl border border-white/20 bg-white/10 px-8 py-4 text-center text-base font-black text-white transition hover:bg-white/20"
+              >
+                Falar no WhatsApp
+              </a>
             </div>
 
-            <div className="mt-8 flex flex-wrap gap-2">
-              {config.badges.map((item) => (
+            <div className="mt-10 flex flex-wrap gap-3">
+              {config.badges.map((badge) => (
                 <span
-                  key={item}
-                  className="rounded-full border border-white/20 bg-white/10 px-4 py-2 text-sm font-bold text-white backdrop-blur"
+                  key={badge}
+                  className="rounded-full border border-white/15 bg-white/10 px-5 py-3 text-sm font-black text-white"
                 >
-                  {item}
+                  {badge}
                 </span>
               ))}
             </div>
           </div>
 
-          <div className="rounded-[2rem] border border-white/20 bg-white/15 p-4 shadow-2xl shadow-black/30 backdrop-blur">
-            <div className="relative h-[420px] overflow-hidden rounded-[1.5rem] bg-black">
-              <Image
-                src={heroImage}
-                alt={config.heroAlt}
-                fill
-                sizes="(max-width: 1024px) 100vw, 420px"
-                className="object-cover"
-              />
+          <div className="relative h-[430px] overflow-hidden rounded-[2rem] border border-white/10 bg-black/20 shadow-2xl shadow-black/30">
+            <Image
+              src={heroImage}
+              alt={config.heroAlt}
+              fill
+              priority
+              quality={90}
+              className="object-cover"
+              sizes="(max-width: 1024px) 100vw, 45vw"
+            />
+          </div>
+        </div>
+      </section>
+
+      <section className="mx-auto w-full max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
+        <div className="grid gap-10 lg:grid-cols-[0.8fr_1.2fr] lg:items-start">
+          <div>
+            <p
+              className="text-sm font-black uppercase tracking-[0.35em]"
+              style={{ color: config.theme.primary }}
+            >
+              {config.eyebrow}
+            </p>
+
+            <h2 className="mt-5 text-4xl font-black leading-tight sm:text-5xl">
+              Uma página feita para receber reservas diretas.
+            </h2>
+
+            <p
+              className="mt-5 max-w-2xl text-base leading-8"
+              style={{ color: config.theme.muted }}
+            >
+              O cliente vê fotos, localização, opções disponíveis, escolhe datas
+              e envia a solicitação direto pelo WhatsApp.
+            </p>
+          </div>
+
+          <div
+            className="rounded-[2rem] border p-6 shadow-xl"
+            style={{
+              background: config.theme.surface,
+              borderColor: `${config.theme.primary}20`,
+            }}
+          >
+            <div className="grid gap-4 sm:grid-cols-2">
+              {config.infoItems.map((item) => (
+                <div
+                  key={item.label}
+                  className="rounded-3xl border p-5"
+                  style={{
+                    borderColor: `${config.theme.primary}20`,
+                    background: `${config.theme.primary}08`,
+                  }}
+                >
+                  <p
+                    className="text-xs font-black uppercase tracking-[0.25em]"
+                    style={{ color: config.theme.primary }}
+                  >
+                    {item.label}
+                  </p>
+                  <p className="mt-3 text-sm font-bold leading-7">
+                    {item.value}
+                  </p>
+                </div>
+              ))}
             </div>
           </div>
         </div>
       </section>
 
-      <section className="mx-auto w-full max-w-6xl px-4 py-14 sm:px-6 lg:px-8">
-        <div className="mx-auto max-w-4xl text-center">
-          <p
-            className="text-sm font-black uppercase tracking-[0.3em]"
-            style={{ color: config.theme.primary }}
-          >
-            {config.eyebrow}
-          </p>
-
-          <h2 className="mt-4 text-4xl font-black">
-            Uma página direta para receber pedidos de reserva.
-          </h2>
-
-          <p
-            className="mt-5 text-lg leading-8"
-            style={{ color: config.theme.muted }}
-          >
-            {business.description || config.description}
-          </p>
-        </div>
-      </section>
-
-      <section className="mx-auto w-full max-w-6xl px-4 pb-14 sm:px-6 lg:px-8">
-        <div className="mb-6 flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
-          <div>
+      {config.galleryImages.length > 0 ? (
+        <section className="mx-auto w-full max-w-7xl px-4 py-10 sm:px-6 lg:px-8">
+          <div className="mb-8">
             <p
-              className="text-sm font-black uppercase tracking-[0.3em]"
+              className="text-sm font-black uppercase tracking-[0.35em]"
               style={{ color: config.theme.primary }}
             >
               Galeria
             </p>
 
-            <h2 className="mt-3 text-3xl font-black">{config.galleryTitle}</h2>
+            <h2 className="mt-4 text-4xl font-black">{config.galleryTitle}</h2>
+
+            <p
+              className="mt-4 max-w-3xl text-base leading-8"
+              style={{ color: config.theme.muted }}
+            >
+              {config.gallerySubtitle}
+            </p>
           </div>
 
-          <p
-            className="text-sm font-semibold"
-            style={{ color: config.theme.muted }}
-          >
-            {config.gallerySubtitle}
-          </p>
-        </div>
+          <HotelGallery images={config.galleryImages} />
+        </section>
+      ) : null}
 
-        <HotelGallery images={config.galleryImages} />
-      </section>
-
-      <section
-        className="py-14"
-        style={{
-          backgroundColor: config.theme.background,
-          color: config.theme.text,
-        }}
-      >
-        <div className="mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-8">
+      <section className="mx-auto w-full max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
+        <div className="mb-8">
           <p
-            className="text-sm font-black uppercase tracking-[0.3em]"
+            className="text-sm font-black uppercase tracking-[0.35em]"
             style={{ color: config.theme.primary }}
           >
             Acomodações
           </p>
 
-          <h2 className="mt-4 text-4xl font-black">
-            Quartos disponíveis para solicitação de reserva.
-          </h2>
+          <h2 className="mt-4 text-4xl font-black">Escolha uma opção.</h2>
 
-          <div className="mt-8 grid gap-5 md:grid-cols-2">
-            {resources.map((resource) => (
-              <article
+          <p
+            className="mt-4 max-w-3xl text-base leading-8"
+            style={{ color: config.theme.muted }}
+          >
+            Veja as opções disponíveis, capacidade e valores de referência.
+          </p>
+        </div>
+
+        <div className="grid gap-5 md:grid-cols-2">
+          {resources.map((resource) => {
+            const detailsHref = getDetailsHref(business.slug, resource.name);
+
+            return (
+              <div
                 key={resource.id}
                 className="rounded-[2rem] border p-6 shadow-xl"
                 style={{
-                  borderColor: "#E8D8BD",
-                  backgroundColor: config.theme.surface,
-                  boxShadow: "0 18px 50px rgba(107, 58, 0, 0.07)",
+                  background: config.theme.surface,
+                  borderColor: `${config.theme.primary}20`,
                 }}
               >
-                <h3 className="text-2xl font-black">{resource.name}</h3>
+                <div className="flex flex-col gap-5 sm:flex-row sm:items-start sm:justify-between">
+                  <div>
+                    <h3 className="text-2xl font-black">{resource.name}</h3>
 
-                <p
-                  className="mt-3 text-sm leading-6"
-                  style={{ color: config.theme.muted }}
-                >
-                  {resource.description}
-                </p>
-
-                <div className="mt-5 flex flex-wrap items-center gap-3">
-                  {resource.capacity ? (
-                    <span
-                      className="rounded-full px-4 py-2 text-sm font-bold"
-                      style={{
-                        backgroundColor: `${config.theme.primary}18`,
-                        color: config.theme.primary,
-                      }}
+                    <p
+                      className="mt-3 text-sm leading-7"
+                      style={{ color: config.theme.muted }}
                     >
-                      Até {resource.capacity} pessoas
-                    </span>
-                  ) : null}
+                      {resource.description}
+                    </p>
 
-                  <span
-                    className="rounded-full px-4 py-2 text-sm font-black"
-                    style={{
-                      backgroundColor: config.theme.accent,
-                      color: config.theme.primaryDark,
-                    }}
+                    <p
+                      className="mt-4 text-xs font-black uppercase tracking-[0.25em]"
+                      style={{ color: config.theme.primary }}
+                    >
+                      Até {resource.capacity ?? "-"} pessoas
+                    </p>
+                  </div>
+
+                  <div
+                    className="w-fit rounded-full px-5 py-3 text-sm font-black text-white"
+                    style={{ background: config.theme.primary }}
                   >
-                    {formatPrice(resource.price)} / diária
-                  </span>
+                    {formatPrice(resource.price)}
+                  </div>
                 </div>
-              </article>
-            ))}
-          </div>
+
+                {detailsHref ? (
+                  <div className="mt-6">
+                    <Link
+                      href={detailsHref}
+                      className="inline-flex rounded-2xl px-5 py-3 text-sm font-black text-white transition hover:scale-[1.02]"
+                      style={{ background: config.theme.primaryDark }}
+                    >
+                      Ver detalhes
+                    </Link>
+                  </div>
+                ) : null}
+              </div>
+            );
+          })}
         </div>
       </section>
 
       <section
-        id="reservar"
-        className="mx-auto w-full max-w-6xl px-4 py-14 sm:px-6 lg:px-8"
+        id="reserva"
+        className="mx-auto w-full max-w-5xl px-4 py-16 sm:px-6 lg:px-8"
       >
-        <div className="mx-auto max-w-3xl text-center">
-          <p
-            className="text-sm font-black uppercase tracking-[0.3em]"
-            style={{ color: config.theme.primary }}
-          >
-            Reserva
-          </p>
-
-          <h2 className="mt-4 text-4xl font-black">
-            Solicite sua reserva pelo formulário.
-          </h2>
-
-          <p
-            className="mt-5 text-lg leading-8"
-            style={{ color: config.theme.muted }}
-          >
-            Preencha seus dados, escolha as datas, selecione uma acomodação e
-            envie a solicitação direto pelo WhatsApp.
-          </p>
-        </div>
-
-        <div className="mx-auto mt-8 w-full max-w-3xl min-w-0 overflow-hidden rounded-[2rem] border border-[#E8D8BD] bg-white p-2 shadow-2xl shadow-[#6B3A00]/10 sm:p-4">
-          <PublicBookingForm
-            businessId={business.id}
-            businessName={business.name}
-            businessWhatsapp={business.whatsapp}
-            bookingMode={business.bookingMode}
-            resources={resources}
-          />
-        </div>
-
-        <div className="mx-auto mt-8 grid max-w-3xl gap-4 md:grid-cols-3">
-          <div className="rounded-2xl border border-[#E8D8BD] bg-white p-5 text-center shadow-lg shadow-[#6B3A00]/5">
-            <p
-              className="text-lg font-black"
-              style={{ color: config.theme.primary }}
-            >
-              1
-            </p>
-            <p className="mt-2 text-sm font-bold">
-              Escolha o quarto e as datas
-            </p>
-          </div>
-
-          <div className="rounded-2xl border border-[#E8D8BD] bg-white p-5 text-center shadow-lg shadow-[#6B3A00]/5">
-            <p
-              className="text-lg font-black"
-              style={{ color: config.theme.primary }}
-            >
-              2
-            </p>
-            <p className="mt-2 text-sm font-bold">Envie a solicitação</p>
-          </div>
-
-          <div className="rounded-2xl border border-[#E8D8BD] bg-white p-5 text-center shadow-lg shadow-[#6B3A00]/5">
-            <p
-              className="text-lg font-black"
-              style={{ color: config.theme.primary }}
-            >
-              3
-            </p>
-            <p className="mt-2 text-sm font-bold">Aguarde confirmação</p>
-          </div>
-        </div>
+        <PublicBookingForm
+          businessId={business.id}
+          businessName={business.name}
+          businessWhatsapp={business.whatsapp}
+          bookingMode={business.bookingMode}
+          resources={resources}
+        />
       </section>
 
-      <section className="mx-auto w-full max-w-6xl px-4 pb-8 sm:px-6 lg:px-8">
-        <div className="rounded-[2rem] border border-[#E8D8BD] bg-white p-6 shadow-xl shadow-[#6B3A00]/5">
-          <h3 className="text-2xl font-black">Informações</h3>
-
+      <section className="mx-auto w-full max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
+        <div className="grid gap-8 lg:grid-cols-[0.85fr_1.15fr] lg:items-stretch">
           <div
-            className="mt-5 grid gap-5 md:grid-cols-4"
-            style={{ color: config.theme.muted }}
+            className="rounded-[2rem] border p-8 shadow-xl"
+            style={{
+              background: config.theme.surface,
+              borderColor: `${config.theme.primary}20`,
+            }}
           >
-            {config.infoItems.map((item) => (
-              <div key={item.label}>
-                <p
-                  className="text-sm font-bold"
-                  style={{ color: config.theme.primary }}
-                >
-                  {item.label}
-                </p>
-
-                {item.label === "Instagram" && config.instagramUrl ? (
-                  <a
-                    href={config.instagramUrl}
-                    target="_blank"
-                    rel="noreferrer"
-                    className="font-bold underline underline-offset-4 transition hover:opacity-80"
-                    style={{ color: config.theme.primary }}
-                  >
-                    {config.instagramHandle || item.value}
-                  </a>
-                ) : (
-                  <p>{item.value}</p>
-                )}
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      <section className="mx-auto w-full max-w-6xl px-4 pb-14 sm:px-6 lg:px-8">
-        <div className="grid gap-6 lg:grid-cols-[0.85fr_1fr] lg:items-stretch">
-          <div className="rounded-[2rem] border border-[#E8D8BD] bg-white p-6 shadow-xl shadow-[#6B3A00]/5">
             <p
-              className="text-sm font-black uppercase tracking-[0.3em]"
+              className="text-sm font-black uppercase tracking-[0.35em]"
               style={{ color: config.theme.primary }}
             >
               Localização
             </p>
 
-            <h2 className="mt-4 text-3xl font-black">
+            <h2 className="mt-5 text-4xl font-black leading-tight">
               {config.locationTitle}
             </h2>
 
             <p
-              className="mt-4 leading-7"
+              className="mt-5 text-base leading-8"
               style={{ color: config.theme.muted }}
             >
               {config.locationText}
             </p>
 
-            {config.googleMapsUrl !== "#" ? (
-              <a
-                href={config.googleMapsUrl}
-                target="_blank"
-                rel="noreferrer"
-                className="mt-6 inline-flex rounded-2xl px-5 py-3 text-center font-black text-white transition hover:-translate-y-0.5"
-                style={{ backgroundColor: config.theme.primary }}
-              >
-                Abrir no Google Maps
-              </a>
-            ) : null}
+            <a
+              href={config.googleMapsUrl}
+              target="_blank"
+              rel="noreferrer"
+              className="mt-8 inline-flex rounded-2xl px-6 py-4 text-base font-black text-white transition hover:scale-[1.02]"
+              style={{ background: config.theme.primary }}
+            >
+              Abrir no Google Maps
+            </a>
           </div>
 
-          <div className="overflow-hidden rounded-[2rem] border border-[#E8D8BD] bg-white shadow-xl shadow-[#6B3A00]/10">
-            {config.googleMapsEmbedUrl ? (
-              <iframe
-                title={`Localização do ${config.title}`}
-                src={config.googleMapsEmbedUrl}
-                className="h-[360px] w-full border-0"
-                loading="lazy"
-                referrerPolicy="no-referrer-when-downgrade"
-              />
-            ) : (
-              <div
-                className="flex h-[360px] items-center justify-center p-6 text-center"
-                style={{ color: config.theme.muted }}
-              >
-                Mapa indisponível no momento.
-              </div>
-            )}
+          <div className="min-h-[360px] overflow-hidden rounded-[2rem] border bg-slate-200 shadow-xl">
+            <iframe
+              src={config.googleMapsEmbedUrl}
+              className="h-full min-h-[360px] w-full"
+              loading="lazy"
+              referrerPolicy="no-referrer-when-downgrade"
+            />
           </div>
         </div>
       </section>
 
       <footer
-        className="border-t px-4 py-8 text-white sm:px-6 lg:px-8"
-        style={{
-          backgroundColor: config.theme.dark,
-          borderColor: "#E8D8BD",
-        }}
+        className="px-4 py-10 sm:px-6 lg:px-8"
+        style={{ background: config.theme.dark }}
       >
-        <div className="mx-auto flex w-full max-w-6xl flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+        <div className="mx-auto flex w-full max-w-7xl flex-col gap-4 text-white sm:flex-row sm:items-center sm:justify-between">
           <div>
             <p
-              className="text-sm font-black uppercase tracking-[0.3em]"
+              className="text-sm font-black uppercase tracking-[0.35em]"
               style={{ color: config.theme.accent }}
             >
               PWPE Reservas
             </p>
 
-            <p className="mt-2 text-sm text-white/70">
+            <p className="mt-3 text-sm text-white/70">
               Página de reservas desenvolvida para {config.title}.
             </p>
           </div>
 
-          <div className="flex flex-col gap-2 text-sm text-white/70 sm:text-right">
-            <p>
-              Desenvolvido por{" "}
-              <span className="font-bold text-white">
-                PWPE Desenvolvimentos
-              </span>
-            </p>
-          </div>
+          <p className="text-sm text-white/70">
+            Desenvolvido por{" "}
+            <span className="font-black text-white">PWPE Desenvolvimentos</span>
+          </p>
         </div>
       </footer>
     </main>
