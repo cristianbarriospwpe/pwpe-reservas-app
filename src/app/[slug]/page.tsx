@@ -480,15 +480,15 @@ export default async function PublicBusinessPage({
             </p>
 
             <h2 className="mt-5 text-4xl font-black leading-tight sm:text-5xl">
-              Uma página feita para receber reservas diretas.
+              Hospedagem prática para sua estadia em Ipatinga.
             </h2>
 
             <p
               className="mt-5 max-w-2xl text-base leading-8"
               style={{ color: config.theme.muted }}
             >
-              O cliente vê fotos, localização, opções disponíveis, escolhe datas
-              e envia a solicitação direto pelo WhatsApp.
+              Encontre apartamentos e casas mobiliadas para temporada, com opções para
+              famílias, grupos, viagens a trabalho e estadias temporárias na cidade.
             </p>
           </div>
 
