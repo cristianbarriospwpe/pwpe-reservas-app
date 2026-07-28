@@ -254,10 +254,9 @@ const landingConfigs: Record<string, LandingConfig> = {
     locationTitle: "Hospedagem mobiliada em Ipatinga - MG.",
     locationText:
       "Opções práticas para quem precisa se hospedar em Ipatinga por trabalho, viagem, família ou temporada.",
-    googleMapsUrl:
-      "https://www.google.com/maps/search/?api=1&query=Apartamentos%20Mobiliados%20Ipatinga",
-    googleMapsEmbedUrl:
-      "https://www.google.com/maps?q=Ipatinga%20MG&z=12&output=embed",
+   googleMapsUrl: "https://maps.app.goo.gl/dWngcydPfwpAXPZVA",
+googleMapsEmbedUrl:
+  "https://www.google.com/maps?q=-19.4557188,-42.5437781&z=17&output=embed",
     instagramUrl: "https://www.instagram.com/apartamentosmobiliadosipatinga/",
     instagramHandle: "@apartamentosmobiliadosipatinga",
     whatsappDisplay: "+55 31 98834-8868",
