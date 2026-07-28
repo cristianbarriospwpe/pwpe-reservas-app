@@ -1,6 +1,6 @@
 import Image from "next/image";
-import Link from "next/link";
 import { notFound } from "next/navigation";
+import { AccommodationCards } from "@/components/public/AccommodationCards";
 import { HotelGallery } from "@/components/public/HotelGallery";
 import { PublicBookingForm } from "@/components/public/PublicBookingForm";
 import { getBusinessBySlug } from "@/services/businesses";
@@ -280,50 +280,12 @@ const landingConfigs: Record<string, LandingConfig> = {
   },
 };
 
-const apartamentosDetailsLinks: Record<string, string> = {
-  "Apartamento 101 para até 6 pessoas":
-    "/apartamentos-mobiliados-ipatinga/apartamento-101",
-  "Casa para 4 pessoas com garagem":
-    "/apartamentos-mobiliados-ipatinga/casa-4-pessoas-com-garagem",
-  "Apartamento para 5 pessoas sem garagem":
-    "/apartamentos-mobiliados-ipatinga/apartamento-5-pessoas-sem-garagem",
-  "Apartamento para 8 pessoas com garagem":
-    "/apartamentos-mobiliados-ipatinga/apartamento-8-pessoas-com-garagem",
-  "Apartamento para 9 pessoas com garagem":
-    "/apartamentos-mobiliados-ipatinga/apartamento-9-pessoas-com-garagem",
-  "Casa de 2 dormitórios para até 8 pessoas":
-    "/apartamentos-mobiliados-ipatinga/casa-2-dormitorios-8-pessoas",
-};
-
-const apartamentosCardImages: Record<string, string> = {
-  "Apartamento 101 para até 6 pessoas":
-    "/demo/apartamentos-mobiliados-ipatinga/apartamento-101/hero.jpg",
-  "Casa para 4 pessoas com garagem":
-    "/demo/apartamentos-mobiliados-ipatinga/casa-4-pessoas-com-garagem/hero.jpg",
-  "Apartamento para 5 pessoas sem garagem":
-    "/demo/apartamentos-mobiliados-ipatinga/apartamento-5-pessoas-sem-garagem/hero.jpg",
-  "Apartamento para 8 pessoas com garagem":
-    "/demo/apartamentos-mobiliados-ipatinga/apartamento-8-pessoas-com-garagem/hero.jpg",
-  "Apartamento para 9 pessoas com garagem":
-    "/demo/apartamentos-mobiliados-ipatinga/apartamento-9-pessoas-com-garagem/hero.jpg",
-  "Casa de 2 dormitórios para até 8 pessoas":
-    "/demo/apartamentos-mobiliados-ipatinga/casa-2-dormitorios-8-pessoas/hero.jpg",
-};
-
-function formatPrice(value: number) {
-  return new Intl.NumberFormat("pt-BR", {
-    style: "currency",
-    currency: "BRL",
-  }).format(value);
-}
-
 function normalizePhone(value: string) {
   return value.replace(/\D/g, "");
 }
 
 function buildWhatsAppUrl(phone: string, businessName: string) {
   const normalizedPhone = normalizePhone(phone);
-
   const message = `Olá, gostaria de saber mais sobre reservas em ${businessName}.`;
 
   return `https://wa.me/${normalizedPhone}?text=${encodeURIComponent(message)}`;
@@ -369,22 +331,6 @@ function getFallbackConfig(slug: string): LandingConfig {
       muted: "#475569",
     },
   };
-}
-
-function getDetailsHref(businessSlug: string, resourceName: string) {
-  if (businessSlug !== "apartamentos-mobiliados-ipatinga") {
-    return null;
-  }
-
-  return apartamentosDetailsLinks[resourceName] ?? null;
-}
-
-function getCardImage(businessSlug: string, resourceName: string) {
-  if (businessSlug !== "apartamentos-mobiliados-ipatinga") {
-    return null;
-  }
-
-  return apartamentosCardImages[resourceName] ?? null;
 }
 
 export default async function PublicBusinessPage({
@@ -592,71 +538,17 @@ export default async function PublicBusinessPage({
           </p>
         </div>
 
-        <div className="grid gap-6 md:grid-cols-2">
-          {resources.map((resource) => {
-            const detailsHref = getDetailsHref(business.slug, resource.name);
-            const cardImage = getCardImage(business.slug, resource.name);
-
-            return (
-              <div
-                key={resource.id}
-                className="relative min-h-[320px] overflow-hidden rounded-[2rem] border border-white/10 bg-slate-950 p-6 shadow-xl"
-              >
-                {cardImage ? (
-                  <Image
-                    src={cardImage}
-                    alt={resource.name}
-                    fill
-                    quality={85}
-                    className="object-cover opacity-45"
-                    sizes="(max-width: 768px) 100vw, 50vw"
-                  />
-                ) : null}
-
-                <div className="absolute inset-0 bg-gradient-to-br from-slate-950/95 via-slate-950/75 to-slate-950/40" />
-
-                <div className="relative z-10 flex h-full min-h-[270px] flex-col justify-between">
-                  <div className="flex flex-col gap-5 sm:flex-row sm:items-start sm:justify-between">
-                    <div>
-                      <h3 className="text-2xl font-black text-white">
-                        {resource.name}
-                      </h3>
-
-                      <p className="mt-3 text-sm leading-7 text-white/85">
-                        {resource.description}
-                      </p>
-
-                      <p
-                        className="mt-4 text-xs font-black uppercase tracking-[0.25em]"
-                        style={{ color: config.theme.accent }}
-                      >
-                        Até {resource.capacity ?? "-"} pessoas
-                      </p>
-                    </div>
-
-                    <div
-                      className="w-fit rounded-full px-5 py-3 text-sm font-black text-white shadow-xl"
-                      style={{ background: config.theme.primary }}
-                    >
-                      {formatPrice(resource.price)}
-                    </div>
-                  </div>
-
-                  {detailsHref ? (
-                    <div className="mt-6">
-                      <Link
-                        href={detailsHref}
-                        className="inline-flex rounded-2xl bg-white px-5 py-3 text-sm font-black text-slate-950 transition hover:scale-[1.02]"
-                      >
-                        Ver detalhes
-                      </Link>
-                    </div>
-                  ) : null}
-                </div>
-              </div>
-            );
-          })}
-        </div>
+        <AccommodationCards
+          businessSlug={business.slug}
+          resources={resources}
+          theme={{
+            surface: config.theme.surface,
+            primary: config.theme.primary,
+            primaryDark: config.theme.primaryDark,
+            accent: config.theme.accent,
+            muted: config.theme.muted,
+          }}
+        />
       </section>
 
       <section
