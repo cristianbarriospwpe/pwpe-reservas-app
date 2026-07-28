@@ -23,7 +23,10 @@ type GalleryImage = {
 };
 
 type LandingConfig = {
+  aboutTitle?: string;
+  aboutDescription?: string;
   title: string;
+  logoSrc?: string;
   subtitle: string;
   eyebrow: string;
   description: string;
@@ -278,6 +281,86 @@ const landingConfigs: Record<string, LandingConfig> = {
       muted: "#475569",
     },
   },
+
+  "residencial-icarus": {
+    title: "Residencial Icarus",
+    subtitle: "Montes Claros · Minas Gerais",
+    eyebrow: "Apartamento inteiro para temporada",
+    description:
+      "Apartamento mobiliado em Montes Claros, ideal para famílias, viagens a trabalho ou uma estadia prática durante a viagem.",
+    assetBase: "/demo/residencial-icarus",
+    heroAlt: "Apartamento mobiliado Residencial Icarus em Montes Claros",
+    logoSrc: "/demo/residencial-icarus/logo.png",
+    aboutTitle: "Conforto, privacidade e praticidade em Montes Claros.",
+    aboutDescription:
+      "O Residencial Icarus oferece um apartamento inteiro, mobiliado e preparado para quem busca uma estadia tranquila, seja para viagem em família, trabalho ou descanso.",
+    badges: [
+      "Apartamento inteiro",
+      "Até 4 pessoas",
+      "Wi-Fi e cozinha",
+      "Reservas pelo WhatsApp",
+    ],
+    galleryTitle: "Conheça o apartamento.",
+    gallerySubtitle:
+      "Veja fotos da sala, cozinha, quarto e ambientes do Residencial Icarus.",
+    galleryImages: [
+      {
+        src: "/demo/residencial-icarus/galeria-1.jpg",
+        alt: "Quarto do Residencial Icarus",
+      },
+      {
+        src: "/demo/residencial-icarus/galeria-2.jpg",
+        alt: "Sala integrada com cozinha",
+      },
+      {
+        src: "/demo/residencial-icarus/galeria-3.jpg",
+        alt: "Cozinha equipada",
+      },
+      {
+        src: "/demo/residencial-icarus/galeria-5.jpg",
+        alt: "Sala com sofá e janela",
+      },
+      {
+        src: "/demo/residencial-icarus/galeria-6.jpg",
+        alt: "Sala com TV",
+      },
+    ],
+    infoItems: [
+      {
+        label: "Local",
+        value: "Montes Claros - Minas Gerais",
+      },
+      {
+        label: "Tipo",
+        value: "Espaço inteiro: apartamento mobiliado.",
+      },
+      {
+        label: "Capacidade",
+        value: "Até 4 hóspedes, com quarto, banheiro, cozinha e sala.",
+      },
+      {
+        label: "Reservas",
+        value: "Solicitação direta pelo site e confirmação pelo WhatsApp.",
+      },
+    ],
+    locationTitle: "Apartamento mobiliado em Montes Claros - MG.",
+    locationText:
+      "O Residencial Icarus oferece uma hospedagem prática para quem busca conforto, privacidade e contato direto para reservar.",
+    googleMapsUrl: "https://maps.app.goo.gl/BVyPEDwGGEfXW6sh9",
+    googleMapsEmbedUrl:
+      "https://www.google.com/maps?q=Residencial%20Icarus%20Montes%20Claros%20MG&z=16&output=embed",
+    whatsappDisplay: "+55 38 91969-408",
+    theme: {
+      background: "#F8FAFC",
+      surface: "#FFFFFF",
+      dark: "#111827",
+      primary: "#B8872B",
+      primaryDark: "#1F2937",
+      accent: "#D4AF37",
+      text: "#111827",
+      muted: "#475569",
+    },
+  },
 };
 
 function normalizePhone(value: string) {
@@ -374,9 +457,28 @@ export default async function PublicBusinessPage({
               {config.subtitle}
             </p>
 
-            <h1 className="mt-8 max-w-4xl text-5xl font-black leading-tight text-white sm:text-7xl">
-              {config.title}
-            </h1>
+            {config.logoSrc ? (
+              <div className="mt-8 flex flex-col gap-5 sm:flex-row sm:items-center">
+                <div className="relative h-32 w-32 overflow-hidden rounded-3xl bg-black/25 p-3 shadow-xl ring-1 ring-white/20 sm:h-36 sm:w-36">
+                  <Image
+                    src={config.logoSrc}
+                    alt={`Logo ${config.title}`}
+                    fill
+                    quality={90}
+                    className="object-contain p-2"
+                    sizes="144px"
+                  />
+                </div>
+
+                <h1 className="max-w-4xl text-5xl font-black leading-tight text-white sm:text-7xl">
+                  {config.title}
+                </h1>
+              </div>
+            ) : (
+              <h1 className="mt-8 max-w-4xl text-5xl font-black leading-tight text-white sm:text-7xl">
+                {config.title}
+              </h1>
+            )}
 
             <p className="mt-8 max-w-2xl text-lg font-semibold leading-9 text-white/90">
               {config.description}
@@ -449,16 +551,15 @@ export default async function PublicBusinessPage({
             </p>
 
             <h2 className="mt-5 text-4xl font-black leading-tight sm:text-5xl">
-              Hospedagem prática para sua estadia em Ipatinga.
+              {config.aboutTitle ?? "Hospedagem prática para sua estadia."}
             </h2>
 
             <p
               className="mt-5 max-w-2xl text-base leading-8"
               style={{ color: config.theme.muted }}
             >
-              Encontre apartamentos e casas mobiliadas para temporada, com
-              opções para famílias, grupos, viagens a trabalho e estadias
-              temporárias na cidade.
+              {config.aboutDescription ??
+                "Encontre uma opção de hospedagem prática, com solicitação de reserva direta pelo WhatsApp."}
             </p>
           </div>
 
@@ -555,13 +656,21 @@ export default async function PublicBusinessPage({
         id="reserva"
         className="mx-auto w-full max-w-5xl px-4 py-16 sm:px-6 lg:px-8"
       >
-        <PublicBookingForm
-          businessId={business.id}
-          businessName={business.name}
-          businessWhatsapp={business.whatsapp}
-          bookingMode={business.bookingMode}
-          resources={resources}
-        />
+        <div
+          className={
+            business.slug === "residencial-icarus"
+              ? "[&_section]:border-[#B8872B]/40 [&_section]:bg-[#151515] [&_input]:border-[#B8872B]/40 [&_input]:bg-[#0F0F0F] [&_button]:bg-[#B8872B] [&_button]:text-white [&_.text-sky-300]:!text-[#D4AF37] [&_.text-sky-400]:!text-[#D4AF37] [&_.bg-sky-400]:!bg-[#B8872B] [&_.border-sky-400]:!border-[#B8872B]"
+              : ""
+          }
+        >
+          <PublicBookingForm
+            businessId={business.id}
+            businessName={business.name}
+            businessWhatsapp={business.whatsapp}
+            bookingMode={business.bookingMode}
+            resources={resources}
+          />
+        </div>
       </section>
 
       <section className="mx-auto w-full max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
