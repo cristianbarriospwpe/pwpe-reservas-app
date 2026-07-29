@@ -324,6 +324,10 @@ const landingConfigs: Record<string, LandingConfig> = {
         src: "/demo/residencial-icarus/galeria-6.jpg",
         alt: "Sala com TV",
       },
+      {
+        src: "/demo/residencial-icarus/galeria-7.jpg",
+        alt: "Ambiente do apartamento Residencial Icarus",
+      },
     ],
     infoItems: [
       {
