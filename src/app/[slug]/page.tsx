@@ -303,7 +303,7 @@ const landingConfigs: Record<string, LandingConfig> = {
     galleryTitle: "Conheça o apartamento.",
     gallerySubtitle:
       "Veja fotos da sala, cozinha, quarto e ambientes do Residencial Icarus.",
-    galleryImages: [
+      galleryImages: [
       {
         src: "/demo/residencial-icarus/galeria-1.jpg",
         alt: "Quarto do Residencial Icarus",
@@ -317,8 +317,8 @@ const landingConfigs: Record<string, LandingConfig> = {
         alt: "Cozinha equipada",
       },
       {
-        src: "/demo/residencial-icarus/galeria-5.jpg",
-        alt: "Sala com sofá e janela",
+        src: "/demo/residencial-icarus/galeria-4.jpg",
+        alt: "Quarto com ar-condicionado",
       },
       {
         src: "/demo/residencial-icarus/galeria-6.jpg",
@@ -326,7 +326,7 @@ const landingConfigs: Record<string, LandingConfig> = {
       },
       {
         src: "/demo/residencial-icarus/galeria-7.jpg",
-        alt: "Ambiente do apartamento Residencial Icarus",
+        alt: "Sala do Residencial Icarus vista de outro ângulo",
       },
     ],
     infoItems: [
