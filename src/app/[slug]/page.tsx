@@ -303,7 +303,7 @@ const landingConfigs: Record<string, LandingConfig> = {
     galleryTitle: "Conheça o apartamento.",
     gallerySubtitle:
       "Veja fotos da sala, cozinha, quarto e ambientes do Residencial Icarus.",
-      galleryImages: [
+    galleryImages: [
       {
         src: "/demo/residencial-icarus/galeria-1.jpg",
         alt: "Quarto do Residencial Icarus",
@@ -663,7 +663,7 @@ export default async function PublicBusinessPage({
         <div
           className={
             business.slug === "residencial-icarus"
-              ? "[&_section]:border-[#B8872B]/40 [&_section]:bg-[#151515] [&_input]:border-[#B8872B]/40 [&_input]:bg-[#0F0F0F] [&_button]:bg-[#B8872B] [&_button]:text-white [&_.text-sky-300]:!text-[#D4AF37] [&_.text-sky-400]:!text-[#D4AF37] [&_.bg-sky-400]:!bg-[#B8872B] [&_.border-sky-400]:!border-[#B8872B]"
+              ? "[&_section]:border-[#B8872B]/40 [&_section]:bg-[#151515] [&_input]:border-[#B8872B]/40 [&_input]:bg-[#0F0F0F] [&_textarea]:border-[#B8872B]/40 [&_textarea]:bg-[#0F0F0F] [&_.text-sky-300]:!text-[#D4AF37] [&_.text-sky-400]:!text-[#D4AF37] [&_.bg-sky-400]:!bg-[#B8872B] [&_.border-sky-400]:!border-[#B8872B]"
               : ""
           }
         >

@@ -60,32 +60,32 @@ export function BookingDateRangePicker({
   }
 
   return (
-    <div className="rounded-[1.75rem] border border-slate-700 bg-slate-900 p-4">
+    <div className="w-full min-w-0 overflow-hidden rounded-[1.5rem] border border-slate-700 bg-slate-900 p-2 sm:rounded-[1.75rem] sm:p-4">
       <DayPicker
         mode="range"
         selected={selectedRange}
         onSelect={handleSelect}
         locale={ptBR}
         weekStartsOn={0}
-        className="w-full"
+        className="w-full min-w-0"
         classNames={{
-          months: "flex flex-col",
-          month: "space-y-4",
-          month_caption: "flex justify-center pt-1 relative items-center",
-          caption_label: "text-lg font-black text-sky-300 capitalize",
-          nav: "space-x-1 flex items-center",
+          months: "flex w-full min-w-0 flex-col",
+          month: "w-full min-w-0 space-y-4",
+          month_caption: "relative flex items-center justify-center pt-1",
+          caption_label: "text-base font-black text-sky-300 capitalize sm:text-lg",
+          nav: "flex items-center",
           button_previous:
-            "absolute left-1 h-10 w-10 rounded-full border border-slate-600 bg-slate-800 text-white transition outline-none ring-0 hover:bg-slate-700 focus:outline-none focus:ring-0 focus-visible:outline-none focus-visible:ring-0",
+            "absolute left-0 top-0 h-9 w-9 rounded-full border border-slate-600 bg-slate-800 text-white transition outline-none ring-0 hover:bg-slate-700 focus:outline-none focus:ring-0 focus-visible:outline-none focus-visible:ring-0 sm:h-10 sm:w-10",
           button_next:
-            "absolute right-1 h-10 w-10 rounded-full border border-slate-600 bg-slate-800 text-white transition outline-none ring-0 hover:bg-slate-700 focus:outline-none focus:ring-0 focus-visible:outline-none focus-visible:ring-0",
-          month_grid: "w-full border-collapse space-y-1",
-          weekdays: "flex",
+            "absolute right-0 top-0 h-9 w-9 rounded-full border border-slate-600 bg-slate-800 text-white transition outline-none ring-0 hover:bg-slate-700 focus:outline-none focus:ring-0 focus-visible:outline-none focus-visible:ring-0 sm:h-10 sm:w-10",
+          month_grid: "w-full table-fixed border-collapse",
+          weekdays: "grid grid-cols-7",
           weekday:
-            "w-12 flex-1 rounded-md text-xs font-black uppercase text-slate-400",
-          week: "mt-2 flex w-full",
-          day: "relative h-12 flex-1 text-center text-sm outline-none ring-0",
+            "text-center text-[10px] font-black uppercase text-slate-400 sm:text-xs",
+          week: "grid grid-cols-7",
+          day: "flex h-10 min-w-0 items-center justify-center text-center text-sm outline-none ring-0 sm:h-12",
           day_button:
-            "h-11 w-11 rounded-full text-sm font-bold text-slate-100 transition outline-none ring-0 hover:bg-sky-400 hover:text-slate-950 focus:outline-none focus:ring-0 focus-visible:outline-none focus-visible:ring-0",
+            "h-9 w-9 rounded-full text-sm font-bold text-slate-100 transition outline-none ring-0 hover:bg-sky-400 hover:text-slate-950 focus:outline-none focus:ring-0 focus-visible:outline-none focus-visible:ring-0 sm:h-11 sm:w-11",
           selected:
             "rounded-full bg-sky-400 text-slate-950 outline-none ring-0 hover:bg-sky-300 hover:text-slate-950",
           today:
